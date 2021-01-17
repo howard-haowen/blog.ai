@@ -8,14 +8,13 @@ image: images/reinvent-the-wheel.jpg
 
 ---
 
-![](images/reinvent-the-wheel.jpg "JohnHartStudio.com")
+![]({{ https://github.com/howard-haowen/hownwhendunit.ai }}images/reinvent-the-wheel.jpg "JohnHartStudio.com")
 
 # My First Post: Setting tone for this blog
 
 ## There's always an awesome list for X.
 
-`Don't reinvent the wheel` is something you'll hear a lot in the field of technology. That means, whenever possible, try to use existing tools out there instead of building from scratch. If you use GitHub long enough, you probably already know this: for almost everything you'd like to learn, there's an awesome list for that, which collects all sorts of awesome resources, including tools and tutorials. All you need to do is search for `awesome X` on GitHub. Or better yet, there's even a meta list of awesome lists on various topics, like [sindresorhus/awesome](https://github.com/sindresorhus/awesome). Included in it is an awesome list for linguistics, [theimpossibleastronaut/awesome-linguistics](https://github.com/theimpossibleastronaut/awesome-linguistics), which is a good place to start learning about natural language processing (NLP) if you are a humanities major who knows nothing about programming, as I was about one year ago. To take one more example, I wish I had discovered [keon
-/awesome-nlp](https://github.com/keon/awesome-nlp) much earlier, which could've saved me lots of time when I was still fumbling around and trying to wrap my head around how a tool, say `gensim`, fits into the broader picture of NLP. But sometimes the name of an awesome list doesn't have the keyword `awesome` in it, such as this gem [ivan-bilan/The-NLP-Pandect](https://github.com/ivan-bilan/The-NLP-Pandect)[^1]. In my opinion, although an awesome list by any other name would be as awesome, the The-NLP-Pandect repo would have got much more stars if `awesome` were in its name.     
+`Don't reinvent the wheel` is something you'll hear a lot in the field of technology. That means, whenever possible, try to use existing tools out there instead of building from scratch. If you use GitHub long enough, you probably already know this: for almost everything you'd like to learn, there's an awesome list for that, which collects all sorts of awesome resources, including tools and tutorials. All you need to do is search for `awesome X` on GitHub. Or better yet, there's even a meta list of awesome lists on various topics, like [sindresorhus/awesome](https://github.com/sindresorhus/awesome). Included in it is an awesome list for linguistics, [theimpossibleastronaut/awesome-linguistics](https://github.com/theimpossibleastronaut/awesome-linguistics), which is a good place to start learning about natural language processing (NLP) if you are a humanities major who knows nothing about programming, as I was about one year ago. To take one more example, I wish I had discovered [keon/awesome-nlp](https://github.com/keon/awesome-nlp) much earlier, which could've saved me lots of time when I was still fumbling around and trying to wrap my head around how a tool, say `gensim`, fits into the broader picture of NLP. But sometimes the name of an awesome list doesn't have the keyword `awesome` in it, such as this gem [ivan-bilan/The-NLP-Pandect](https://github.com/ivan-bilan/The-NLP-Pandect). In my opinion, although an awesome list by any other name would be as awesome, the The-NLP-Pandect repo would have got much more stars if `awesome` were in its name.     
 
 ## But the hardest part is to get the ball rolling.
 
@@ -34,5 +33,3 @@ I'd like to start with a series of tools that I dub `the fast stack`, including 
 Truth be told that I actually failed twice before I successfully set up this blog. The lesson learned is this: **do exactly what's said on the [instructions](https://github.com/fastai/fastpages)!** Humanities majors like me are often taught to be creative, but be sure to leave your creativity at the door when you set up computer programs. This then concludes my first repo. Nothing is super technical here since it's just a warm-up. I'll save other tools in the fast stack for another day. 
 
 {% include info.html text="I was clueless when I read PR in the instructions. It turns out to mean 'pull requests'. Click on the tab that says 'pull requests' when you are done forking the original repo. Then you're good to go by following the instructions there." %}
-
-[^1]: This list is curated by Ivan Bilan, who has a background in computational linguistics.
