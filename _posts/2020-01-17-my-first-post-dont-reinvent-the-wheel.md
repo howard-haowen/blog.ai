@@ -5,13 +5,12 @@ title: My First Post
 description: Don't reinvent the wheel.
 categories: [awesome-list, fastpages]
 image: images/reinvent-the-wheel.jpg
+
 ---
-![](/reinvent-the-wheel.jpg "JohnHartStudio.com")
+
+![](images/reinvent-the-wheel.jpg "JohnHartStudio.com")
 
 # My First Post: Setting tone for this blog
-
-## TLDR this!
-> 
 
 ## There's always an awesome list for X.
 
