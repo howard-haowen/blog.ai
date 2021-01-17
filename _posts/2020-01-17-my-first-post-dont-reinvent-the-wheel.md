@@ -9,7 +9,7 @@ image: images/reinvent-the-wheel.jpg
 ---
 # My First Post: Setting tone for this blog
 
-![wheel](https://raw.githubusercontent.com/howard-haowen/hownwhendunit.ai/master/images/reinvent-the-wheel.jpg "Credit: JohnHartStudio.com")
+![]({{ site.baseurl }}/images/reinvent-the-wheel.jpg "Credit: JohnHartStudio.com")
 
 ## There's always an awesome list for X.
 
