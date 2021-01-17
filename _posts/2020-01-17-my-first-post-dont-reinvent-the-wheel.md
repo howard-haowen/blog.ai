@@ -7,10 +7,9 @@ categories: [awesome-list, fastpages]
 image: images/reinvent-the-wheel.jpg
 
 ---
-
-![]({{ https://github.com/howard-haowen/hownwhendunit.ai }}images/reinvent-the-wheel.jpg "JohnHartStudio.com")
-
 # My First Post: Setting tone for this blog
+
+![](https://github.com/howard-haowen/hownwhendunit.ai/blob/master/images/reinvent-the-wheel.jpg "Credit: JohnHartStudio.com")
 
 ## There's always an awesome list for X.
 
