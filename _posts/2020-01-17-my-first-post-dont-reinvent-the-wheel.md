@@ -35,5 +35,4 @@ Truth be told that I actually failed twice before I successfully set up this blo
 
 {% include info.html text="I was clueless when I read PR in the instructions. It turns out to mean 'pull requests'. Click on the tab that says 'pull requests' when you are done forking the original repo. Then you're good to go by following the instructions there." %}
 
-[^1]: This is curated by Ivan Bilan, who has a background in computational linguistics. Here's his twitter:
-{% twitter https://twitter.com/DemiourgosUA %}
+[^1]: This list is curated by Ivan Bilan, who has a background in computational linguistics.
