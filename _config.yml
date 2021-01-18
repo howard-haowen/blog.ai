@@ -6,8 +6,8 @@
 # https://learn-the-web.algonquindesign.ca/topics/markdown-yaml-cheat-sheet/#yaml
 # https://learnxinyminutes.com/docs/yaml/
 
-title: AI through a linguist's looking glass 
-description: This blog is powered by fastpages from fast.ai.
+title: Haowen Jiang's blog
+description: AI through a linguist's looking glass
 github_username: howard-haowen
 # you can comment the below line out if your repo name is not different than your baseurl
 github_repo: "hownwhendunit.ai"
@@ -39,7 +39,7 @@ baseurl: "/hownwhendunit.ai" # the subpath of your site, e.g. "/blog".
 # Github and twitter are optional:
 minima:
   social_links:
-    twitter: 
+    linkedin: haowen-jiang-phd-16242074
     github: howard-haowen
 
 # Set this to true to get LaTeX math equation support
