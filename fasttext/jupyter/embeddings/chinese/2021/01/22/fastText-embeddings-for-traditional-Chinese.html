@@ -1,0 +1,1668 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>fastText embeddings for traditional Chinese | Haowen Jiang’s blog</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="fastText embeddings for traditional Chinese" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="fastText models are useful for finding similar words in a corpus. This post compares two small fastText models trained on data in traditional Chinese." />
+<meta property="og:description" content="fastText models are useful for finding similar words in a corpus. This post compares two small fastText models trained on data in traditional Chinese." />
+<link rel="canonical" href="https://howard-haowen.github.io/blog.ai/fasttext/jupyter/embeddings/chinese/2021/01/22/fastText-embeddings-for-traditional-Chinese.html" />
+<meta property="og:url" content="https://howard-haowen.github.io/blog.ai/fasttext/jupyter/embeddings/chinese/2021/01/22/fastText-embeddings-for-traditional-Chinese.html" />
+<meta property="og:site_name" content="Haowen Jiang’s blog" />
+<meta property="og:image" content="https://howard-haowen.github.io/blog.ai/images/similar-words.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-01-22T00:00:00-06:00" />
+<script type="application/ld+json">
+{"mainEntityOfPage":{"@type":"WebPage","@id":"https://howard-haowen.github.io/blog.ai/fasttext/jupyter/embeddings/chinese/2021/01/22/fastText-embeddings-for-traditional-Chinese.html"},"url":"https://howard-haowen.github.io/blog.ai/fasttext/jupyter/embeddings/chinese/2021/01/22/fastText-embeddings-for-traditional-Chinese.html","@type":"BlogPosting","headline":"fastText embeddings for traditional Chinese","dateModified":"2021-01-22T00:00:00-06:00","datePublished":"2021-01-22T00:00:00-06:00","image":"https://howard-haowen.github.io/blog.ai/images/similar-words.png","description":"fastText models are useful for finding similar words in a corpus. This post compares two small fastText models trained on data in traditional Chinese.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/blog.ai/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://howard-haowen.github.io/blog.ai/feed.xml" title="Haowen Jiang's blog" /><link rel="shortcut icon" type="image/x-icon" href="/blog.ai/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog.ai/">Haowen Jiang&#39;s blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog.ai/about/">About Me</a><a class="page-link" href="/blog.ai/search/">Search</a><a class="page-link" href="/blog.ai/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">fastText embeddings for traditional Chinese</h1><p class="page-description">fastText models are useful for finding similar words in a corpus. This post compares two small fastText models trained on data in traditional Chinese.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-01-22T00:00:00-06:00" itemprop="datePublished">
+        Jan 22, 2021
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      6 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/blog.ai/categories/#fasttext">fasttext</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog.ai/categories/#jupyter">jupyter</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog.ai/categories/#embeddings">embeddings</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog.ai/categories/#Chinese">Chinese</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/howard-haowen/blog.ai/tree/master/_notebooks/2021-01-22-fastText-embeddings-for-traditional-Chinese.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/blog.ai/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/howard-haowen/blog.ai/master?filepath=_notebooks%2F2021-01-22-fastText-embeddings-for-traditional-Chinese.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/blog.ai/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/howard-haowen/blog.ai/blob/master/_notebooks/2021-01-22-fastText-embeddings-for-traditional-Chinese.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/blog.ai/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#Intro">Intro </a></li>
+<li class="toc-entry toc-h1"><a href="#fastText-cbow-300-dimensions-from-Facebook">fastText cbow 300 dimensions from Facebook </a></li>
+<li class="toc-entry toc-h1"><a href="#fastText-cbow-300-dimensions-from-ToastyNews-in-Cantonese">fastText cbow 300 dimensions from ToastyNews in Cantonese </a></li>
+<li class="toc-entry toc-h1"><a href="#fastText-cbow-100-dimensions-from-Taiwan-news-in-traditional-Chinese">fastText cbow 100 dimensions from Taiwan news in traditional Chinese </a></li>
+<li class="toc-entry toc-h1"><a href="#Comparison">Comparison </a></li>
+<li class="toc-entry toc-h1"><a href="#Recap">Recap </a></li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2021-01-22-fastText-embeddings-for-traditional-Chinese.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Intro">
+<a class="anchor" href="#Intro" aria-hidden="true"><span class="octicon octicon-link"></span></a>Intro<a class="anchor-link" href="#Intro"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This video explains to you what <code>fastText</code> is all about as if you were five years old. 
+
+</p>
+<center>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/watch?v=og183Y9yHFs" frameborder="0" allowfullscreen=""></iframe>
+</center>
+
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="fastText-cbow-300-dimensions-from-Facebook">
+<a class="anchor" href="#fastText-cbow-300-dimensions-from-Facebook" aria-hidden="true"><span class="octicon octicon-link"></span></a>fastText cbow 300 dimensions from Facebook<a class="anchor-link" href="#fastText-cbow-300-dimensions-from-Facebook"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here're the simple steps for loading the Chinese model released by Facebook, abbreviated here as <code>ft</code>.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip install fasttext
+<span class="kn">import</span> <span class="nn">fasttext</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Collecting fasttext
+  Downloading https://files.pythonhosted.org/packages/f8/85/e2b368ab6d3528827b147fdb814f8189acc981a4bc2f99ab894650e05c40/fasttext-0.9.2.tar.gz (68kB)
+     |████████████████████████████████| 71kB 4.4MB/s 
+Requirement already satisfied: pybind11&gt;=2.2 in /usr/local/lib/python3.6/dist-packages (from fasttext) (2.6.1)
+Requirement already satisfied: setuptools&gt;=0.7.0 in /usr/local/lib/python3.6/dist-packages (from fasttext) (51.1.1)
+Requirement already satisfied: numpy in /usr/local/lib/python3.6/dist-packages (from fasttext) (1.19.5)
+Building wheels for collected packages: fasttext
+  Building wheel for fasttext (setup.py) ... done
+  Created wheel for fasttext: filename=fasttext-0.9.2-cp36-cp36m-linux_x86_64.whl size=3039122 sha256=5aa81e1045293ebc74315d2013c28cd0018ec96b8868502d535b71438f1faa0c
+  Stored in directory: /root/.cache/pip/wheels/98/ba/7f/b154944a1cf5a8cee91c154b75231136cc3a3321ab0e30f592
+Successfully built fasttext
+Installing collected packages: fasttext
+Successfully installed fasttext-0.9.2
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">fasttext.util</span>
+<span class="n">fasttext</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">download_model</span><span class="p">(</span><span class="s1">'zh'</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">'ignore'</span><span class="p">)</span>  <span class="c1"># zh = Chinese</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Downloading https://dl.fbaipublicfiles.com/fasttext/vectors-crawl/cc.zh.300.bin.gz
+
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>'cc.zh.300.bin'</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ft</span> <span class="o">=</span> <span class="n">fasttext</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="s1">'cc.zh.300.bin'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Warning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <code>ft</code> model covers a whopping great number of words, 2000000 to be exact, because it's trained on a HUGE corpus.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">ft</span><span class="o">.</span><span class="n">words</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>2000000</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's check out the top 10 words most similar to "疫情" (meaning "pandemic situation") according to the <code>ft</code> model. The numbers indicate the degree of similarity. The larger the number, the greater the similarity.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ft</span><span class="o">.</span><span class="n">get_nearest_neighbors</span><span class="p">(</span><span class="s2">"疫情"</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Output" data-close="Show Output"></summary>
+        <p>
+</p>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[(0.7571706771850586, '禽流感'),
+ (0.6940484046936035, '甲流'),
+ (0.6807129383087158, '流感'),
+ (0.6670429706573486, '疫病'),
+ (0.6640030741691589, '防疫'),
+ (0.6531218886375427, '萨斯病'),
+ (0.6506668329238892, 'H1N1'),
+ (0.6495682001113892, '疫症'),
+ (0.6432098150253296, 'ＳＡＲＳ'),
+ (0.642063319683075, '疫区')]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The results are pretty good. But the downside is that the <code>ft</code> model is huge in size. After being unzipped, the model file is about 6.74G.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="fastText-cbow-300-dimensions-from-ToastyNews-in-Cantonese">
+<a class="anchor" href="#fastText-cbow-300-dimensions-from-ToastyNews-in-Cantonese" aria-hidden="true"><span class="octicon octicon-link"></span></a>fastText cbow 300 dimensions from <a href="https://github.com/toastynews/hong-kong-fastText">ToastyNews</a> in Cantonese<a class="anchor-link" href="#fastText-cbow-300-dimensions-from-ToastyNews-in-Cantonese"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="https://medium.com/@kyubi_fox/traditional-chinese-word-embeddings-from-hong-kong-data-db10404194a0">This article</a> is what inpired me to write this post. The author trained a <code>fastText</code> model on articles written in Cantonese, which uses traditional characters. Here're the simple steps for loading his model, abbreviated here as <code>hk</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Since his model is stored on GDrive, I find it more convenient to use the <code>gdown</code> library to download the model.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">gdown</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s1">'https://drive.google.com/u/0/uc?export=download&amp;confirm=4g-b&amp;id=1kmZ8NKYDngKtA_-1f3ZdmbLV0CDBy1xA'</span>
+<span class="n">output</span> <span class="o">=</span> <span class="s1">'toasty_news.bin.gz'</span>
+<span class="n">gdown</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">quiet</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Downloading...
+From: https://drive.google.com/u/0/uc?export=download&amp;confirm=4g-b&amp;id=1kmZ8NKYDngKtA_-1f3ZdmbLV0CDBy1xA
+To: /content/toasty_news.bin.gz
+2.77GB [00:26, 106MB/s] 
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>'toasty_news.bin.gz'</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The file needs to be first unzipped to be loaded as a <code>fastText</code> model. An easy way to do that is the command <code>!gunzip</code> plus a file name.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>gunzip toasty_news.bin.gz
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">hk</span> <span class="o">=</span> <span class="n">fasttext</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="s1">'/content/toasty_news.bin'</span><span class="p">)</span>
+<span class="n">hk</span><span class="o">.</span><span class="n">get_dimension</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Warning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>300</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <code>hk</code> model covers 222906 words in total.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">hk</span><span class="o">.</span><span class="n">words</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>222906</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="fastText-cbow-100-dimensions-from-Taiwan-news-in-traditional-Chinese">
+<a class="anchor" href="#fastText-cbow-100-dimensions-from-Taiwan-news-in-traditional-Chinese" aria-hidden="true"><span class="octicon octicon-link"></span></a>fastText cbow 100 dimensions from Taiwan news in traditional Chinese<a class="anchor-link" href="#fastText-cbow-100-dimensions-from-Taiwan-news-in-traditional-Chinese"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>I trained a <code>fastText</code> model on 5816 articles of Taiwan news in traditional Chinese, most of them related to health and diseases.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tw</span> <span class="o">=</span> <span class="n">fasttext</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="c1"># "path" is where my model is stored. </span>
+<span class="n">tw</span><span class="o">.</span><span class="n">get_dimension</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Warning : `load_model` does not return WordVectorModel or SupervisedModel any more, but a `FastText` object which is very similar.
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>100</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <code>tw</code> model covers only 11089 words in total because it's trained on a much smaller corpus than the <code>hk</code> model.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">tw</span><span class="o">.</span><span class="n">words</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>11089</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Comparison">
+<a class="anchor" href="#Comparison" aria-hidden="true"><span class="octicon octicon-link"></span></a>Comparison<a class="anchor-link" href="#Comparison"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>My original plan was to compare all the three models and see what similar words they come up with given the same keyword. But the <code>ft</code> model is huge so I can't load all of them into RAM. The RAM limit on Colab is about 12G. So we'll just compare the <code>tw</code> and <code>hk</code> model.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Since we're not concerned with the degree of similarity, let's write a simple function to show just similar words.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">similar_words</span><span class="p">(</span><span class="n">keyword</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+  <span class="n">top_10</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_nearest_neighbors</span><span class="p">(</span><span class="n">keyword</span><span class="p">)</span>
+  <span class="n">top_10</span> <span class="o">=</span> <span class="p">[</span><span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">top_10</span><span class="p">]</span>
+  <span class="k">return</span> <span class="n">top_10</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Then, calling the function <code>similar_word()</code>, with a keyword and a <code>fastText</code> model as the required arguments, shows the top ten words most similar to the keyword.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">similar_words</span><span class="p">(</span><span class="s2">"疫情"</span><span class="p">,</span> <span class="n">hk</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>['疫症', '病疫情', '武漢肺炎', '疫潮', '疫', '新冠肺炎', '疫調', '疫市', '新型冠狀病毒', '疫病']</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now let's write a function to show the results of the two models side by side in a dataframe.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">models</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'hk'</span><span class="p">:</span> <span class="n">hk</span><span class="p">,</span> <span class="s1">'tw'</span><span class="p">:</span> <span class="n">tw</span><span class="p">}</span>
+<span class="k">def</span> <span class="nf">compare_models</span><span class="p">(</span><span class="n">keyword</span><span class="p">,</span> <span class="o">**</span><span class="n">models</span><span class="p">):</span>
+  <span class="n">hk_results</span> <span class="o">=</span> <span class="n">similar_words</span><span class="p">(</span><span class="n">keyword</span><span class="p">,</span> <span class="n">models</span><span class="p">[</span><span class="s1">'hk'</span><span class="p">])</span>
+  <span class="n">tw_results</span> <span class="o">=</span> <span class="n">similar_words</span><span class="p">(</span><span class="n">keyword</span><span class="p">,</span> <span class="n">models</span><span class="p">[</span><span class="s1">'tw'</span><span class="p">])</span>
+  <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'HKNews_'</span><span class="o">+</span><span class="n">keyword</span><span class="p">:</span> <span class="n">hk_results</span><span class="p">,</span> <span class="s1">'TWNews_'</span><span class="o">+</span><span class="n">keyword</span><span class="p">:</span> <span class="n">tw_results</span><span class="p">}</span>
+  <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">df</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's test it out with the keyword "疫情".</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test</span> <span class="o">=</span> <span class="n">compare_models</span><span class="p">(</span><span class="s2">"疫情"</span><span class="p">,</span> <span class="o">**</span><span class="n">models</span><span class="p">)</span>
+<span class="n">test</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>HKNews_疫情</th>
+      <th>TWNews_疫情</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>疫症</td>
+      <td>疫情國</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>病疫情</td>
+      <td>因應</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>武漢肺炎</td>
+      <td>防堵</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>疫潮</td>
+      <td>切記</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>疫</td>
+      <td>擴散</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>新冠肺炎</td>
+      <td>屬地</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>疫調</td>
+      <td>疫情處</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>疫市</td>
+      <td>升溫</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>新型冠狀病毒</td>
+      <td>警訊</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>疫病</td>
+      <td>嚴峻</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>It's interesting that similar words of "總統" (meaning "the president") include "蔡總統" (meaning "President Tsai", referring to Taiwan's incumbent president) according to the <code>hk</code> model but not the <code>tw</code> model. I'd expect the opposite.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test</span> <span class="o">=</span> <span class="n">compare_models</span><span class="p">(</span><span class="s2">"總統"</span><span class="p">,</span> <span class="o">**</span><span class="n">models</span><span class="p">)</span>
+<span class="n">test</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>HKNews_總統</th>
+      <th>TWNews_總統</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>代總統</td>
+      <td>主持</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>美國總統</td>
+      <td>總統府</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>前總統</td>
+      <td>部長</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>民選總統</td>
+      <td>親臨</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>李總統</td>
+      <td>局長</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>副總統</td>
+      <td>蘇益仁</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>下任總統</td>
+      <td>幹事長</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>總理</td>
+      <td>副院長</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>首相</td>
+      <td>李明亮</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>蔡總統</td>
+      <td>座談會</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Again, it is the <code>hk</code> model, not the <code>tw</code> model, that knows "蔡英文" (meaning "Tsai Ing-wen") is most similar to "蔡總統" (meaning "President Tsai"). The two linguistic terms have the same reference.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test</span> <span class="o">=</span> <span class="n">compare_models</span><span class="p">(</span><span class="s2">"蔡總統"</span><span class="p">,</span> <span class="o">**</span><span class="n">models</span><span class="p">)</span>
+<span class="n">test</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>HKNews_蔡總統</th>
+      <th>TWNews_蔡總統</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>蔡英文</td>
+      <td>總統</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>賴清德</td>
+      <td>主持</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>馬英九</td>
+      <td>部長</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>李總統</td>
+      <td>親臨</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>林全</td>
+      <td>局長</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>民進黨</td>
+      <td>陳建仁</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>柯文哲</td>
+      <td>座談會</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>總統</td>
+      <td>吳</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>川普</td>
+      <td>副院長</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>總統府</td>
+      <td>總統府</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Finally, let's write a function to quickly compare a list of keywords.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">concat_dfs</span><span class="p">(</span><span class="n">keyword_list</span><span class="p">):</span>
+  <span class="n">dfs</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">keyword_list</span><span class="p">:</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">compare_models</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="o">**</span><span class="n">models</span><span class="p">)</span>
+    <span class="n">dfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+  <span class="n">results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dfs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">results</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">keywords</span> <span class="o">=</span> <span class="s2">"疫情 疫苗 病毒 肺炎 檢疫 流感 台灣"</span>
+<span class="n">key_list</span> <span class="o">=</span> <span class="n">keywords</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="n">key_list</span>
+<span class="n">concat_dfs</span><span class="p">(</span><span class="n">key_list</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Output" data-close="Show Output"></summary>
+        <p>
+</p>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>HKNews_疫情</th>
+      <th>TWNews_疫情</th>
+      <th>HKNews_疫苗</th>
+      <th>TWNews_疫苗</th>
+      <th>HKNews_病毒</th>
+      <th>TWNews_病毒</th>
+      <th>HKNews_肺炎</th>
+      <th>TWNews_肺炎</th>
+      <th>HKNews_檢疫</th>
+      <th>TWNews_檢疫</th>
+      <th>HKNews_流感</th>
+      <th>TWNews_流感</th>
+      <th>HKNews_台灣</th>
+      <th>TWNews_台灣</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>疫症</td>
+      <td>疫情國</td>
+      <td>流感疫苗</td>
+      <td>接種</td>
+      <td>輪狀病毒</td>
+      <td>病毒型</td>
+      <td>武漢肺炎</td>
+      <td>豬鏈球菌</td>
+      <td>檢疫所</td>
+      <td>檢疫官</td>
+      <td>流感病毒</td>
+      <td>新流感</td>
+      <td>臺灣</td>
+      <td>臺灣</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>病疫情</td>
+      <td>因應</td>
+      <td>免疫針</td>
+      <td>接種地</td>
+      <td>含病毒</td>
+      <td>腺病毒</td>
+      <td>武肺</td>
+      <td>鏈球菌</td>
+      <td>檢疫中心</td>
+      <td>檢疫站</td>
+      <td>流行性感冒</td>
+      <td>防流感</td>
+      <td>台灣國</td>
+      <td>根除</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>武漢肺炎</td>
+      <td>防堵</td>
+      <td>抗體</td>
+      <td>接種為</td>
+      <td>冠狀病毒</td>
+      <td>病毒株</td>
+      <td>新冠肺炎</td>
+      <td>疾患</td>
+      <td>檢疫局</td>
+      <td>檢疫局</td>
+      <td>禽流感</td>
+      <td>打流感</td>
+      <td>台灣政府</td>
+      <td>歷史</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>疫潮</td>
+      <td>切記</td>
+      <td>藥物</td>
+      <td>接種點</td>
+      <td>新病毒</td>
+      <td>病毒學</td>
+      <td>病疫</td>
+      <td>雙球菌</td>
+      <td>檢疫站</td>
+      <td>航機</td>
+      <td>流行病</td>
+      <td>對流感</td>
+      <td>中國大陸</td>
+      <td>一直</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>疫</td>
+      <td>擴散</td>
+      <td>卡介苗</td>
+      <td>接種卡</td>
+      <td>腺病毒</td>
+      <td>型別</td>
+      <td>病疫情</td>
+      <td>心包膜炎</td>
+      <td>隔離</td>
+      <td>機場</td>
+      <td>疫症</td>
+      <td>豬流感</td>
+      <td>中國</td>
+      <td>亞太</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>新冠肺炎</td>
+      <td>屬地</td>
+      <td>抗生素</td>
+      <td>疫苗量</td>
+      <td>殺病毒</td>
+      <td>流行株</td>
+      <td>疫症</td>
+      <td>特殊</td>
+      <td>自我隔離</td>
+      <td>入境</td>
+      <td>病疫情</td>
+      <td>抗流感</td>
+      <td>台灣人</td>
+      <td>諸多</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>疫調</td>
+      <td>疫情處</td>
+      <td>輪狀病毒</td>
+      <td>卡介苗</td>
+      <td>麻疹病毒</td>
+      <td>株型別</td>
+      <td>非典型肺炎</td>
+      <td>侵襲性</td>
+      <td>隔離者</td>
+      <td>調查表</td>
+      <td>麻疹</td>
+      <td>流感疫</td>
+      <td>中國台灣</td>
+      <td>世紀</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>疫市</td>
+      <td>升溫</td>
+      <td>接種</td>
+      <td>價</td>
+      <td>防病毒</td>
+      <td>腸</td>
+      <td>疫情</td>
+      <td>冠狀動脈</td>
+      <td>病毒檢測</td>
+      <td>港口</td>
+      <td>流行性腮腺炎</td>
+      <td>季節性</td>
+      <td>台灣獨立</td>
+      <td>跨國性</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>新型冠狀病毒</td>
+      <td>警訊</td>
+      <td>預防接種</td>
+      <td>多合一</td>
+      <td>冠状病毒</td>
+      <td>重組</td>
+      <td>廢炎</td>
+      <td>症候群</td>
+      <td>健康申報</td>
+      <td>登機</td>
+      <td>流感疫苗</td>
+      <td>流感病</td>
+      <td>台灣社</td>
+      <td>面臨</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>疫病</td>
+      <td>嚴峻</td>
+      <td>麻疹</td>
+      <td>廠牌</td>
+      <td>病原體</td>
+      <td>毒株</td>
+      <td>疫病</td>
+      <td>冠狀病毒</td>
+      <td>檢測</td>
+      <td>聲明卡</td>
+      <td>登革熱</td>
+      <td>新型</td>
+      <td>中華民國</td>
+      <td>之中</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">keywords</span> <span class="o">=</span> <span class="s2">"頭痛 發燒 流鼻水 "</span>
+<span class="n">key_list</span> <span class="o">=</span> <span class="n">keywords</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="n">key_list</span>
+<span class="n">concat_dfs</span><span class="p">(</span><span class="n">key_list</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>HKNews_頭痛</th>
+      <th>TWNews_頭痛</th>
+      <th>HKNews_發燒</th>
+      <th>TWNews_發燒</th>
+      <th>HKNews_流鼻水</th>
+      <th>TWNews_流鼻水</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>偏頭痛</td>
+      <td>肌肉痛</td>
+      <td>咳嗽</td>
+      <td>出現</td>
+      <td>鼻水</td>
+      <td>鼻水</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>頭疼</td>
+      <td>骨頭痛</td>
+      <td>病徵</td>
+      <td>症狀</td>
+      <td>流鼻涕</td>
+      <td>流</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>胃痛</td>
+      <td>噁心</td>
+      <td>發高燒</td>
+      <td>喉嚨痛</td>
+      <td>咳嗽</td>
+      <td>鼻塞</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>痠痛</td>
+      <td>骨頭</td>
+      <td>發病</td>
+      <td>嗅覺</td>
+      <td>喉嚨痛</td>
+      <td>喉嚨</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>酸痛</td>
+      <td>肌肉</td>
+      <td>喉嚨痛</td>
+      <td>味覺</td>
+      <td>出疹</td>
+      <td>喉嚨癢</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>絞痛</td>
+      <td>後眼</td>
+      <td>流鼻水</td>
+      <td>鼻水</td>
+      <td>發燒</td>
+      <td>喉嚨痛</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>腫痛</td>
+      <td>畏寒</td>
+      <td>症狀</td>
+      <td>咳嗽</td>
+      <td>皮疹</td>
+      <td>嗅覺</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>頭暈</td>
+      <td>倦怠</td>
+      <td>徵狀</td>
+      <td>喉嚨</td>
+      <td>流鼻血</td>
+      <td>味覺</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>心絞痛</td>
+      <td>窩痛</td>
+      <td>出疹</td>
+      <td>疲倦</td>
+      <td>肚瀉</td>
+      <td>紅疹</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>腰背痛</td>
+      <td>結膜</td>
+      <td>呼吸困難</td>
+      <td>流</td>
+      <td>咳血</td>
+      <td>倦怠</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Recap">
+<a class="anchor" href="#Recap" aria-hidden="true"><span class="octicon octicon-link"></span></a>Recap<a class="anchor-link" href="#Recap"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You can easily find out words most similar to a keyword that you're interested in just by loading a <code>fastText</code> model. Even if you don't know how to train a model from scratch, you can still make good use of <code>fastText</code> by loading pretrained models, like those released by Facebook. In total, <a href="https://fasttext.cc/docs/en/crawl-vectors.html">157 languages</a> are covered, including even Malay, Tagalog, and Cebuano!</p>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="howard-haowen/blog.ai"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/blog.ai/fasttext/jupyter/embeddings/chinese/2021/01/22/fastText-embeddings-for-traditional-Chinese.html" hidden></a>
+</article>
+
+<script src="https://utteranc.es/client.js"
+        repo="howard-haowen/blog.ai"
+        issue-term="[ENTER TERM HERE]"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog.ai/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/blog.ai/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/blog.ai/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>AI through a linguist&#39;s looking glass</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/howard-haowen" title="howard-haowen"><svg class="svg-icon grey"><use xlink:href="/blog.ai/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/haowen-jiang-phd-16242074" title="haowen-jiang-phd-16242074"><svg class="svg-icon grey"><use xlink:href="/blog.ai/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
