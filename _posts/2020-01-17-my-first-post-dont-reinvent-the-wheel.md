@@ -3,7 +3,6 @@ toc: true
 layout: post
 title: My First Post
 description: Don't reinvent the wheel.
-comments: true
 categories: [awesome-list, fastpages]
 image: images/reinvent-the-wheel.jpg
 
