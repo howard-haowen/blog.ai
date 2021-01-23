@@ -21,7 +21,7 @@ However, awesome as they are, awesome lists can be quite intimidating to go thro
 
 ## The fast stack
 
-I'd like to start with a series of tools that I dub `the fast stack`, including `fastpages`, `fast.ai`, `fastText`, and `fastAPI`. ~~Designed by the fast.ai team~~(not true, thanks go to [Hamel Husain](https://github.com/hamelsmu), who corrected me), `fastpages` is basically a  template for creating a blog (like this one!) and does lots of awesome things for you hehind the scenes. Features that I like about it include:
+I'd like to start with a series of tools that I dub `the fast stack`, including `fastpages`, `fast.ai`, `fastText`, and `fastAPI`. ~~Designed by the fast.ai team~~ (not true, thanks go to [Hamel Husain](https://github.com/hamelsmu), who corrected me), `fastpages` is basically a  template for creating a blog (like this one!) and does lots of awesome things for you hehind the scenes. Features that I like about it include:
 
 - automatically converts `.md` and `.ipynb` files on GitHub to posts on your website
 - automatically adds links to Colab and GitHub
