@@ -29,6 +29,6 @@ I'd like to start with a series of tools that I dub `the fast stack`, including 
 - supports comments 
 - is free from end to end
 
-Truth be told that I actually failed twice before I successfully set up this blog. The lesson learned is this: **do exactly what's said on the [instructions](https://github.com/fastai/fastpages)!** Humanities majors like me are often taught to be creative, but be sure to leave your creativity at the door when you set up computer programs. This then concludes my first repo. Nothing is super technical here since it's just a warm-up. I'll save other tools in the fast stack for another day. 
+Truth be told that I actually failed twice before I successfully set up this blog. The lesson learned is this: **do exactly what's said in the [instructions](https://github.com/fastai/fastpages)!** Humanities majors like me are often taught to be creative, but be sure to leave your creativity at the door when you set up computer programs. This then concludes my first repo. Nothing is super technical here since it's just a warm-up. I'll save other tools in the fast stack for another day. 
 
 {% include info.html text="I was clueless when I read PR in the instructions. It turns out to mean 'pull requests'. Click on the tab that says 'pull requests' when you are done forking the original repo. Then you're good to go by following the instructions there." %}
