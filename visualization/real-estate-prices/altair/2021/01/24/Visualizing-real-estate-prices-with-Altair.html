@@ -1,0 +1,2225 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Visualizing real estate prices with Altair | Haowen’s AI blog</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Visualizing real estate prices with Altair" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="In this post, I played around with the Altair library, which not only makes plotting fancy charts easy-peasy but also makes it possible to show interactive charts on fastpages-powered websites. With Altair, we’ll visualize a dataset of real estate prices." />
+<meta property="og:description" content="In this post, I played around with the Altair library, which not only makes plotting fancy charts easy-peasy but also makes it possible to show interactive charts on fastpages-powered websites. With Altair, we’ll visualize a dataset of real estate prices." />
+<link rel="canonical" href="https://howard-haowen.github.io/blog.ai/visualization/real-estate-prices/altair/2021/01/24/Visualizing-real-estate-prices-with-Altair.html" />
+<meta property="og:url" content="https://howard-haowen.github.io/blog.ai/visualization/real-estate-prices/altair/2021/01/24/Visualizing-real-estate-prices-with-Altair.html" />
+<meta property="og:site_name" content="Haowen’s AI blog" />
+<meta property="og:image" content="https://howard-haowen.github.io/blog.ai/images/KH-house-prices.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-01-24T00:00:00-06:00" />
+<script type="application/ld+json">
+{"mainEntityOfPage":{"@type":"WebPage","@id":"https://howard-haowen.github.io/blog.ai/visualization/real-estate-prices/altair/2021/01/24/Visualizing-real-estate-prices-with-Altair.html"},"url":"https://howard-haowen.github.io/blog.ai/visualization/real-estate-prices/altair/2021/01/24/Visualizing-real-estate-prices-with-Altair.html","@type":"BlogPosting","headline":"Visualizing real estate prices with Altair","dateModified":"2021-01-24T00:00:00-06:00","datePublished":"2021-01-24T00:00:00-06:00","image":"https://howard-haowen.github.io/blog.ai/images/KH-house-prices.png","description":"In this post, I played around with the Altair library, which not only makes plotting fancy charts easy-peasy but also makes it possible to show interactive charts on fastpages-powered websites. With Altair, we’ll visualize a dataset of real estate prices.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/blog.ai/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://howard-haowen.github.io/blog.ai/feed.xml" title="Haowen's AI blog" /><link rel="shortcut icon" type="image/x-icon" href="/blog.ai/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog.ai/">Haowen&#39;s AI blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog.ai/about/">About Me</a><a class="page-link" href="/blog.ai/search/">Search</a><a class="page-link" href="/blog.ai/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Visualizing real estate prices with Altair</h1><p class="page-description">In this post, I played around with the Altair library, which not only makes plotting fancy charts easy-peasy but also makes it possible to show interactive charts on fastpages-powered websites. With Altair, we'll visualize a dataset of real estate prices.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-01-24T00:00:00-06:00" itemprop="datePublished">
+        Jan 24, 2021
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      12 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/blog.ai/categories/#visualization">visualization</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog.ai/categories/#real-estate-prices">real-estate-prices</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog.ai/categories/#altair">altair</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/howard-haowen/blog.ai/tree/master/_notebooks/2021-01-24-Visualizing-real-estate-prices-with-Altair.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/blog.ai/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/howard-haowen/blog.ai/master?filepath=_notebooks%2F2021-01-24-Visualizing-real-estate-prices-with-Altair.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/blog.ai/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/howard-haowen/blog.ai/blob/master/_notebooks/2021-01-24-Visualizing-real-estate-prices-with-Altair.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/blog.ai/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#Intro">Intro </a></li>
+<li class="toc-entry toc-h2"><a href="#Import-dependencies">Import dependencies </a></li>
+<li class="toc-entry toc-h2"><a href="#Load-the-dataset">Load the dataset </a></li>
+<li class="toc-entry toc-h2"><a href="#Simple-charts">Simple charts </a></li>
+<li class="toc-entry toc-h2"><a href="#Complex-charts">Complex charts </a></li>
+<li class="toc-entry toc-h2"><a href="#Recap">Recap </a></li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2021-01-24-Visualizing-real-estate-prices-with-Altair.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Intro">
+<a class="anchor" href="#Intro" aria-hidden="true"><span class="octicon octicon-link"></span></a>Intro<a class="anchor-link" href="#Intro"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Several months into the journey of Python programming, I was already aware of visualization tools like <code>Matplotlib</code> <code>Seaborn</code>, and <code>Plotly</code>, which are commonly discussed on Medium. But I'd never heard of <code>Altair</code> until I came across <code>fastpages</code>. Since I plan to keep writing on this fastpages-powered blog, I did some experiments with <code>Altair</code>. For illustration purprose, I'll be using the dataset of real estate prices in Kaohsiung, TW, which I've cleaned and put together in my GitHub <a href="https://github.com/howard-haowen/kh-real-estate">repo</a>. For those of you who don't know <strong>Kaohsiung, it's selected by <a href="https://www.nytimes.com/interactive/2021/travel/places-to-visit-vacation.html">the New York Times</a> as one of the 52 places to love in 2021</strong>. Maybe you'll consider buying an apartment in Kaohsiung after reading this post. Who knows?</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Import-dependencies">
+<a class="anchor" href="#Import-dependencies" aria-hidden="true"><span class="octicon octicon-link"></span></a>Import dependencies<a class="anchor-link" href="#Import-dependencies"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>Altair</code> is alrealdy pre-installed on Colab. So there's no need to pip-install it if you're doing this on Colab.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">altair</span> <span class="k">as</span> <span class="nn">alt</span> 
+<span class="kn">from</span> <span class="nn">altair</span> <span class="kn">import</span> <span class="n">datum</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Load-the-dataset">
+<a class="anchor" href="#Load-the-dataset" aria-hidden="true"><span class="octicon octicon-link"></span></a>Load the dataset<a class="anchor-link" href="#Load-the-dataset"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The first thing to do is to git-clone the dataset into your environment.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>git clone -l -s https://github.com/howard-haowen/kh-real-estate cloned-repo
+<span class="o">%</span><span class="k">cd</span> cloned-repo
+<span class="o">!</span>ls
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Output" data-close="Show Output"></summary>
+        <p>
+</p>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Cloning into 'cloned-repo'...
+warning: --local is ignored
+remote: Enumerating objects: 100, done.
+remote: Counting objects: 100% (100/100), done.
+remote: Compressing objects: 100% (100/100), done.
+remote: Total 100 (delta 46), reused 0 (delta 0), pack-reused 0
+Receiving objects: 100% (100/100), 3.30 MiB | 1.03 MiB/s, done.
+Resolving deltas: 100% (46/46), done.
+/content/cloned-repo
+catboost-model-feature-importance.png		  catboost-model-residuals.png
+catboost-model-feature-importance-shap-value.png  compare-models.png
+catboost-model-learning-curve.png		  kh-house-prices.csv
+catboost-model-outliers.png			  kh-house-prices.pkl
+catboost-model.png				  LICENSE
+catboost-model-prediction-errors.png		  README.md
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's take a look at 5 random observations.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description" open="">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">'kh-house-prices.pkl'</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+    </details>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>purpose</th>
+      <th>trading_target</th>
+      <th>land_area</th>
+      <th>property_type</th>
+      <th>living_room</th>
+      <th>bedroom</th>
+      <th>bathroom</th>
+      <th>partition</th>
+      <th>property_area</th>
+      <th>is_managed</th>
+      <th>total_floor</th>
+      <th>parking_area</th>
+      <th>parking_price</th>
+      <th>parking_type</th>
+      <th>land_use</th>
+      <th>district</th>
+      <th>trading_date</th>
+      <th>trading_year</th>
+      <th>built_date</th>
+      <th>built_year</th>
+      <th>price_per_sqm</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>25204</th>
+      <td>住家用</td>
+      <td>房地(土地+建物)+車位</td>
+      <td>13.53</td>
+      <td>住宅大樓(11層含以上有電梯)</td>
+      <td>2</td>
+      <td>4</td>
+      <td>2</td>
+      <td>有</td>
+      <td>129.39</td>
+      <td>有</td>
+      <td>13</td>
+      <td>0.00</td>
+      <td>0</td>
+      <td>坡道平面</td>
+      <td>商</td>
+      <td>楠梓區</td>
+      <td>2017-01-20</td>
+      <td>2017</td>
+      <td>1995-01-26</td>
+      <td>1995</td>
+      <td>33233.0</td>
+    </tr>
+    <tr>
+      <th>19272</th>
+      <td>住家用</td>
+      <td>房地(土地+建物)+車位</td>
+      <td>18.24</td>
+      <td>住宅大樓(11層含以上有電梯)</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>無</td>
+      <td>360.51</td>
+      <td>有</td>
+      <td>36</td>
+      <td>61.10</td>
+      <td>0</td>
+      <td>坡道平面</td>
+      <td>商</td>
+      <td>鼓山區</td>
+      <td>2016-05-20</td>
+      <td>2016</td>
+      <td>2014-06-26</td>
+      <td>2014</td>
+      <td>62717.0</td>
+    </tr>
+    <tr>
+      <th>12575</th>
+      <td>住家用</td>
+      <td>房地(土地+建物)+車位</td>
+      <td>13.12</td>
+      <td>住宅大樓(11層含以上有電梯)</td>
+      <td>2</td>
+      <td>3</td>
+      <td>2</td>
+      <td>有</td>
+      <td>145.90</td>
+      <td>有</td>
+      <td>15</td>
+      <td>12.66</td>
+      <td>840000</td>
+      <td>坡道機械</td>
+      <td>住</td>
+      <td>鼓山區</td>
+      <td>2015-07-14</td>
+      <td>2015</td>
+      <td>2014-05-15</td>
+      <td>2014</td>
+      <td>73101.0</td>
+    </tr>
+    <tr>
+      <th>15299</th>
+      <td>住家用</td>
+      <td>房地(土地+建物)+車位</td>
+      <td>15.42</td>
+      <td>住宅大樓(11層含以上有電梯)</td>
+      <td>2</td>
+      <td>3</td>
+      <td>2</td>
+      <td>有</td>
+      <td>125.39</td>
+      <td>有</td>
+      <td>15</td>
+      <td>11.24</td>
+      <td>0</td>
+      <td>坡道機械</td>
+      <td>住</td>
+      <td>左營區</td>
+      <td>2015-11-08</td>
+      <td>2015</td>
+      <td>2007-01-12</td>
+      <td>2007</td>
+      <td>43066.0</td>
+    </tr>
+    <tr>
+      <th>31446</th>
+      <td>住家用</td>
+      <td>房地(土地+建物)+車位</td>
+      <td>13.91</td>
+      <td>住宅大樓(11層含以上有電梯)</td>
+      <td>2</td>
+      <td>3</td>
+      <td>2</td>
+      <td>有</td>
+      <td>177.61</td>
+      <td>有</td>
+      <td>13</td>
+      <td>0.00</td>
+      <td>0</td>
+      <td>坡道機械</td>
+      <td>商</td>
+      <td>鼓山區</td>
+      <td>2017-12-12</td>
+      <td>2017</td>
+      <td>1996-04-05</td>
+      <td>1996</td>
+      <td>44479.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The dataset includes 45717 observations and 21 columns.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(45717, 21)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Most of the column names should be self-explanatory since I've translated them from the original Chinese to English.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">columns</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">columns</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>['purpose',
+ 'trading_target',
+ 'land_area',
+ 'property_type',
+ 'living_room',
+ 'bedroom',
+ 'bathroom',
+ 'partition',
+ 'property_area',
+ 'is_managed',
+ 'total_floor',
+ 'parking_area',
+ 'parking_price',
+ 'parking_type',
+ 'land_use',
+ 'district',
+ 'trading_date',
+ 'trading_year',
+ 'built_date',
+ 'built_year',
+ 'price_per_sqm']</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here're some basic stats.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>land_area</th>
+      <th>living_room</th>
+      <th>bedroom</th>
+      <th>bathroom</th>
+      <th>property_area</th>
+      <th>total_floor</th>
+      <th>parking_area</th>
+      <th>parking_price</th>
+      <th>trading_year</th>
+      <th>built_year</th>
+      <th>price_per_sqm</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>45717.000000</td>
+      <td>45717.000000</td>
+      <td>45717.000000</td>
+      <td>45717.000000</td>
+      <td>45717.000000</td>
+      <td>45717.000000</td>
+      <td>45717.000000</td>
+      <td>4.571700e+04</td>
+      <td>45717.000000</td>
+      <td>45717.000000</td>
+      <td>4.571700e+04</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>24.949719</td>
+      <td>1.739987</td>
+      <td>2.921058</td>
+      <td>1.907540</td>
+      <td>145.261129</td>
+      <td>13.729947</td>
+      <td>6.606456</td>
+      <td>9.966087e+04</td>
+      <td>2016.760702</td>
+      <td>1999.837938</td>
+      <td>5.222278e+04</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>32.301563</td>
+      <td>0.583373</td>
+      <td>1.299294</td>
+      <td>1.084739</td>
+      <td>89.910644</td>
+      <td>7.810174</td>
+      <td>81.029070</td>
+      <td>5.323162e+05</td>
+      <td>1.699207</td>
+      <td>11.445783</td>
+      <td>2.236209e+04</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>0.010000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.020000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.000000e+00</td>
+      <td>2012.000000</td>
+      <td>1913.000000</td>
+      <td>0.000000e+00</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>10.450000</td>
+      <td>2.000000</td>
+      <td>2.000000</td>
+      <td>1.000000</td>
+      <td>89.080000</td>
+      <td>8.000000</td>
+      <td>0.000000</td>
+      <td>0.000000e+00</td>
+      <td>2015.000000</td>
+      <td>1994.000000</td>
+      <td>3.849700e+04</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>16.630000</td>
+      <td>2.000000</td>
+      <td>3.000000</td>
+      <td>2.000000</td>
+      <td>128.440000</td>
+      <td>14.000000</td>
+      <td>0.000000</td>
+      <td>0.000000e+00</td>
+      <td>2017.000000</td>
+      <td>1999.000000</td>
+      <td>4.829400e+04</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>26.200000</td>
+      <td>2.000000</td>
+      <td>3.000000</td>
+      <td>2.000000</td>
+      <td>171.200000</td>
+      <td>15.000000</td>
+      <td>0.000000</td>
+      <td>0.000000e+00</td>
+      <td>2018.000000</td>
+      <td>2009.000000</td>
+      <td>6.233000e+04</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>2140.100000</td>
+      <td>22.000000</td>
+      <td>52.000000</td>
+      <td>50.000000</td>
+      <td>4119.900000</td>
+      <td>85.000000</td>
+      <td>17098.000000</td>
+      <td>1.000000e+07</td>
+      <td>2020.000000</td>
+      <td>2020.000000</td>
+      <td>1.048343e+06</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>MaxRowsError</code> is the first trouble I got! It turns out that <strong>by default <code>Altair</code> only allows you to plot a dataset with a maximum of 5000 rows</strong>.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">mark_point</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="s1">'trading_year'</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s1">'price_per_sqm'</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s1">'district'</span><span class="p">,</span>
+<span class="p">)</span><span class="o">.</span><span class="n">interactive</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Output" data-close="Show Output"></summary>
+        <p>
+</p>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">MaxRowsError</span>                              Traceback (most recent call last)
+<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/altair/vegalite/v4/api.py</span> in <span class="ansi-cyan-fg">to_dict</span><span class="ansi-blue-fg">(self, *args, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    361</span>         copy <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>copy<span class="ansi-blue-fg">(</span>deep<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">False</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    362</span>         original_data <span class="ansi-blue-fg">=</span> getattr<span class="ansi-blue-fg">(</span>copy<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">"data"</span><span class="ansi-blue-fg">,</span> Undefined<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">--&gt; 363</span><span class="ansi-red-fg">         </span>copy<span class="ansi-blue-fg">.</span>data <span class="ansi-blue-fg">=</span> _prepare_data<span class="ansi-blue-fg">(</span>original_data<span class="ansi-blue-fg">,</span> context<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    364</span> 
+<span class="ansi-green-intense-fg ansi-bold">    365</span>         <span class="ansi-green-fg">if</span> original_data <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">not</span> Undefined<span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/altair/vegalite/v4/api.py</span> in <span class="ansi-cyan-fg">_prepare_data</span><span class="ansi-blue-fg">(data, context)</span>
+<span class="ansi-green-intense-fg ansi-bold">     82</span>     <span class="ansi-red-fg"># convert dataframes  or objects with __geo_interface__ to dict</span>
+<span class="ansi-green-intense-fg ansi-bold">     83</span>     <span class="ansi-green-fg">if</span> isinstance<span class="ansi-blue-fg">(</span>data<span class="ansi-blue-fg">,</span> pd<span class="ansi-blue-fg">.</span>DataFrame<span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">or</span> hasattr<span class="ansi-blue-fg">(</span>data<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">"__geo_interface__"</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">---&gt; 84</span><span class="ansi-red-fg">         </span>data <span class="ansi-blue-fg">=</span> _pipe<span class="ansi-blue-fg">(</span>data<span class="ansi-blue-fg">,</span> data_transformers<span class="ansi-blue-fg">.</span>get<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     85</span> 
+<span class="ansi-green-intense-fg ansi-bold">     86</span>     <span class="ansi-red-fg"># convert string input to a URLData</span>
+
+<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/toolz/functoolz.py</span> in <span class="ansi-cyan-fg">pipe</span><span class="ansi-blue-fg">(data, *funcs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    625</span>     """
+<span class="ansi-green-intense-fg ansi-bold">    626</span>     <span class="ansi-green-fg">for</span> func <span class="ansi-green-fg">in</span> funcs<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 627</span><span class="ansi-red-fg">         </span>data <span class="ansi-blue-fg">=</span> func<span class="ansi-blue-fg">(</span>data<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    628</span>     <span class="ansi-green-fg">return</span> data
+<span class="ansi-green-intense-fg ansi-bold">    629</span> 
+
+<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/toolz/functoolz.py</span> in <span class="ansi-cyan-fg">__call__</span><span class="ansi-blue-fg">(self, *args, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    301</span>     <span class="ansi-green-fg">def</span> __call__<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    302</span>         <span class="ansi-green-fg">try</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 303</span><span class="ansi-red-fg">             </span><span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>_partial<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    304</span>         <span class="ansi-green-fg">except</span> TypeError <span class="ansi-green-fg">as</span> exc<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    305</span>             <span class="ansi-green-fg">if</span> self<span class="ansi-blue-fg">.</span>_should_curry<span class="ansi-blue-fg">(</span>args<span class="ansi-blue-fg">,</span> kwargs<span class="ansi-blue-fg">,</span> exc<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/altair/vegalite/data.py</span> in <span class="ansi-cyan-fg">default_data_transformer</span><span class="ansi-blue-fg">(data, max_rows)</span>
+<span class="ansi-green-intense-fg ansi-bold">     17</span> <span class="ansi-blue-fg">@</span>curried<span class="ansi-blue-fg">.</span>curry
+<span class="ansi-green-intense-fg ansi-bold">     18</span> <span class="ansi-green-fg">def</span> default_data_transformer<span class="ansi-blue-fg">(</span>data<span class="ansi-blue-fg">,</span> max_rows<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">5000</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">---&gt; 19</span><span class="ansi-red-fg">     </span><span class="ansi-green-fg">return</span> curried<span class="ansi-blue-fg">.</span>pipe<span class="ansi-blue-fg">(</span>data<span class="ansi-blue-fg">,</span> limit_rows<span class="ansi-blue-fg">(</span>max_rows<span class="ansi-blue-fg">=</span>max_rows<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> to_values<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     20</span> 
+<span class="ansi-green-intense-fg ansi-bold">     21</span> 
+
+<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/toolz/functoolz.py</span> in <span class="ansi-cyan-fg">pipe</span><span class="ansi-blue-fg">(data, *funcs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    625</span>     """
+<span class="ansi-green-intense-fg ansi-bold">    626</span>     <span class="ansi-green-fg">for</span> func <span class="ansi-green-fg">in</span> funcs<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 627</span><span class="ansi-red-fg">         </span>data <span class="ansi-blue-fg">=</span> func<span class="ansi-blue-fg">(</span>data<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    628</span>     <span class="ansi-green-fg">return</span> data
+<span class="ansi-green-intense-fg ansi-bold">    629</span> 
+
+<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/toolz/functoolz.py</span> in <span class="ansi-cyan-fg">__call__</span><span class="ansi-blue-fg">(self, *args, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    301</span>     <span class="ansi-green-fg">def</span> __call__<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    302</span>         <span class="ansi-green-fg">try</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 303</span><span class="ansi-red-fg">             </span><span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>_partial<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    304</span>         <span class="ansi-green-fg">except</span> TypeError <span class="ansi-green-fg">as</span> exc<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    305</span>             <span class="ansi-green-fg">if</span> self<span class="ansi-blue-fg">.</span>_should_curry<span class="ansi-blue-fg">(</span>args<span class="ansi-blue-fg">,</span> kwargs<span class="ansi-blue-fg">,</span> exc<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/altair/utils/data.py</span> in <span class="ansi-cyan-fg">limit_rows</span><span class="ansi-blue-fg">(data, max_rows)</span>
+<span class="ansi-green-intense-fg ansi-bold">     82</span>             <span class="ansi-blue-fg">"than the maximum allowed ({}). "</span>
+<span class="ansi-green-intense-fg ansi-bold">     83</span>             <span class="ansi-blue-fg">"For information on how to plot larger datasets "</span>
+<span class="ansi-green-fg">---&gt; 84</span><span class="ansi-red-fg">             </span><span class="ansi-blue-fg">"in Altair, see the documentation"</span><span class="ansi-blue-fg">.</span>format<span class="ansi-blue-fg">(</span>max_rows<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     85</span>         )
+<span class="ansi-green-intense-fg ansi-bold">     86</span>     <span class="ansi-green-fg">return</span> data
+
+<span class="ansi-red-fg">MaxRowsError</span>: The number of rows in your dataset is greater than the maximum allowed (5000). For information on how to plot larger datasets in Altair, see the documentation</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>alt.Chart(...)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The limitation can be lifted by calling this function.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">alt</span><span class="o">.</span><span class="n">data_transformers</span><span class="o">.</span><span class="n">disable_max_rows</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>DataTransformerRegistry.enable('default')</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>According to the official <a href="https://altair-viz.github.io/user_guide/faq.html?highlight=maxrowserror">documentation</a>, this is not a good solution. But I did it anyway because I didn't know better. I was then able to make a plot, but it only took seconds for my Colab notebook to crash. So the lesson learned is this:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p></p>
+<div class="flash flash-error">
+    <svg class="octicon octicon-alert" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.22 1.754a.25.25 0 00-.44 0L1.698 13.132a.25.25 0 00.22.368h12.164a.25.25 0 00.22-.368L8.22 1.754zm-1.763-.707c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0114.082 15H1.918a1.75 1.75 0 01-1.543-2.575L6.457 1.047zM9 11a1 1 0 11-2 0 1 1 0 012 0zm-.25-5.25a.75.75 0 00-1.5 0v2.5a.75.75 0 001.5 0v-2.5z"></path></svg>
+    <strong>Warning: </strong>Never disable the restriction for max rows if you’re dealing with a huge amount of data!
+</div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A better way to deal with this is to <strong>pass data by URL</strong>, which only supports <code>json</code> and <code>csv</code> files. So I converted my dataframe to <code>csv</code> and then uploaded it to my GitHub repo. Then all that's needed to start using <code>Altair</code> is the URL to that file.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'kh-house-prices.csv'</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">'utf-8'</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p></p>
+<div class="flash flash-success">
+    <svg class="octicon octicon-checklist octicon octicon-checklist" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M2.5 1.75a.25.25 0 01.25-.25h8.5a.25.25 0 01.25.25v7.736a.75.75 0 101.5 0V1.75A1.75 1.75 0 0011.25 0h-8.5A1.75 1.75 0 001 1.75v11.5c0 .966.784 1.75 1.75 1.75h3.17a.75.75 0 000-1.5H2.75a.25.25 0 01-.25-.25V1.75zM4.75 4a.75.75 0 000 1.5h4.5a.75.75 0 000-1.5h-4.5zM4 7.75A.75.75 0 014.75 7h2a.75.75 0 010 1.5h-2A.75.75 0 014 7.75zm11.774 3.537a.75.75 0 00-1.048-1.074L10.7 14.145 9.281 12.72a.75.75 0 00-1.062 1.058l1.943 1.95a.75.75 0 001.055.008l4.557-4.45z"></path></svg>
+    <strong>Tip: </strong>For <code>Altair</code> to load your dataset properly, make sure the dataset is viewable by entering the URL in your browser. If your dataset is stored on GitHub, that means the URL has to start with <code>https://raw.githubusercontent.com</code> rather than <code>https://github.com</code>.
+</div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This URL is the data source from which we'll be making all the charts.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">url</span><span class="o">=</span> <span class="s2">"https://raw.githubusercontent.com/howard-haowen/kh-real-estate/main/kh-house-prices.csv"</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Simple-charts">
+<a class="anchor" href="#Simple-charts" aria-hidden="true"><span class="octicon octicon-link"></span></a>Simple charts<a class="anchor-link" href="#Simple-charts"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>After we got the data loading and performance issue taken care of, let's break down the syntax of <code>Altair</code>.</p>
+<p>I'm a visual learner, so I personally think the easiest way to get started is to go to the <a href="https://altair-viz.github.io/gallery/index.html">Example Gallery</a> and pick the kind of charts that you'd like to draw. Most of the time, all you need to do is copy-paste the codes and change the data source as well as column names.</p>
+<p>All fancy charts start with something simple.In the case of <code>Altair</code>, it's <code>alt.Chart()</code>, which takes either URL or a <code>pandas</code> DataFrame object (like <code>df</code> in our failed example above) as its argument.</p>
+<p>Then you decide what kinds of marks you'd like to draw on the chart by calling the <code>.mark_X()</code> function, where X could be <code>circle</code> if you want to represent an observation with a circle. Other types of marks used in this post include <code>point</code>, <code>line</code>, <code>bar</code>, and <code>area</code>.</p>
+<p>Finally, you need to call the <code>encode()</code> function in order to map the properties of your dataset onto the chart you're making. In this example below, the function takes three arguments:</p>
+<ul>
+<li>
+<code>x</code> for which column to be mapped to the x axis </li>
+<li>
+<code>y</code> for which column to be mapped to the y axis</li>
+<li>
+<code>color</code> for which column to be colored on the chart</li>
+</ul>
+<p>Once you pass <code>url</code> to <code>alt.Chart()</code> and the column names in your dataset to <code>encode()</code>, you'll get this chart.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description" open="">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">mark_circle</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="s1">'built_date:T'</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s1">'price_per_sqm:Q'</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s1">'district:N'</span><span class="p">,)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+    </details>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+
+<div id="altair-viz-565d037cc42946fba802497661841dcc"></div>
+<script type="text/javascript">
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-565d037cc42946fba802497661841dcc") {
+      outputDiv = document.getElementById("altair-viz-565d037cc42946fba802497661841dcc");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@4.8.1?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function loadScript(lib) {
+      return new Promise(function(resolve, reject) {
+        var s = document.createElement('script');
+        s.src = paths[lib];
+        s.async = true;
+        s.onload = () => resolve(paths[lib]);
+        s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+        document.getElementsByTagName("head")[0].appendChild(s);
+      });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else if (typeof vegaEmbed === "function") {
+      displayChart(vegaEmbed);
+    } else {
+      loadScript("vega")
+        .then(() => loadScript("vega-lite"))
+        .then(() => loadScript("vega-embed"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "data": {"url": "https://raw.githubusercontent.com/howard-haowen/kh-real-estate/main/kh-house-prices.csv"}, "mark": "circle", "encoding": {"color": {"type": "nominal", "field": "district"}, "x": {"type": "temporal", "field": "built_date"}, "y": {"type": "quantitative", "field": "price_per_sqm"}}, "$schema": "https://vega.github.io/schema/vega-lite/v4.8.1.json"}, {"mode": "vega-lite"});
+</script>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p></p>
+<div class="flash">
+    <svg class="octicon octicon-info octicon octicon-info" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"></path></svg>
+    <strong>Note: </strong>If your data source is a dataframe, then column names are sufficient. But if your data source is an URL as is the case here, <strong>you have to specify your data types with <code>:X</code> right after the column names</strong>, where X can be one of these:
+</div>
+<ul>
+<li>
+<code>Q</code> for quantitative data </li>
+<li>
+<code>O</code> for ordinal data</li>
+<li>
+<code>N</code> for nominal data</li>
+<li>
+<code>T</code> for temporal data</li>
+<li>
+<code>G</code> for geographic data</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>And one thing that I like about <code>Altair</code> is that there're lots of predefined aggregate functions that you can use on the fly. For instance, you can pass temporal data to the function <code>yearmonth()</code>, which aggreates data points in terms of year and month. Or you can pass quantitative data to <code>average()</code>, which calculates the mean for you. This way, you won't have to create additional columns using <code>pandas</code> and keep your raw data as minimal as possible.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">mark_circle</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="s1">'yearmonth(built_date):T'</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s1">'average(price_per_sqm):Q'</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s1">'district:N'</span><span class="p">,)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Output" data-close="Show Output"></summary>
+        <p>
+</p>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+
+<div id="altair-viz-9b64202012c74c41b3a1a13d7bbf72e3"></div>
+<script type="text/javascript">
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-9b64202012c74c41b3a1a13d7bbf72e3") {
+      outputDiv = document.getElementById("altair-viz-9b64202012c74c41b3a1a13d7bbf72e3");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@4.8.1?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function loadScript(lib) {
+      return new Promise(function(resolve, reject) {
+        var s = document.createElement('script');
+        s.src = paths[lib];
+        s.async = true;
+        s.onload = () => resolve(paths[lib]);
+        s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+        document.getElementsByTagName("head")[0].appendChild(s);
+      });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else if (typeof vegaEmbed === "function") {
+      displayChart(vegaEmbed);
+    } else {
+      loadScript("vega")
+        .then(() => loadScript("vega-lite"))
+        .then(() => loadScript("vega-embed"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "data": {"url": "https://raw.githubusercontent.com/howard-haowen/kh-real-estate/main/kh-house-prices.csv"}, "mark": "circle", "encoding": {"color": {"type": "nominal", "field": "district"}, "x": {"type": "temporal", "field": "built_date", "timeUnit": "yearmonth"}, "y": {"type": "quantitative", "aggregate": "average", "field": "price_per_sqm"}}, "$schema": "https://vega.github.io/schema/vega-lite/v4.8.1.json"}, {"mode": "vega-lite"});
+</script>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In <code>pandas</code>, we'd filter data using <code>df[FILTER]</code>. In <code>Altair</code>, this is done by <code>.transform_filter()</code>. In the chart above, we see that the majority of data points gather in the lower right corner. So one way to zoom in is to set a range for <code>built_year</code> on the x axis, which represents the year a property was built. Suppose we want <code>built_year</code> to fall within 1950 and 2020, we do <code>alt.FieldRangePredicate(field='built_year', range=[1950, 2020])</code>.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">mark_circle</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="s1">'yearmonth(built_date):T'</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s1">'average(price_per_sqm):Q'</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s1">'district:N'</span><span class="p">,)</span><span class="o">.</span><span class="n">transform_filter</span><span class="p">(</span>
+        <span class="n">alt</span><span class="o">.</span><span class="n">FieldRangePredicate</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="s1">'built_year'</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="p">[</span><span class="mi">1950</span><span class="p">,</span> <span class="mi">2020</span><span class="p">])</span>
+    <span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Output" data-close="Show Output"></summary>
+        <p>
+</p>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+
+<div id="altair-viz-c533bbe48da54d0e9d04bbce46d75bb8"></div>
+<script type="text/javascript">
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-c533bbe48da54d0e9d04bbce46d75bb8") {
+      outputDiv = document.getElementById("altair-viz-c533bbe48da54d0e9d04bbce46d75bb8");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@4.8.1?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function loadScript(lib) {
+      return new Promise(function(resolve, reject) {
+        var s = document.createElement('script');
+        s.src = paths[lib];
+        s.async = true;
+        s.onload = () => resolve(paths[lib]);
+        s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+        document.getElementsByTagName("head")[0].appendChild(s);
+      });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else if (typeof vegaEmbed === "function") {
+      displayChart(vegaEmbed);
+    } else {
+      loadScript("vega")
+        .then(() => loadScript("vega-lite"))
+        .then(() => loadScript("vega-embed"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "data": {"url": "https://raw.githubusercontent.com/howard-haowen/kh-real-estate/main/kh-house-prices.csv"}, "mark": "circle", "encoding": {"color": {"type": "nominal", "field": "district"}, "x": {"type": "temporal", "field": "built_date", "timeUnit": "yearmonth"}, "y": {"type": "quantitative", "aggregate": "average", "field": "price_per_sqm"}}, "transform": [{"filter": {"field": "built_year", "range": [1950, 2020]}}], "$schema": "https://vega.github.io/schema/vega-lite/v4.8.1.json"}, {"mode": "vega-lite"});
+</script>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Similarly, if we want <code>price_per_sqm</code> on the y axis, which represents property prices per square meter (in NT$ of course!) to be in the range of 10k and 300k, then we do <code>alt.FieldRangePredicate(field='price_per_sqm', range=[10000, 300000])</code>.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">mark_circle</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="s1">'yearmonth(built_date):T'</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s1">'average(price_per_sqm):Q'</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s1">'district:N'</span><span class="p">,)</span><span class="o">.</span><span class="n">transform_filter</span><span class="p">(</span>
+        <span class="n">alt</span><span class="o">.</span><span class="n">FieldRangePredicate</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="s1">'price_per_sqm'</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="p">[</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">300000</span><span class="p">])</span>
+    <span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Output" data-close="Show Output"></summary>
+        <p>
+</p>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+
+<div id="altair-viz-b2768781cf9541889a5d84550f7d2c16"></div>
+<script type="text/javascript">
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-b2768781cf9541889a5d84550f7d2c16") {
+      outputDiv = document.getElementById("altair-viz-b2768781cf9541889a5d84550f7d2c16");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@4.8.1?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function loadScript(lib) {
+      return new Promise(function(resolve, reject) {
+        var s = document.createElement('script');
+        s.src = paths[lib];
+        s.async = true;
+        s.onload = () => resolve(paths[lib]);
+        s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+        document.getElementsByTagName("head")[0].appendChild(s);
+      });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else if (typeof vegaEmbed === "function") {
+      displayChart(vegaEmbed);
+    } else {
+      loadScript("vega")
+        .then(() => loadScript("vega-lite"))
+        .then(() => loadScript("vega-embed"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "data": {"url": "https://raw.githubusercontent.com/howard-haowen/kh-real-estate/main/kh-house-prices.csv"}, "mark": "circle", "encoding": {"color": {"type": "nominal", "field": "district"}, "x": {"type": "temporal", "field": "built_date", "timeUnit": "yearmonth"}, "y": {"type": "quantitative", "aggregate": "average", "field": "price_per_sqm"}}, "transform": [{"filter": {"field": "price_per_sqm", "range": [10000, 300000]}}], "$schema": "https://vega.github.io/schema/vega-lite/v4.8.1.json"}, {"mode": "vega-lite"});
+</script>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>But what if we want to filter data from multiple columns? I found that an easy way to do that is to use <code>datum.X</code>, where X is a column name. Then the syntax is just like what you'd see in <code>pandas</code>. Suppose we want <code>built_year</code> to be greater than 1950 and <code>price_per_sqm</code> less than 300k, then we do <code>(datum.built_year &gt; 1950) &amp; (datum.price_per_sqm &lt; 300000)</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p></p>
+<div class="flash flash-warn">
+    <svg class="octicon octicon-zap" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
+    <strong>Important: </strong>It took me a while to figure what what kind of object <code>datum</code> is. It turns out that <code>Altair</code> is smart enough to take care of everything for you as long as you import <code>datum</code>. So be sure to do this: <code>from altair import datum</code>.
+</div>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">mark_circle</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="s1">'yearmonth(built_date):T'</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s1">'average(price_per_sqm):Q'</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s1">'district:N'</span><span class="p">,)</span><span class="o">.</span><span class="n">transform_filter</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">datum</span><span class="o">.</span><span class="n">built_year</span> <span class="o">&gt;</span> <span class="mi">1950</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">datum</span><span class="o">.</span><span class="n">price_per_sqm</span> <span class="o">&lt;</span> <span class="mi">300000</span><span class="p">)</span>
+    <span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Output" data-close="Show Output"></summary>
+        <p>
+</p>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+
+<div id="altair-viz-7b95755c26c846a89b3ec2c0de5ee42d"></div>
+<script type="text/javascript">
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-7b95755c26c846a89b3ec2c0de5ee42d") {
+      outputDiv = document.getElementById("altair-viz-7b95755c26c846a89b3ec2c0de5ee42d");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@4.8.1?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function loadScript(lib) {
+      return new Promise(function(resolve, reject) {
+        var s = document.createElement('script');
+        s.src = paths[lib];
+        s.async = true;
+        s.onload = () => resolve(paths[lib]);
+        s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+        document.getElementsByTagName("head")[0].appendChild(s);
+      });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else if (typeof vegaEmbed === "function") {
+      displayChart(vegaEmbed);
+    } else {
+      loadScript("vega")
+        .then(() => loadScript("vega-lite"))
+        .then(() => loadScript("vega-embed"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "data": {"url": "https://raw.githubusercontent.com/howard-haowen/kh-real-estate/main/kh-house-prices.csv"}, "mark": "circle", "encoding": {"color": {"type": "nominal", "field": "district"}, "x": {"type": "temporal", "field": "built_date", "timeUnit": "yearmonth"}, "y": {"type": "quantitative", "aggregate": "average", "field": "price_per_sqm"}}, "transform": [{"filter": "((datum.built_year > 1950) && (datum.price_per_sqm < 300000))"}], "$schema": "https://vega.github.io/schema/vega-lite/v4.8.1.json"}, {"mode": "vega-lite"});
+</script>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Finally, if you want to give viewers of your chart the liberty to zoom in and out, you can make an interactive chart simply by adding <code>.interactive()</code> to the end of your syntax. To see the effect, click on any grid of the following chart and then scroll your mouse or move two of your fingers up and down on your Magic Trackpad.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p></p>
+<div class="flash flash-error">
+    <svg class="octicon octicon-alert octicon octicon-alert" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.22 1.754a.25.25 0 00-.44 0L1.698 13.132a.25.25 0 00.22.368h12.164a.25.25 0 00.22-.368L8.22 1.754zm-1.763-.707c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0114.082 15H1.918a1.75 1.75 0 01-1.543-2.575L6.457 1.047zM9 11a1 1 0 11-2 0 1 1 0 012 0zm-.25-5.25a.75.75 0 00-1.5 0v2.5a.75.75 0 001.5 0v-2.5z"></path></svg>
+    <strong>Warning: </strong>Try not to make too many interactive charts if your dataset is huge because they can cause serious performance issues. That’s why I only made three interactive charts in this post. 
+</div>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description" open="">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">mark_circle</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="s1">'yearmonth(built_date):T'</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s1">'average(price_per_sqm):Q'</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s1">'district:N'</span><span class="p">,)</span><span class="o">.</span><span class="n">transform_filter</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">datum</span><span class="o">.</span><span class="n">built_year</span> <span class="o">&gt;</span> <span class="mi">1950</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">datum</span><span class="o">.</span><span class="n">price_per_sqm</span> <span class="o">&lt;</span> <span class="mi">300000</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">interactive</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+    </details>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+
+<div id="altair-viz-6d2ce36a773f4e11bfbf0fb6fd658688"></div>
+<script type="text/javascript">
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-6d2ce36a773f4e11bfbf0fb6fd658688") {
+      outputDiv = document.getElementById("altair-viz-6d2ce36a773f4e11bfbf0fb6fd658688");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@4.8.1?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function loadScript(lib) {
+      return new Promise(function(resolve, reject) {
+        var s = document.createElement('script');
+        s.src = paths[lib];
+        s.async = true;
+        s.onload = () => resolve(paths[lib]);
+        s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+        document.getElementsByTagName("head")[0].appendChild(s);
+      });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else if (typeof vegaEmbed === "function") {
+      displayChart(vegaEmbed);
+    } else {
+      loadScript("vega")
+        .then(() => loadScript("vega-lite"))
+        .then(() => loadScript("vega-embed"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "data": {"url": "https://raw.githubusercontent.com/howard-haowen/kh-real-estate/main/kh-house-prices.csv"}, "mark": "circle", "encoding": {"color": {"type": "nominal", "field": "district"}, "x": {"type": "temporal", "field": "built_date", "timeUnit": "yearmonth"}, "y": {"type": "quantitative", "aggregate": "average", "field": "price_per_sqm"}}, "selection": {"selector010": {"type": "interval", "bind": "scales", "encodings": ["x", "y"]}}, "transform": [{"filter": "((datum.built_year > 1950) && (datum.price_per_sqm < 300000))"}], "$schema": "https://vega.github.io/schema/vega-lite/v4.8.1.json"}, {"mode": "vega-lite"});
+</script>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>I think that's enough for the basics and for you to keep the ball rolling. Coming up are some of the numerous fancy charts that you can make with <code>Altair</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Complex-charts">
+<a class="anchor" href="#Complex-charts" aria-hidden="true"><span class="octicon octicon-link"></span></a>Complex charts<a class="anchor-link" href="#Complex-charts"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Suppose we want to create a scatter plot where viewers can focus on data points from a particular district of their choice, the  <code>.add_selection()</code> function can be quite handy. Let's first check out the unique districts in the datasets. (Btw, there're more districts in Kaohsiung. These are simply more densely populated areas.)</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">districts</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">district</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">districts</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>['鼓山區', '前金區', '前鎮區', '三民區', '楠梓區', '左營區', '鳳山區', '新興區', '苓雅區']</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We first create a variable <code>selection</code>, which we'll pass to <code>.add_selection()</code> later. The <code>selection</code> itself is a built-in function called <code>alt.selection_single()</code>, which takes the following arguments:</p>
+<ul>
+<li>
+<code>name</code> for the name you want to display in the selection area</li>
+<li>
+<code>fields</code> for a list of column names that views can choose from</li>
+<li>
+<code>init</code> for a dictionary specifying the default value for each selectable column </li>
+<li>
+<code>bind</code> for a dictionary specifying the way a column is to be selected (in this case, <code>alt.binding_select()</code> for a drop down box) and its possible values (indicated by the argument <code>options</code>)</li>
+</ul>
+<p>Additionally, if we want to display information about a data point upon mouseover, we can pass a list of column names to the argument <code>tooltip</code> of the <code>.encode()</code> function.</p>
+<p>Importantly, <strong>for the interaction to work, we have to add <code>.add_selection(selection)</code> right before the <code>.encode()</code> function</strong>.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description" open="">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">selection</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">selection_single</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">'Select'</span><span class="p">,</span>
+    <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">'district'</span><span class="p">,</span> <span class="p">],</span>
+    <span class="n">init</span><span class="o">=</span><span class="p">{</span><span class="s1">'district'</span><span class="p">:</span> <span class="s1">'左營區'</span><span class="p">,</span> <span class="p">},</span>
+    <span class="n">bind</span><span class="o">=</span><span class="p">{</span><span class="s1">'district'</span><span class="p">:</span> <span class="n">alt</span><span class="o">.</span><span class="n">binding_select</span><span class="p">(</span><span class="n">options</span><span class="o">=</span><span class="n">districts</span><span class="p">),</span> <span class="p">}</span>
+<span class="p">)</span>
+
+<span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">mark_circle</span><span class="p">()</span><span class="o">.</span><span class="n">add_selection</span><span class="p">(</span><span class="n">selection</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="s1">'yearmonth(built_date):T'</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s1">'price_per_sqm:Q'</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">condition</span><span class="p">(</span><span class="n">selection</span><span class="p">,</span> <span class="s1">'district:N'</span><span class="p">,</span> <span class="n">alt</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="s1">'lightgray'</span><span class="p">)),</span>
+    <span class="n">tooltip</span><span class="o">=</span><span class="p">[</span><span class="s1">'property_type:N'</span><span class="p">,</span><span class="s1">'property_area:Q'</span><span class="p">,</span><span class="s1">'parking_area:Q'</span><span class="p">,</span> 
+             <span class="s1">'built_date:T'</span><span class="p">,</span><span class="s1">'tradinng_date:T'</span><span class="p">,</span><span class="s1">'price_per_sqm:Q'</span><span class="p">],</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">transform_filter</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">datum</span><span class="o">.</span><span class="n">built_year</span> <span class="o">&gt;</span> <span class="mi">1950</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">datum</span><span class="o">.</span><span class="n">price_per_sqm</span> <span class="o">&lt;</span> <span class="mi">200000</span><span class="p">)</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">interactive</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+    </details>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+
+<div id="altair-viz-d6d499f124044e168057d13a4b423fca"></div>
+<script type="text/javascript">
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-d6d499f124044e168057d13a4b423fca") {
+      outputDiv = document.getElementById("altair-viz-d6d499f124044e168057d13a4b423fca");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@4.8.1?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function loadScript(lib) {
+      return new Promise(function(resolve, reject) {
+        var s = document.createElement('script');
+        s.src = paths[lib];
+        s.async = true;
+        s.onload = () => resolve(paths[lib]);
+        s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+        document.getElementsByTagName("head")[0].appendChild(s);
+      });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else if (typeof vegaEmbed === "function") {
+      displayChart(vegaEmbed);
+    } else {
+      loadScript("vega")
+        .then(() => loadScript("vega-lite"))
+        .then(() => loadScript("vega-embed"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "data": {"url": "https://raw.githubusercontent.com/howard-haowen/kh-real-estate/main/kh-house-prices.csv"}, "mark": "circle", "encoding": {"color": {"condition": {"type": "nominal", "field": "district", "selection": "Select"}, "value": "lightgray"}, "tooltip": [{"type": "nominal", "field": "property_type"}, {"type": "quantitative", "field": "property_area"}, {"type": "quantitative", "field": "parking_area"}, {"type": "temporal", "field": "built_date"}, {"type": "temporal", "field": "tradinng_date"}, {"type": "quantitative", "field": "price_per_sqm"}], "x": {"type": "temporal", "field": "built_date", "timeUnit": "yearmonth"}, "y": {"type": "quantitative", "field": "price_per_sqm"}}, "selection": {"Select": {"type": "single", "fields": ["district"], "init": {"district": "\u5de6\u71df\u5340"}, "bind": {"district": {"input": "select", "options": ["\u9f13\u5c71\u5340", "\u524d\u91d1\u5340", "\u524d\u93ae\u5340", "\u4e09\u6c11\u5340", "\u6960\u6893\u5340", "\u5de6\u71df\u5340", "\u9cf3\u5c71\u5340", "\u65b0\u8208\u5340", "\u82d3\u96c5\u5340"]}}}, "selector018": {"type": "interval", "bind": "scales", "encodings": ["x", "y"]}}, "transform": [{"filter": "((datum.built_year > 1950) && (datum.price_per_sqm < 200000))"}], "$schema": "https://vega.github.io/schema/vega-lite/v4.8.1.json"}, {"mode": "vega-lite"});
+</script>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can also make two charts and then concatenat them vertically by calling the function <code>alt.vconcat()</code>, which takes chart objects and <code>data</code> as its arguments.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description" open="">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">selection</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">selection_multi</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">'district'</span><span class="p">])</span>
+
+<span class="n">top</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">()</span><span class="o">.</span><span class="n">mark_line</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="s1">'yearmonth(built_date):T'</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s1">'mean(price_per_sqm):Q'</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s1">'district:N'</span>
+<span class="p">)</span><span class="o">.</span><span class="n">properties</span><span class="p">(</span>
+    <span class="n">width</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">200</span>
+<span class="p">)</span><span class="o">.</span><span class="n">transform_filter</span><span class="p">(</span>
+    <span class="n">selection</span>
+<span class="p">)</span>
+
+<span class="n">bottom</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">()</span><span class="o">.</span><span class="n">mark_bar</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="s1">'yearmonth(trading_date):T'</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s1">'mean(price_per_sqm):Q'</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">condition</span><span class="p">(</span><span class="n">selection</span><span class="p">,</span> <span class="n">alt</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="s1">'steelblue'</span><span class="p">),</span> <span class="n">alt</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="s1">'lightgray'</span><span class="p">))</span>
+<span class="p">)</span><span class="o">.</span><span class="n">properties</span><span class="p">(</span>
+    <span class="n">width</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">100</span>
+<span class="p">)</span><span class="o">.</span><span class="n">add_selection</span><span class="p">(</span>
+    <span class="n">selection</span>
+<span class="p">)</span>
+
+<span class="n">alt</span><span class="o">.</span><span class="n">vconcat</span><span class="p">(</span>
+    <span class="n">top</span><span class="p">,</span> <span class="n">bottom</span><span class="p">,</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">url</span>
+<span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+    </details>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+
+<div id="altair-viz-957214e65f364acbae8676096ad161f8"></div>
+<script type="text/javascript">
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-957214e65f364acbae8676096ad161f8") {
+      outputDiv = document.getElementById("altair-viz-957214e65f364acbae8676096ad161f8");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@4.8.1?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function loadScript(lib) {
+      return new Promise(function(resolve, reject) {
+        var s = document.createElement('script');
+        s.src = paths[lib];
+        s.async = true;
+        s.onload = () => resolve(paths[lib]);
+        s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+        document.getElementsByTagName("head")[0].appendChild(s);
+      });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else if (typeof vegaEmbed === "function") {
+      displayChart(vegaEmbed);
+    } else {
+      loadScript("vega")
+        .then(() => loadScript("vega-lite"))
+        .then(() => loadScript("vega-embed"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "vconcat": [{"mark": "line", "encoding": {"color": {"type": "nominal", "field": "district"}, "x": {"type": "temporal", "field": "built_date", "timeUnit": "yearmonth"}, "y": {"type": "quantitative", "aggregate": "mean", "field": "price_per_sqm"}}, "height": 200, "transform": [{"filter": {"selection": "selector004"}}], "width": 600}, {"mark": "bar", "encoding": {"color": {"condition": {"value": "steelblue", "selection": "selector004"}, "value": "lightgray"}, "x": {"type": "temporal", "field": "trading_date", "timeUnit": "yearmonth"}, "y": {"type": "quantitative", "aggregate": "mean", "field": "price_per_sqm"}}, "height": 100, "selection": {"selector004": {"type": "multi", "fields": ["district"]}}, "width": 600}], "data": {"url": "https://raw.githubusercontent.com/howard-haowen/kh-real-estate/main/kh-house-prices.csv"}, "$schema": "https://vega.github.io/schema/vega-lite/v4.8.1.json"}, {"mode": "vega-lite"});
+</script>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can make one chart respond to another chart based on selection on the second one. This can be useful when we want to have both a global and detailed view of the same chart. The key function we need is <code>alt.Scale()</code>. Watch the top chart change as you select different areas of the bottom chart.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description" open="">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">brush</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">selection</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">'interval'</span><span class="p">,</span> <span class="n">encodings</span><span class="o">=</span><span class="p">[</span><span class="s1">'x'</span><span class="p">])</span>
+
+<span class="n">base</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">mark_area</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="s1">'yearmonth(built_date):T'</span><span class="p">,</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="s1">'price_per_sqm:Q'</span>
+<span class="p">)</span><span class="o">.</span><span class="n">properties</span><span class="p">(</span>
+    <span class="n">width</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span>
+    <span class="n">height</span><span class="o">=</span><span class="mi">200</span>
+<span class="p">)</span>
+
+<span class="n">upper</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s1">'yearmonth(built_date):T'</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Scale</span><span class="p">(</span><span class="n">domain</span><span class="o">=</span><span class="n">brush</span><span class="p">))</span>
+<span class="p">)</span>
+
+<span class="n">lower</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">properties</span><span class="p">(</span>
+    <span class="n">height</span><span class="o">=</span><span class="mi">60</span>
+<span class="p">)</span><span class="o">.</span><span class="n">add_selection</span><span class="p">(</span><span class="n">brush</span><span class="p">)</span>
+
+<span class="n">upper</span> <span class="o">&amp;</span> <span class="n">lower</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+    </details>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+
+<div id="altair-viz-816ed6f3db824f0db7565b0d992d88a5"></div>
+<script type="text/javascript">
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-816ed6f3db824f0db7565b0d992d88a5") {
+      outputDiv = document.getElementById("altair-viz-816ed6f3db824f0db7565b0d992d88a5");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@4.8.1?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function loadScript(lib) {
+      return new Promise(function(resolve, reject) {
+        var s = document.createElement('script');
+        s.src = paths[lib];
+        s.async = true;
+        s.onload = () => resolve(paths[lib]);
+        s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+        document.getElementsByTagName("head")[0].appendChild(s);
+      });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else if (typeof vegaEmbed === "function") {
+      displayChart(vegaEmbed);
+    } else {
+      loadScript("vega")
+        .then(() => loadScript("vega-lite"))
+        .then(() => loadScript("vega-embed"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "vconcat": [{"mark": "area", "encoding": {"x": {"type": "temporal", "field": "built_date", "scale": {"domain": {"selection": "selector003"}}, "timeUnit": "yearmonth"}, "y": {"type": "quantitative", "field": "price_per_sqm"}}, "height": 200, "width": 600}, {"mark": "area", "encoding": {"x": {"type": "temporal", "field": "built_date", "timeUnit": "yearmonth"}, "y": {"type": "quantitative", "field": "price_per_sqm"}}, "height": 60, "selection": {"selector003": {"type": "interval", "encodings": ["x"]}}, "width": 600}], "data": {"url": "https://raw.githubusercontent.com/howard-haowen/kh-real-estate/main/kh-house-prices.csv"}, "$schema": "https://vega.github.io/schema/vega-lite/v4.8.1.json"}, {"mode": "vega-lite"});
+</script>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Finally, you can also pick three random variables from your dataset and make a 3 times 3 grid of charts, with each varing in the x and y axis combination. To do that, we'll need to specify repetition in two places: once in the argument of the x and y axis (i.e. <code>alt.repeat()</code> within <code>alt.X</code> and <code>alt.Y</code>) and the other time in the outmost layer of the syntax (i.e. <code>.repeat()</code> at the very end).</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description" open="">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">mark_circle</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="n">alt</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="s2">"column"</span><span class="p">),</span> <span class="nb">type</span><span class="o">=</span><span class="s1">'quantitative'</span><span class="p">),</span>
+    <span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="n">alt</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="s2">"row"</span><span class="p">),</span> <span class="nb">type</span><span class="o">=</span><span class="s1">'quantitative'</span><span class="p">),</span>
+    <span class="n">color</span><span class="o">=</span><span class="s1">'district:N'</span>
+<span class="p">)</span><span class="o">.</span><span class="n">properties</span><span class="p">(</span>
+    <span class="n">width</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span>
+    <span class="n">height</span><span class="o">=</span><span class="mi">150</span>
+<span class="p">)</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span>
+    <span class="n">row</span><span class="o">=</span><span class="p">[</span><span class="s1">'property_area'</span><span class="p">,</span> <span class="s1">'price_per_sqm'</span><span class="p">,</span> <span class="s1">'built_year'</span><span class="p">],</span>
+    <span class="n">column</span><span class="o">=</span><span class="p">[</span><span class="s1">'built_year'</span><span class="p">,</span> <span class="s1">'price_per_sqm'</span><span class="p">,</span> <span class="s1">'property_area'</span><span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+    </details>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+
+<div id="altair-viz-326373cf482547bbb20eed2c452ef44f"></div>
+<script type="text/javascript">
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-326373cf482547bbb20eed2c452ef44f") {
+      outputDiv = document.getElementById("altair-viz-326373cf482547bbb20eed2c452ef44f");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@4.8.1?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function loadScript(lib) {
+      return new Promise(function(resolve, reject) {
+        var s = document.createElement('script');
+        s.src = paths[lib];
+        s.async = true;
+        s.onload = () => resolve(paths[lib]);
+        s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+        document.getElementsByTagName("head")[0].appendChild(s);
+      });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else if (typeof vegaEmbed === "function") {
+      displayChart(vegaEmbed);
+    } else {
+      loadScript("vega")
+        .then(() => loadScript("vega-lite"))
+        .then(() => loadScript("vega-embed"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "repeat": {"column": ["built_year", "price_per_sqm", "property_area"], "row": ["property_area", "price_per_sqm", "built_year"]}, "spec": {"data": {"url": "https://raw.githubusercontent.com/howard-haowen/kh-real-estate/main/kh-house-prices.csv"}, "mark": "circle", "encoding": {"color": {"type": "nominal", "field": "district"}, "x": {"type": "quantitative", "field": {"repeat": "column"}}, "y": {"type": "quantitative", "field": {"repeat": "row"}}}, "height": 150, "width": 150}, "$schema": "https://vega.github.io/schema/vega-lite/v4.8.1.json"}, {"mode": "vega-lite"});
+</script>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Recap">
+<a class="anchor" href="#Recap" aria-hidden="true"><span class="octicon octicon-link"></span></a>Recap<a class="anchor-link" href="#Recap"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>Altair</code> is a Python library worth looking into if you want to show interactive charts on your websites and give your visitors some freedom to play with the outcome. This post only shows what I've tried. If you wish to dig deeper into this library, <a href="https://github.com/uwdata/visualization-curriculum">uwdata/visualization-curriculum</a> seems like a great resource, aside from the <a href="https://altair-viz.github.io">official documentation</a>. Now that you know the average price of real estate in Kaohsiung, TW, would you consider moving down here? 👨‍💻</p>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><a class="u-url" href="/blog.ai/visualization/real-estate-prices/altair/2021/01/24/Visualizing-real-estate-prices-with-Altair.html" hidden></a>
+</article>
+
+<script src="https://utteranc.es/client.js"
+        repo="howard-haowen/blog.ai"
+        issue-term="[ENTER TERM HERE]"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog.ai/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/blog.ai/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/blog.ai/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>AI through a linguist&#39;s looking glass</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/howard-haowen" title="howard-haowen"><svg class="svg-icon grey"><use xlink:href="/blog.ai/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/haowen-jiang-phd-16242074" title="haowen-jiang-phd-16242074"><svg class="svg-icon grey"><use xlink:href="/blog.ai/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
