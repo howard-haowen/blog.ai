@@ -22,12 +22,12 @@ However, awesome as they are, awesome lists can be quite intimidating to go thro
 
 ## The fast stack
 
-I'd like to start with a series of tools that I dub `the fast stack`, including `fastpages`, `fast.ai`, `fastText`, and `fastAPI`. First of all, `fastpages` , designed by the awesome fast.ai team, is basically a template for creating blogs (like this one!). It does lots of awesome things for you hehind the scenes. Features that I like about it include:
+I'd like to start with a series of tools that I dub `the fast stack`, including `fastpages`, `fast.ai`, `fastText`, and `fastAPI`. First of all, `fastpages` , designed by the awesome fast.ai team, is basically a template for building blogs (like this one!) within seconds. It does lots of awesome things for you hehind the scenes. Features that I like about it include:
 
 - automatically converts `.md` and `.ipynb` files on GitHub to posts on your blog
 - automatically adds links to Colab and GitHub
 - shows interactive visualizations of your data with the help of [Altair](https://howard-haowen.github.io/blog.ai/visualization/real-estate-prices/altair/2021/01/24/Visualizing-real-estate-prices-with-Altair.html)
-- supports comments and tags
+- supports comments, tags, and fast search (**super fast at that!**)
 - is free from end to end
 
 Truth be told that I actually failed twice before I successfully set up this blog. The lesson learned is this: **do exactly what's said in the [instructions](https://github.com/fastai/fastpages)!** Humanities majors like me are often taught to be creative, but be sure to leave your creativity at the door when you set up computer programs. This then concludes my first post. Nothing is super technical here since it's just a warm-up. I'll save other tools in the fast stack for another day. 
