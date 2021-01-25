@@ -2,9 +2,10 @@
 toc: true
 layout: post
 title: My First Post
-description: Don't reinvent the wheel.
+description: For almost everything you'd like to learn, there's an awesome list for that on GitHub. On this blog, I plan to add my personal touch to various tools, documenting not only what I did right to get the ball rolling, but also what I did wrong to save you (or even future me) from abysmal frustration.  
 categories: [awesome-list, fastpages]
 image: images/reinvent-the-wheel.jpg
+sticky_rank: 1
 
 ---
 # My First Post: Setting tone for this blog
@@ -21,14 +22,14 @@ However, awesome as they are, awesome lists can be quite intimidating to go thro
 
 ## The fast stack
 
-I'd like to start with a series of tools that I dub `the fast stack`, including `fastpages`, `fast.ai`, `fastText`, and `fastAPI`. ~~Designed by the fast.ai team~~ (not true, thanks go to [Hamel Husain](https://github.com/hamelsmu), who corrected me), `fastpages` is basically a  template for creating a blog (like this one!) and does lots of awesome things for you hehind the scenes. Features that I like about it include:
+I'd like to start with a series of tools that I dub `the fast stack`, including `fastpages`, `fast.ai`, `fastText`, and `fastAPI`. First of all, `fastpages` , designed by the awesome fast.ai team, is basically a template for creating blogs (like this one!). It does lots of awesome things for you hehind the scenes. Features that I like about it include:
 
-- automatically converts `.md` and `.ipynb` files on GitHub to posts on your website
+- automatically converts `.md` and `.ipynb` files on GitHub to posts on your blog
 - automatically adds links to Colab and GitHub
-- shows interactive visualizations of the output of codes
-- supports comments 
+- shows interactive visualizations of your data with the help of [Altair](https://howard-haowen.github.io/blog.ai/visualization/real-estate-prices/altair/2021/01/24/Visualizing-real-estate-prices-with-Altair.html)
+- supports comments and tags
 - is free from end to end
 
-Truth be told that I actually failed twice before I successfully set up this blog. The lesson learned is this: **do exactly what's said in the [instructions](https://github.com/fastai/fastpages)!** Humanities majors like me are often taught to be creative, but be sure to leave your creativity at the door when you set up computer programs. This then concludes my first repo. Nothing is super technical here since it's just a warm-up. I'll save other tools in the fast stack for another day. 
+Truth be told that I actually failed twice before I successfully set up this blog. The lesson learned is this: **do exactly what's said in the [instructions](https://github.com/fastai/fastpages)!** Humanities majors like me are often taught to be creative, but be sure to leave your creativity at the door when you set up computer programs. This then concludes my first post. Nothing is super technical here since it's just a warm-up. I'll save other tools in the fast stack for another day. 
 
 {% include info.html text="I was clueless when I read PR in the instructions. It turns out to mean 'pull requests'. Click on the tab that says 'pull requests' when you are done forking the original repo. Then you're good to go by following the instructions there." %}
