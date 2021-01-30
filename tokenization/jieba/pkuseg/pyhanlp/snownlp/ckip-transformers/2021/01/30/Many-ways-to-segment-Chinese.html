@@ -1,0 +1,2927 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Many ways to segment Chinese | Haowen’s AI blog</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Many ways to segment Chinese" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="This post introduces five Python libraries for segmenting Chinese into words and compares the effect of writing systems on parsing." />
+<meta property="og:description" content="This post introduces five Python libraries for segmenting Chinese into words and compares the effect of writing systems on parsing." />
+<link rel="canonical" href="https://howard-haowen.github.io/blog.ai/tokenization/jieba/pkuseg/pyhanlp/snownlp/ckip-transformers/2021/01/30/Many-ways-to-segment-Chinese.html" />
+<meta property="og:url" content="https://howard-haowen.github.io/blog.ai/tokenization/jieba/pkuseg/pyhanlp/snownlp/ckip-transformers/2021/01/30/Many-ways-to-segment-Chinese.html" />
+<meta property="og:site_name" content="Haowen’s AI blog" />
+<meta property="og:image" content="https://howard-haowen.github.io/blog.ai/images/syntactic-ambiguity.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-01-30T00:00:00-06:00" />
+<script type="application/ld+json">
+{"mainEntityOfPage":{"@type":"WebPage","@id":"https://howard-haowen.github.io/blog.ai/tokenization/jieba/pkuseg/pyhanlp/snownlp/ckip-transformers/2021/01/30/Many-ways-to-segment-Chinese.html"},"url":"https://howard-haowen.github.io/blog.ai/tokenization/jieba/pkuseg/pyhanlp/snownlp/ckip-transformers/2021/01/30/Many-ways-to-segment-Chinese.html","@type":"BlogPosting","headline":"Many ways to segment Chinese","dateModified":"2021-01-30T00:00:00-06:00","datePublished":"2021-01-30T00:00:00-06:00","image":"https://howard-haowen.github.io/blog.ai/images/syntactic-ambiguity.jpg","description":"This post introduces five Python libraries for segmenting Chinese into words and compares the effect of writing systems on parsing.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/blog.ai/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://howard-haowen.github.io/blog.ai/feed.xml" title="Haowen's AI blog" /><link rel="shortcut icon" type="image/x-icon" href="/blog.ai/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog.ai/">Haowen&#39;s AI blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog.ai/about/">About Me</a><a class="page-link" href="/blog.ai/search/">Search</a><a class="page-link" href="/blog.ai/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Many ways to segment Chinese</h1><p class="page-description">This post introduces five Python libraries for segmenting Chinese into words and compares the effect of writing systems on parsing.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-01-30T00:00:00-06:00" itemprop="datePublished">
+        Jan 30, 2021
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      48 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/blog.ai/categories/#tokenization">tokenization</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog.ai/categories/#Jieba">Jieba</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog.ai/categories/#PKUSeg">PKUSeg</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog.ai/categories/#PyHanLP">PyHanLP</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog.ai/categories/#SnowNLP">SnowNLP</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog.ai/categories/#Ckip-Transformers">Ckip-Transformers</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/howard-haowen/blog.ai/tree/master/_notebooks/2021-01-30-Many-ways-to-segment-Chinese.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/blog.ai/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/howard-haowen/blog.ai/master?filepath=_notebooks%2F2021-01-30-Many-ways-to-segment-Chinese.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/blog.ai/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/howard-haowen/blog.ai/blob/master/_notebooks/2021-01-30-Many-ways-to-segment-Chinese.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/blog.ai/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#Intro">Intro </a></li>
+<li class="toc-entry toc-h1"><a href="#Jieba">Jieba </a></li>
+<li class="toc-entry toc-h1"><a href="#PKUSeg">PKUSeg </a></li>
+<li class="toc-entry toc-h1"><a href="#PyHanLP">PyHanLP </a></li>
+<li class="toc-entry toc-h1"><a href="#SnowNLP">SnowNLP </a></li>
+<li class="toc-entry toc-h1"><a href="#CKIP-Transformers">CKIP Transformers </a></li>
+<li class="toc-entry toc-h1"><a href="#Comparison">Comparison </a></li>
+<li class="toc-entry toc-h1"><a href="#Recap">Recap </a></li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2021-01-30-Many-ways-to-segment-Chinese.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Intro">
+<a class="anchor" href="#Intro" aria-hidden="true"><span class="octicon octicon-link"></span></a>Intro<a class="anchor-link" href="#Intro"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Unlike English, Chinese does not use spaces in its writing system, which can be a pain in the neck (or in the eyes, for that matter) if you're learning to read Chinese. In a way, it's like trying to make sense out of long German words like <code>Lebensabschnittspartner</code>, which roughly means "the person I'm with today" (taken from <a href="https://www.newyorker.com/magazine/2011/07/11/easy-tiger">David Sedaris's language lessons</a> published on the New Yorker). We'll see how computer models can help us with breaking a stretch of Chinese text into words (called <code>tokenization</code> in NLP jargon). To give computer models a hard time, we'll test out this text without punctuations.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">text</span> <span class="o">=</span> <span class="s2">"今年好煩惱少不得打官司釀酒剛剛好做醋格外酸養牛隻隻大如山老鼠隻隻死"</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This text is challenging not only because it can be segmented multiple ways but also because it could potentially express quite different meanings depending on how you interprete it. For instance, this part <code>今年好煩惱少不得打官司</code> could either mean "This year will be great for you. You'll have few worries. Don't file any lawsuit" or "This year, you'll be very worried. A lawsuit is inevitable". Either way, it sounds like the kind of aphorism you'd find in fortune cookies. Now that you know  the secret to aphorisms being always right is ambiguity, we'll turn to five Python libraries for doing the hard work for us.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Jieba">
+<a class="anchor" href="#Jieba" aria-hidden="true"><span class="octicon octicon-link"></span></a>Jieba<a class="anchor-link" href="#Jieba"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Of the five tools to be introduced here, <a href="https://github.com/fxsjy/jieba">Jieba</a> is perhaps the most widely used one, and it's even pre-installed on Colab and supported by <a href="https://spacy.io">spaCy</a>. Unfortunately, Jieba told us that a lawsuit is inevitable this year... 😭</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">jieba</span>
+<span class="n">tokens</span> <span class="o">=</span> <span class="n">jieba</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>  
+<span class="n">jieba_default</span> <span class="o">=</span> <span class="s2">" | "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">jieba_default</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+    </details>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Building prefix dict from the default dictionary ...
+Dumping model to file cache /tmp/jieba.cache
+Loading model cost 0.741 seconds.
+Prefix dict has been built successfully.
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>今年 | 好 | 煩惱 | 少不得 | 打官司 | 釀酒 | 剛剛 | 好 | 做 | 醋 | 格外 | 酸養 | 牛 | 隻 | 隻 | 大如山 | 老鼠 | 隻 | 隻 | 死
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The result is quite satisfying, except for <code>酸養</code>, which is not even a word. Jieba is famouse for being super fast. If we run the segmentation function 1000000 times, top results we got are 256 nanoseconds per loop!</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">timeit</span> jieba.cut(text)
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+    </details>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>The slowest run took 12.90 times longer than the fastest. This could mean that an intermediate result is being cached.
+1000000 loops, best of 3: 256 ns per loop
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's write a function for later use.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">Jieba_tokenizer</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+  <span class="n">tokens</span> <span class="o">=</span> <span class="n">jieba</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>  
+  <span class="n">result</span> <span class="o">=</span> <span class="s2">" | "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="PKUSeg">
+<a class="anchor" href="#PKUSeg" aria-hidden="true"><span class="octicon octicon-link"></span></a>PKUSeg<a class="anchor-link" href="#PKUSeg"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As its name suggests, <a href="https://github.com/lancopku/pkuseg-python">PKUSeg</a> is built by the <a href="https://lanco.pku.edu.cn">Language Computing and Machine Learning Group</a> at Peking (aka. Beijing) University. It's been recently integrated into spaCy.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip install -U pkuseg
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Output" data-close="Show Output"></summary>
+        <p>
+</p>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Collecting pkuseg
+  Downloading https://files.pythonhosted.org/packages/ed/68/2dfaa18f86df4cf38a90ef024e18b36d06603ebc992a2dcc16f83b00b80d/pkuseg-0.0.25-cp36-cp36m-manylinux1_x86_64.whl (50.2MB)
+     |████████████████████████████████| 50.2MB 66kB/s 
+Requirement already satisfied, skipping upgrade: numpy&gt;=1.16.0 in /usr/local/lib/python3.6/dist-packages (from pkuseg) (1.19.5)
+Requirement already satisfied, skipping upgrade: cython in /usr/local/lib/python3.6/dist-packages (from pkuseg) (0.29.21)
+Installing collected packages: pkuseg
+Successfully installed pkuseg-0.0.25
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here's the result.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pkuseg</span>
+
+<span class="n">pku</span> <span class="o">=</span> <span class="n">pkuseg</span><span class="o">.</span><span class="n">pkuseg</span><span class="p">()</span>        
+<span class="n">result</span> <span class="o">=</span> <span class="n">pku</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> 
+<span class="n">result</span> <span class="o">=</span> <span class="s2">" | "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<span class="n">result</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+    </details>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>'今年 | 好 | 煩惱 | 少不得 | 打官司 | 釀 | 酒剛 | 剛 | 好 | 做 | 醋 | 格外 | 酸養 | 牛 | 隻隻 | 大 | 如 | 山 | 老鼠 | 隻隻 | 死'</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Compared with Jieba, PKUSeg not only got more wrong tokens (<code>酸養</code> and <code>酒剛</code>) but also ran at a much slower speed.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">timeit</span> pku.cut(text)
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+    </details>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1000 loops, best of 3: 648 µs per loop
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Yet, PKUSeg has one nice feature absent from Jieba.</p>
+<blockquote>
+<p>Users have the option to choose from four domain-specific models, including <code>news</code>, <code>web</code>, <code>medicine</code>, and <code>tourism</code>.</p>
+</blockquote>
+<p>This can be quite helpful if you're specifically dealing with texts in any of the four domains. Let's test the <code>news</code> domain with the first paragraph of a news article about Covid-19 published on <a href="https://tw.news.yahoo.com/%E6%96%B0%E5%86%A0%E8%82%BA%E7%82%8E%E9%98%B2%E7%96%AB-%E9%99%B3%E6%99%82%E4%B8%AD14-00%E8%A8%98%E8%80%85%E6%9C%83%E8%AA%AA%E6%98%8E-020511460.html">Yahoo News</a>.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">article</span> <span class="o">=</span> <span class="s1">'''</span>
+<span class="s1">台灣新冠肺炎連續第6天零本土病例破功！中央流行疫情指揮中心指揮官陳時中今天宣布國內新增4例本土確定病例，均為桃園醫院感染事件之確診個案相關接觸者，其中3例為案863之同住家人(案907、909、910)，研判與案863、864、865為一起家庭群聚案，其中1人（案907）死亡，是相隔8個月以來再添死亡病例；另1例為案889之就醫相關接觸者(案908)。此外，今天也新增6例境外移入確定病例，分別自印尼(案901)、捷克(案902)及巴西(案903至906)入境。衛福部桃園醫院感染累計達19例(其中1人死亡)，全台達909例、8死。</span>
+<span class="s1">'''</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here's the result with the default settinng.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pku</span> <span class="o">=</span> <span class="n">pkuseg</span><span class="o">.</span><span class="n">pkuseg</span><span class="p">()</span>        
+<span class="n">result</span> <span class="o">=</span> <span class="n">pku</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">article</span><span class="p">)</span> 
+<span class="n">result</span> <span class="o">=</span> <span class="s2">" | "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<span class="n">result</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+    </details>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>'台灣 | 新冠 | 肺炎 | 連續 | 第6 | 天 | 零 | 本土 | 病例 | 破功 | ！ | 中央 | 流行 | 疫情 | 指揮 | 中心 | 指揮官 | 陳時 | 中 | 今天 | 宣布 | 國內 | 新增 | 4 | 例 | 本土 | 確定 | 病例 | ， | 均 | 為 | 桃園 | 醫院 | 感染 | 事件 | 之 | 確 | 診個案 | 相關 | 接觸者 | ， | 其中 | 3 | 例 | 為案 | 863 | 之 | 同 | 住家人 | ( | 案 | 907 | 、 | 909 | 、 | 910 | ) | ， | 研判 | 與案 | 863 | 、 | 864 | 、 | 865 | 為 | 一起 | 家庭 | 群聚案 | ， | 其中 | 1 | 人 | （ | 案 | 907 | ） | 死亡 | ， | 是 | 相隔 | 8 | 個 | 月 | 以 | 來 | 再 | 添 | 死亡 | 病例 | ； | 另 | 1 | 例 | 為案 | 889 | 之 | 就 | 醫 | 相關 | 接觸者 | ( | 案 | 908 | ) | 。 | 此外 | ， | 今天 | 也 | 新增 | 6例 | 境外 | 移入 | 確定 | 病例 | ， | 分別 | 自 | 印尼 | ( | 案 | 901 | ) | 、 | 捷克 | ( | 案 | 902 | ) | 及 | 巴西 | ( | 案 | 903 | 至 | 906 | ) | 入境 | 。 | 衛福部 | 桃園 | 醫院 | 感染 | 累計 | 達 | 19 | 例 | ( | 其中 | 1 | 人 | 死亡 | ) | ， | 全 | 台 | 達 | 909 | 例 | 、 | 8 | 死 | 。'</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here's the result with the <code>model_name</code> argument set to <code>news</code>. Both models made some mistakes here and there, but what's surprising to me is that the news-specific model even made a mistake when parsing <code>新冠肺炎</code>, which literally means "new coronavirus disease" and refers to Covid-19.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pku</span> <span class="o">=</span> <span class="n">pkuseg</span><span class="o">.</span><span class="n">pkuseg</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="s1">'news'</span><span class="p">)</span>        
+<span class="n">result</span> <span class="o">=</span> <span class="n">pku</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">article</span><span class="p">)</span> 
+<span class="n">result</span> <span class="o">=</span> <span class="s2">" | "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<span class="n">result</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+    </details>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Downloading: "https://github.com/lancopku/pkuseg-python/releases/download/v0.0.16/news.zip" to /root/.pkuseg/news.zip
+100%|██████████| 43767759/43767759 [00:00&lt;00:00, 104004889.71it/s]
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>'台灣 | 新 | 冠 | 肺 | 炎連 | 續 | 第6天 | 零本土 | 病例 | 破功 | ！ | 中央 | 流行疫情指揮中心 | 指揮 | 官 | 陳 | 時 | 中 | 今天 | 宣布 | 國內 | 新增 | 4例 | 本土 | 確定 | 病例 | ， | 均 | 為桃園醫院 | 感染 | 事件 | 之 | 確 | 診 | 個 | 案 | 相關 | 接觸 | 者 | ， | 其中 | 3例 | 為案 | 863 | 之 | 同 | 住 | 家人 | (案 | 907 | 、 | 909 | 、 | 910) | ， | 研判 | 與案 | 863 | 、 | 864 | 、 | 865為 | 一起 | 家庭 | 群 | 聚案 | ， | 其中 | 1 | 人 | （ | 案 | 907 | ） | 死亡 | ， | 是 | 相隔 | 8個月 | 以 | 來 | 再 | 添 | 死亡 | 病例 | ； | 另 | 1例 | 為案 | 889 | 之 | 就 | 醫 | 相關 | 接觸 | 者 | (案 | 908) | 。 | 此外 | ， | 今天 | 也 | 新增 | 6例 | 境外 | 移入 | 確定 | 病例 | ， | 分 | 別 | 自 | 印尼 | (案 | 901) | 、 | 捷克 | (案 | 902) | 及 | 巴西 | (案 | 903至906 | ) | 入境 | 。 | 衛 | 福部桃園醫院 | 感染 | 累 | 計達 | 19例 | ( | 其中 | 1 | 人 | 死亡 | ) | ， | 全 | 台 | 達 | 909例 | 、 | 8 | 死 | 。'</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's write a function for later use.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">PKU_tokenizer</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+  <span class="n">pku</span> <span class="o">=</span> <span class="n">pkuseg</span><span class="o">.</span><span class="n">pkuseg</span><span class="p">()</span>
+  <span class="n">tokens</span> <span class="o">=</span> <span class="n">pku</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> 
+  <span class="n">result</span> <span class="o">=</span> <span class="s2">" | "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="PyHanLP">
+<a class="anchor" href="#PyHanLP" aria-hidden="true"><span class="octicon octicon-link"></span></a>PyHanLP<a class="anchor-link" href="#PyHanLP"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Next, we'll try <a href="https://github.com/hankcs/pyhanlp">PyHanLP</a>. It'll take some time to download the model and data files (about 640MB in total).</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip install pyhanlp
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Collecting pyhanlp
+  Downloading https://files.pythonhosted.org/packages/8f/99/13078d71bc9f77705a29f932359046abac3001335ea1d21e91120b200b21/pyhanlp-0.1.66.tar.gz (86kB)
+     |████████████████████████████████| 92kB 9.0MB/s 
+Collecting jpype1==0.7.0
+  Downloading https://files.pythonhosted.org/packages/07/09/e19ce27d41d4f66d73ac5b6c6a188c51b506f56c7bfbe6c1491db2d15995/JPype1-0.7.0-cp36-cp36m-manylinux2010_x86_64.whl (2.7MB)
+     |████████████████████████████████| 2.7MB 12.4MB/s 
+Building wheels for collected packages: pyhanlp
+  Building wheel for pyhanlp (setup.py) ... done
+  Created wheel for pyhanlp: filename=pyhanlp-0.1.66-py2.py3-none-any.whl size=29371 sha256=cbe214d3e71b3e4e5692c0570e6eadbafc6845b99409abc5af1d790d9b7ee50f
+  Stored in directory: /root/.cache/pip/wheels/25/8d/5d/6b642484b1abd87474914e6cf0d3f3a15d8f2653e15ff60f9e
+Successfully built pyhanlp
+Installing collected packages: jpype1, pyhanlp
+Successfully installed jpype1-0.7.0 pyhanlp-0.1.66
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pyhanlp</span> <span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>下载 https://file.hankcs.com/hanlp/hanlp-1.7.8-release.zip 到 /usr/local/lib/python3.6/dist-packages/pyhanlp/static/hanlp-1.7.8-release.zip
+100.00%, 1 MB, 187 KB/s, 还有 0 分  0 秒   
+下载 https://file.hankcs.com/hanlp/data-for-1.7.5.zip 到 /usr/local/lib/python3.6/dist-packages/pyhanlp/static/data-for-1.7.8.zip
+98.24%, 626 MB, 8117 KB/s, 还有 0 分  1 秒   </pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>With PyHanLP, we got a similar parsing result, but without the error that Jieba produced.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tokens</span> <span class="o">=</span> <span class="n">HanLP</span><span class="o">.</span><span class="n">segment</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+<span class="n">token_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">res</span><span class="o">.</span><span class="n">word</span> <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">]</span>
+<span class="n">pyhan</span> <span class="o">=</span> <span class="s2">" | "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">token_list</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pyhan</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>今年 | 好 | 煩惱 | 少不得 | 打官司 | 釀 | 酒 | 剛剛 | 好 | 做 | 醋 | 格外 | 酸 | 養 | 牛 | 隻 | 隻 | 大 | 如山 | 老鼠 | 隻 | 隻 | 死
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>However, PyHanLP is about 26 times slower than Jieba, as timed below.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">timeit</span> HanLP.segment(text)
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>The slowest run took 11.80 times longer than the fastest. This could mean that an intermediate result is being cached.
+10000 loops, best of 3: 24.6 µs per loop
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's write a function for later use.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">PyHan_tokenizer</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+  <span class="n">tokens</span> <span class="o">=</span> <span class="n">HanLP</span><span class="o">.</span><span class="n">segment</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+  <span class="n">token_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">res</span><span class="o">.</span><span class="n">word</span> <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">]</span>
+  <span class="n">result</span> <span class="o">=</span> <span class="s2">" | "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">token_list</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="SnowNLP">
+<a class="anchor" href="#SnowNLP" aria-hidden="true"><span class="octicon octicon-link"></span></a>SnowNLP<a class="anchor-link" href="#SnowNLP"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Next is <a href="https://github.com/isnowfy/snownlp">SnowNLP</a>, which I came across only recently. While PyHanLP is about 640MB in size, SnowNLP takes up only less than 40MB.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip install snownlp
+<span class="kn">from</span> <span class="nn">snownlp</span> <span class="kn">import</span> <span class="n">SnowNLP</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Collecting snownlp
+  Downloading https://files.pythonhosted.org/packages/3d/b3/37567686662100d3bce62d3b0f2adec18ab4b9ff2b61abd7a61c39343c1d/snownlp-0.12.3.tar.gz (37.6MB)
+     |████████████████████████████████| 37.6MB 86kB/s 
+Building wheels for collected packages: snownlp
+  Building wheel for snownlp (setup.py) ... done
+  Created wheel for snownlp: filename=snownlp-0.12.3-cp36-none-any.whl size=37760957 sha256=7de1997923cd51c8c45b896d9a29792e57652d5f55e3caf088212be684c50b36
+  Stored in directory: /root/.cache/pip/wheels/f3/81/25/7c197493bd7daf177016f1a951c5c3a53b1c7e9339fd11ec8f
+Successfully built snownlp
+Installing collected packages: snownlp
+Successfully installed snownlp-0.12.3
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>SnowNLP gave a similar result, but made two parsing mistakes. Neither <code>做醋格</code> nor <code>外酸</code> is a legitimate word.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tokens</span> <span class="o">=</span> <span class="n">SnowNLP</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+<span class="n">token_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">tokens</span><span class="o">.</span><span class="n">words</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">snow</span> <span class="o">=</span>  <span class="s2">" | "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">token_list</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">snow</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>今 | 年 | 好 | 煩 | 惱 | 少不得 | 打 | 官司 | 釀 | 酒 | 剛 | 剛 | 好 | 做醋格 | 外酸 | 養 | 牛 | 隻 | 隻 | 大 | 如 | 山 | 老 | 鼠 | 隻 | 隻 | 死
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>SnowNLP not only made more mistakes, but also took longer to run.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">timeit</span>  SnowNLP(text)
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>10000 loops, best of 3: 35.4 µs per loop
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>But SnowNLP has a convenient feature inspired by <a href="https://github.com/sloria/TextBlob">TextBlob</a>. Any instance of <code>SnowNLP()</code> has such attributes as <code>words</code>, <code>pinyin</code> (for romanization of words), <code>tags</code> (for parts of speech tags), and even <code>sentiments</code>, which calculates the probability of a text being positive.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">tokens</span><span class="o">.</span><span class="n">words</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>['今', '年', '好', '煩', '惱', '少不得', '打', '官司', '釀', '酒', '剛', '剛', '好', '做醋格', '外酸', '養', '牛', '隻', '隻', '大', '如', '山', '老', '鼠', '隻', '隻', '死']
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">tokens</span><span class="o">.</span><span class="n">pinyin</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>['jin', 'nian', 'hao', '煩', '惱', 'shao', 'bu', 'de', 'da', 'guan', 'si', '釀', 'jiu', '剛', '剛', 'hao', 'zuo', 'cu', 'ge', 'wai', 'suan', '養', 'niu', '隻', '隻', 'da', 'ru', 'shan', 'lao', 'shu', '隻', '隻', 'si']
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">tokens</span><span class="o">.</span><span class="n">tags</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[('今', 'Tg'), ('年', 'q'), ('好', 'a'), ('煩', 'Rg'), ('惱', 'Rg'), ('少不得', 'Rg'), ('打', 'v'), ('官司', 'n'), ('釀', 'u'), ('酒', 'n'), ('剛', 'i'), ('剛', 'Mg'), ('好', 'a'), ('做醋格', 'Ag'), ('外酸', 'Ng'), ('養', 'Dg'), ('牛', 'Ag'), ('隻', 'Bg'), ('隻', 'a'), ('大', 'a'), ('如', 'v'), ('山', 'n'), ('老', 'a'), ('鼠', 'Ng'), ('隻', 'Ag'), ('隻', 'Bg'), ('死', 'a')]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">tokens</span><span class="o">.</span><span class="n">sentiments</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0.04306320074116554
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Again, let's write a function for later use.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">Snow_tokenizer</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+  <span class="n">tokens</span> <span class="o">=</span> <span class="n">SnowNLP</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+  <span class="n">token_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">tokens</span><span class="o">.</span><span class="n">words</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+  <span class="n">result</span> <span class="o">=</span> <span class="s2">" | "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">token_list</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="CKIP-Transformers">
+<a class="anchor" href="#CKIP-Transformers" aria-hidden="true"><span class="octicon octicon-link"></span></a>CKIP Transformers<a class="anchor-link" href="#CKIP-Transformers"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>While the four models above are primarily trained on simplified Chinese, <a href="https://github.com/ckiplab/ckip-transformers">CKIP Transformers</a> is trained on traditional Chinese. It is created by the <a href="https://ckip.iis.sinica.edu.tw">CKIP Lab</a> at Academia Sinica. As its name suggests, CKIP Transformers is built on the Transformer architecture, such as BERT and ALBERT. 
+</p>
+<div class="flash">
+    <svg class="octicon octicon-info octicon octicon-info octicon octicon-info" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"></path></svg>
+    <strong>Note: </strong>Read this to find out <a href="https://www.codemotion.com/magazine/dev-hub/machine-learning-dev/bert-how-google-changed-nlp-and-how-to-benefit-from-this/">How Google Changed NLP</a>.
+</div>
+<p><img src="https://www.codemotion.com/magazine/wp-content/uploads/2020/05/bert-google-1200x675.png" alt="BERT"></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip install -U ckip-transformers
+<span class="kn">from</span> <span class="nn">ckip_transformers.nlp</span> <span class="kn">import</span> <span class="n">CkipWordSegmenter</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Collecting ckip-transformers
+  Downloading https://files.pythonhosted.org/packages/19/53/81d1a8895cbbc02bf32771a7a43d78ad29a8c281f732816ac422bf54f937/ckip_transformers-0.2.1-py3-none-any.whl
+Collecting transformers&gt;=3.5.0
+  Downloading https://files.pythonhosted.org/packages/88/b1/41130a228dd656a1a31ba281598a968320283f48d42782845f6ba567f00b/transformers-4.2.2-py3-none-any.whl (1.8MB)
+     |████████████████████████████████| 1.8MB 22.8MB/s 
+Requirement already satisfied, skipping upgrade: tqdm&gt;=4.27 in /usr/local/lib/python3.6/dist-packages (from ckip-transformers) (4.41.1)
+Requirement already satisfied, skipping upgrade: torch&gt;=1.1.0 in /usr/local/lib/python3.6/dist-packages (from ckip-transformers) (1.7.0+cu101)
+Collecting sacremoses
+  Downloading https://files.pythonhosted.org/packages/7d/34/09d19aff26edcc8eb2a01bed8e98f13a1537005d31e95233fd48216eed10/sacremoses-0.0.43.tar.gz (883kB)
+     |████████████████████████████████| 890kB 43.0MB/s 
+Requirement already satisfied, skipping upgrade: dataclasses; python_version &lt; "3.7" in /usr/local/lib/python3.6/dist-packages (from transformers&gt;=3.5.0-&gt;ckip-transformers) (0.8)
+Requirement already satisfied, skipping upgrade: packaging in /usr/local/lib/python3.6/dist-packages (from transformers&gt;=3.5.0-&gt;ckip-transformers) (20.8)
+Requirement already satisfied, skipping upgrade: filelock in /usr/local/lib/python3.6/dist-packages (from transformers&gt;=3.5.0-&gt;ckip-transformers) (3.0.12)
+Collecting tokenizers==0.9.4
+  Downloading https://files.pythonhosted.org/packages/0f/1c/e789a8b12e28be5bc1ce2156cf87cb522b379be9cadc7ad8091a4cc107c4/tokenizers-0.9.4-cp36-cp36m-manylinux2010_x86_64.whl (2.9MB)
+     |████████████████████████████████| 2.9MB 49.4MB/s 
+Requirement already satisfied, skipping upgrade: regex!=2019.12.17 in /usr/local/lib/python3.6/dist-packages (from transformers&gt;=3.5.0-&gt;ckip-transformers) (2019.12.20)
+Requirement already satisfied, skipping upgrade: importlib-metadata; python_version &lt; "3.8" in /usr/local/lib/python3.6/dist-packages (from transformers&gt;=3.5.0-&gt;ckip-transformers) (3.4.0)
+Requirement already satisfied, skipping upgrade: numpy in /usr/local/lib/python3.6/dist-packages (from transformers&gt;=3.5.0-&gt;ckip-transformers) (1.19.5)
+Requirement already satisfied, skipping upgrade: requests in /usr/local/lib/python3.6/dist-packages (from transformers&gt;=3.5.0-&gt;ckip-transformers) (2.23.0)
+Requirement already satisfied, skipping upgrade: typing-extensions in /usr/local/lib/python3.6/dist-packages (from torch&gt;=1.1.0-&gt;ckip-transformers) (3.7.4.3)
+Requirement already satisfied, skipping upgrade: future in /usr/local/lib/python3.6/dist-packages (from torch&gt;=1.1.0-&gt;ckip-transformers) (0.16.0)
+Requirement already satisfied, skipping upgrade: six in /usr/local/lib/python3.6/dist-packages (from sacremoses-&gt;transformers&gt;=3.5.0-&gt;ckip-transformers) (1.15.0)
+Requirement already satisfied, skipping upgrade: click in /usr/local/lib/python3.6/dist-packages (from sacremoses-&gt;transformers&gt;=3.5.0-&gt;ckip-transformers) (7.1.2)
+Requirement already satisfied, skipping upgrade: joblib in /usr/local/lib/python3.6/dist-packages (from sacremoses-&gt;transformers&gt;=3.5.0-&gt;ckip-transformers) (1.0.0)
+Requirement already satisfied, skipping upgrade: pyparsing&gt;=2.0.2 in /usr/local/lib/python3.6/dist-packages (from packaging-&gt;transformers&gt;=3.5.0-&gt;ckip-transformers) (2.4.7)
+Requirement already satisfied, skipping upgrade: zipp&gt;=0.5 in /usr/local/lib/python3.6/dist-packages (from importlib-metadata; python_version &lt; "3.8"-&gt;transformers&gt;=3.5.0-&gt;ckip-transformers) (3.4.0)
+Requirement already satisfied, skipping upgrade: certifi&gt;=2017.4.17 in /usr/local/lib/python3.6/dist-packages (from requests-&gt;transformers&gt;=3.5.0-&gt;ckip-transformers) (2020.12.5)
+Requirement already satisfied, skipping upgrade: chardet&lt;4,&gt;=3.0.2 in /usr/local/lib/python3.6/dist-packages (from requests-&gt;transformers&gt;=3.5.0-&gt;ckip-transformers) (3.0.4)
+Requirement already satisfied, skipping upgrade: idna&lt;3,&gt;=2.5 in /usr/local/lib/python3.6/dist-packages (from requests-&gt;transformers&gt;=3.5.0-&gt;ckip-transformers) (2.10)
+Requirement already satisfied, skipping upgrade: urllib3!=1.25.0,!=1.25.1,&lt;1.26,&gt;=1.21.1 in /usr/local/lib/python3.6/dist-packages (from requests-&gt;transformers&gt;=3.5.0-&gt;ckip-transformers) (1.24.3)
+Building wheels for collected packages: sacremoses
+  Building wheel for sacremoses (setup.py) ... done
+  Created wheel for sacremoses: filename=sacremoses-0.0.43-cp36-none-any.whl size=893261 sha256=010fd3e1a8d79574a0b5c323c333d1738886852c4c306fa9d161d1b51f7944b5
+  Stored in directory: /root/.cache/pip/wheels/29/3c/fd/7ce5c3f0666dab31a50123635e6fb5e19ceb42ce38d4e58f45
+Successfully built sacremoses
+Installing collected packages: sacremoses, tokenizers, transformers, ckip-transformers
+Successfully installed ckip-transformers-0.2.1 sacremoses-0.0.43 tokenizers-0.9.4 transformers-4.2.2
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>CKIP Transformers</code> gives its users the freedom to choose between speed and accuracy. It comes with three levels; the smaller the number, the shorter the running time. All you need to do is pass a number to the <code>level</code> argument of <code>CkipWordSegmenter()</code>. Here're the models and F1 scores for each level:</p>
+<ul>
+<li>Level 1: CKIP ALBERT Tiny, 96.66%</li>
+<li>Level 2: CKIP ALBERT Base, 97.33%</li>
+<li>Level 3: CKIP BERT Base, 97.60%</li>
+</ul>
+<p>By comparison, the F1 score for Jieba is only 81.18%. For more stats, visit the <a href="https://github.com/ckiplab/ckip-transformers">CKIP Lab's repo</a>.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ws_driver</span>  <span class="o">=</span> <span class="n">CkipWordSegmenter</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here's the result at Level 1. What's suprising here is that this big chunk <code>大如山老鼠</code> was not further segmented. But this is not a mistake. It simply means that the model has learned it as an idiom.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tokens</span>  <span class="o">=</span> <span class="n">ws_driver</span><span class="p">([</span><span class="n">text</span><span class="p">])</span>
+<span class="n">ckip_1</span> <span class="o">=</span> <span class="s2">" | "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ckip_1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3284.50it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00,  3.98it/s]</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>今年 | 好 | 煩惱 | 少不得 | 打官司 | 釀酒 | 剛剛 | 好 | 做 | 醋 | 格外 | 酸 | 養 | 牛 | 隻隻 | 大如山老鼠 | 隻隻 | 死
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Of the five libraries covered here, CKIP Transformers by far takes the longest time to run. But where it lags behind in speed (i.e. 17.8 ms per loop for top 3 results), it makes it up in accuracy.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p></p>
+<div class="flash flash-error">
+    <svg class="octicon octicon-alert octicon octicon-alert octicon octicon-alert" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.22 1.754a.25.25 0 00-.44 0L1.698 13.132a.25.25 0 00.22.368h12.164a.25.25 0 00.22-.368L8.22 1.754zm-1.763-.707c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0114.082 15H1.918a1.75 1.75 0 01-1.543-2.575L6.457 1.047zM9 11a1 1 0 11-2 0 1 1 0 012 0zm-.25-5.25a.75.75 0 00-1.5 0v2.5a.75.75 0 001.5 0v-2.5z"></path></svg>
+    <strong>Warning: </strong>Don’t toggle to show the output unless you really want to see a long list of details.
+</div>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">timeit</span> ws_driver([text])
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Output" data-close="Show Output"></summary>
+        <p>
+</p>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1721.80it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 97.88it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1529.09it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 132.06it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1633.93it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 153.22it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4549.14it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 140.57it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1354.75it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 147.18it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1138.52it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 126.70it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2458.56it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 117.60it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1108.43it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 171.43it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1831.57it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 115.85it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3184.74it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 132.78it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3622.02it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 112.89it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 605.33it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 127.31it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1614.44it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 127.17it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2353.71it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 72.49it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2058.05it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 103.82it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3847.99it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 117.64it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1375.18it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 148.76it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1582.16it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 76.83it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3248.88it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 114.66it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3141.80it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 121.91it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2935.13it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 101.42it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2993.79it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 131.29it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 665.87it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 119.05it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1216.80it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 140.83it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 302.25it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 132.86it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3276.80it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 84.41it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 388.40it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 121.69it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4490.69it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 103.00it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4288.65it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 103.40it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3640.89it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 90.26it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 249.28it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 115.83it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1954.48it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 77.90it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 710.54it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 123.02it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1486.81it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 87.35it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1965.47it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 72.65it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 505.64it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 101.50it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3070.50it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 102.54it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2706.00it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 75.97it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2582.70it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 130.06it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 500.16it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 102.03it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 484.05it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 166.90it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 570.58it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 108.91it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2185.67it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 94.69it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 335.09it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 111.52it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 347.93it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 96.33it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3844.46it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 129.77it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 541.41it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 137.98it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2597.09it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 103.02it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4319.57it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 98.25it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4987.28it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 86.25it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 533.56it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 119.71it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 589.09it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 111.51it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 367.86it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 110.34it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4396.55it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 92.23it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 550.22it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 103.53it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3971.88it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 109.92it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 430.89it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 149.38it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2421.65it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 113.57it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3418.34it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 111.54it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 923.65it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 114.52it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1027.01it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 126.54it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 338.96it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 152.83it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3075.00it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 75.36it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1933.75it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 78.64it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4804.47it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 124.83it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5017.11it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 111.79it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4116.10it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 66.42it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3788.89it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 65.55it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3785.47it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 104.02it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5184.55it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 122.87it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 584.98it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 116.56it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2949.58it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 126.96it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1034.86it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 132.94it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3692.17it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 137.48it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 513.94it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 147.20it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1015.82it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 110.43it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 483.60it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 96.84it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 958.92it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 93.28it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4076.10it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 89.47it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 374.26it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 107.21it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 383.57it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 100.29it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3360.82it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 174.53it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5289.16it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 116.56it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 505.34it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 136.57it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 371.67it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 160.73it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4279.90it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 91.20it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2314.74it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 100.91it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1760.09it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 86.29it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2141.04it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 60.61it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2222.74it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 62.89it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5249.44it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 100.50it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3059.30it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 104.33it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5102.56it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 86.25it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1640.96it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 133.61it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1925.76it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 105.30it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5769.33it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 125.05it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4559.03it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 104.11it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1612.57it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 69.70it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2332.76it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 141.38it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3328.81it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 119.13it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4809.98it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 128.95it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4258.18it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 93.79it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5256.02it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 114.77it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 347.47it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 116.55it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5540.69it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 92.65it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2531.26it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 144.72it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2322.43it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 125.81it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5866.16it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 114.48it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3581.81it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 110.74it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3872.86it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 116.67it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4975.45it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 116.97it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2727.12it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 80.34it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4593.98it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 102.77it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5461.33it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 105.51it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3949.44it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 99.60it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4963.67it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 148.21it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2228.64it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 111.99it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5115.00it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 76.19it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 809.71it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 148.51it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5242.88it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 142.89it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5184.55it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 147.63it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5777.28it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 136.64it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5159.05it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 137.52it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1851.79it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 112.17it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 910.22it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 58.05it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1122.97it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 121.15it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 857.73it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 66.88it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3515.76it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 88.35it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1228.20it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 117.52it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5555.37it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 143.07it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5849.80it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 133.58it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5197.40it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 105.14it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2364.32it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 162.89it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 735.84it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 91.59it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4044.65it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 74.42it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1099.42it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 88.61it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 615.72it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 72.02it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2549.73it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 81.04it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 449.12it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 137.13it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2538.92it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 100.48it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2227.46it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 129.22it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5236.33it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 100.05it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4132.32it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 72.50it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1465.52it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 83.83it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1186.51it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 110.21it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1879.17it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 77.25it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2431.48it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 124.57it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3578.76it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 106.05it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4514.86it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 110.38it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4181.76it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 107.34it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5178.15it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 98.54it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4975.45it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 106.69it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4691.62it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 73.17it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2323.71it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 64.70it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2063.11it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 123.22it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 198.49it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 105.52it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4359.98it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 84.70it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5133.79it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 105.82it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1329.41it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 71.47it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1265.25it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 104.74it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 460.15it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 105.94it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4387.35it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 110.12it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4040.76it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 117.68it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1589.96it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 117.88it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4249.55it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 126.74it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4452.55it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 48.11it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 393.98it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 67.30it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 786.19it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 107.90it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 133.06it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 98.22it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 240.72it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 89.24it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2581.11it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 131.50it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5065.58it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 104.19it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3102.30it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 77.82it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4644.85it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 101.58it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4744.69it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 117.11it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2286.97it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 45.18it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2661.36it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 93.13it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1713.36it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 48.73it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 996.04it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 109.81it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2339.27it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 110.11it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1211.18it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 137.18it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1178.84it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 152.20it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4670.72it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 106.96it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4728.64it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 68.09it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4262.50it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 88.73it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3968.12it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 111.33it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4614.20it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 119.42it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4194.30it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 110.82it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4629.47it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 113.15it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4301.85it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 137.92it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4253.86it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 108.40it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5035.18it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 113.25it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5336.26it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 95.04it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5035.18it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 99.04it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5077.85it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 98.48it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 496.07it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 40.92it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2598.70it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 101.39it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5562.74it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 44.34it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3695.42it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 115.06it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4373.62it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 110.84it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4410.41it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 112.68it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5667.98it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 111.85it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4144.57it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 113.31it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3688.92it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 84.06it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4373.62it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 40.20it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 513.06it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 72.60it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2792.48it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 76.36it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1015.57it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 62.34it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 551.95it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 86.93it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 940.64it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 74.29it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 528.72it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 92.79it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4832.15it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 103.29it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5178.15it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 104.14it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 791.53it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 89.51it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4559.03it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 102.89it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1060.77it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 105.65it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 515.14it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 98.23it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 576.54it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 100.07it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4337.44it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 104.05it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4373.62it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 75.30it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4364.52it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 76.19it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4739.33it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 96.97it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4223.87it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 101.48it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 980.66it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 94.20it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4568.96it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 97.05it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4514.86it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 57.58it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3506.94it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 91.81it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4088.02it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 95.46it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4140.48it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 85.03it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4132.32it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 78.31it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4288.65it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 88.84it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4391.94it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 97.76it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4462.03it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 93.97it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 510.13it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 95.59it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4060.31it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 98.75it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4433.73it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 83.79it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2562.19it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 121.26it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4946.11it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 106.67it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5384.22it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 101.54it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1106.97it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 69.77it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4563.99it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 110.50it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2968.37it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 134.77it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2319.86it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 48.43it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5497.12it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 121.82it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5907.47it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 136.98it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5940.94it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 95.41it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 675.19it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 120.91it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5540.69it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 102.40it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1164.11it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 129.59it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 604.02it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 125.07it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5932.54it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 112.01it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1723.92it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 132.89it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5907.47it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 127.97it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 6563.86it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 151.31it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4860.14it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 134.68it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 6069.90it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 141.28it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5667.98it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 136.11it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5683.34it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 135.45it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 6204.59it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 129.88it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 6114.15it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 134.34it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4815.50it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 60.48it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 653.42it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 52.92it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5745.62it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 134.67it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5637.51it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 134.49it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5592.41it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 123.33it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4837.72it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 145.63it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1220.34it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 71.65it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 420.40it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 94.50it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 282.44it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 96.75it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 742.75it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 88.30it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5584.96it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 106.23it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5249.44it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 161.28it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3139.45it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 87.41it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 623.87it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 151.41it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 586.12it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 176.54it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5203.85it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 142.15it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5295.84it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 157.33it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 672.81it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 111.38it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 6043.67it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 164.57it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 510.82it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 88.54it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5329.48it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 152.61it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3182.32it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 95.88it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 6123.07it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 180.26it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5584.96it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 139.05it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 6052.39it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 111.67it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5497.12it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 152.09it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 518.39it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 100.05it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 6213.78it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 161.23it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2792.48it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 94.29it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 575.03it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 114.97it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 314.51it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 127.32it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 914.79it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 104.90it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5315.97it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 83.18it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 946.58it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 87.64it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 428.12it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 132.36it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 489.59it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 132.45it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2451.38it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 172.89it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2730.67it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 133.67it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 618.81it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 96.37it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 713.20it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 95.27it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1596.61it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 64.02it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 811.59it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 105.64it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2263.52it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 48.84it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3622.02it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 113.77it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2642.91it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 84.35it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 761.22it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 139.74it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2423.05it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 141.47it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5249.44it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 118.70it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 6000.43it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 93.75it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5991.86it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 135.27it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2798.07it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 108.08it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3246.37it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 117.49it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5223.29it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 126.15it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 6017.65it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 83.89it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3130.08it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 162.87it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2743.17it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 147.38it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2799.94it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 140.69it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1239.45it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 132.71it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3276.80it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 146.19it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1399.97it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 129.02it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 6061.13it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 103.60it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 762.05it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 141.08it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5426.01it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 89.33it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5874.38it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 127.98it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4771.68it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 143.31it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3170.30it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 94.37it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3587.94it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 107.01it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4969.55it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 112.07it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5817.34it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 126.94it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5991.86it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 89.32it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5622.39it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 93.92it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 836.35it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 111.30it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5433.04it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 113.07it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1015.82it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 136.56it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5115.00it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 96.23it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 835.35it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 80.33it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2362.99it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 158.80it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2304.56it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 154.69it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 6626.07it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 142.10it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5146.39it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 64.62it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 424.91it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 121.52it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4928.68it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 149.12it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5698.78it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 140.78it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 6043.67it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 152.59it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5555.37it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 125.98it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 6842.26it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 162.47it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5675.65it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 169.06it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5229.81it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 49.94it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3313.04it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 51.29it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 829.90it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 69.68it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 539.74it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 81.53it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 649.47it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 129.52it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1151.96it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 136.85it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3731.59it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 118.09it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3518.71it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 143.15it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3008.83it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 184.14it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2641.25it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 153.42it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 559.69it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 125.42it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2803.68it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 166.56it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2931.03it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 168.61it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3084.05it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 155.53it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3826.92it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 105.72it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 935.18it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 70.14it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2504.06it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 100.86it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2931.03it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 131.09it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2590.68it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 146.09it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5140.08it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 126.99it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1217.50it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 134.68it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1049.89it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 97.22it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1402.78it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 124.37it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 887.12it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 128.88it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1734.62it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 58.15it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4804.47it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 132.32it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3401.71it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 119.64it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3795.75it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 127.07it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4922.89it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 136.14it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2186.81it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 130.60it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5210.32it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 121.68it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5236.33it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 139.41it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3155.98it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 119.93it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5753.50it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 131.29it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 737.40it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 125.77it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2498.10it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 121.55it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 4723.32it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 99.65it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3548.48it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 159.38it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3457.79it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 121.12it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 964.65it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 127.45it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1173.89it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 129.79it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2757.60it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 171.26it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3013.15it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 106.74it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2830.16it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 169.58it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3569.62it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 114.50it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1367.11it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 121.74it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2563.76it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 148.67it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5857.97it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 109.42it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1149.44it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 124.47it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5899.16it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 131.29it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5761.41it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 139.26it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5426.01it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 124.69it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 670.98it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 111.36it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 973.61it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 108.21it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5637.51it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 133.83it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 588.34it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 129.34it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2849.39it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 92.24it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2743.17it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 124.41it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5817.34it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 126.65it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5983.32it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 105.43it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3045.97it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 147.53it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 501.23it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 105.36it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2514.57it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 148.43it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 5548.02it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 111.28it/s]</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>100 loops, best of 3: 17.8 ms per loop
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's reinstantiate the <code>CkipWordSegmenter()</code> class and set the level to 2 this time.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ws_driver</span>  <span class="o">=</span> <span class="n">CkipWordSegmenter</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here's the result at Level 2, where <code>大如山老鼠</code> was properly segmented into <code>大</code>, <code>如</code>, and <code>山老鼠</code>.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tokens</span>  <span class="o">=</span> <span class="n">ws_driver</span><span class="p">([</span><span class="n">text</span><span class="p">])</span>
+<span class="n">ckip_2</span> <span class="o">=</span> <span class="s2">" | "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ckip_2</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 2253.79it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 47.86it/s]</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>今年 | 好 | 煩惱 | 少不得 | 打官司 | 釀酒 | 剛剛好 | 做醋 | 格外 | 酸 | 養牛 | 隻隻 | 大 | 如 | 山老鼠 | 隻隻 | 死
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Finally, let's create an instance of <code>CkipWordSegmenter()</code> at Level 3.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ws_driver</span>  <span class="o">=</span> <span class="n">CkipWordSegmenter</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>However, Level 3 didn't produce a better result than Level 2. For instance, <code>牛隻</code>, though a legitimate token, is not appropriate in this context.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tokens</span>  <span class="o">=</span> <span class="n">ws_driver</span><span class="p">([</span><span class="n">text</span><span class="p">])</span>
+<span class="n">ckip_3</span> <span class="o">=</span> <span class="s2">" | "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ckip_3</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 976.10it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 59.33it/s]</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>今年 | 好 | 煩惱 | 少不得 | 打官司 | 釀酒 | 剛剛 | 好 | 做 | 醋 | 格外 | 酸 | 養 | 牛隻 | 隻 | 大 | 如 | 山 | 老鼠 | 隻隻 | 死
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here's the function for later use, which takes two arguments instead of one, unlike in previous cases.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">Ckip_tokenizer</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">level</span><span class="p">):</span>
+  <span class="n">ws_driver</span>  <span class="o">=</span> <span class="n">CkipWordSegmenter</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">level</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+  <span class="n">tokens</span>  <span class="o">=</span> <span class="n">ws_driver</span><span class="p">([</span><span class="n">text</span><span class="p">])</span>
+  <span class="n">result</span> <span class="o">=</span> <span class="s2">" | "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+  <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Comparison">
+<a class="anchor" href="#Comparison" aria-hidden="true"><span class="octicon octicon-link"></span></a>Comparison<a class="anchor-link" href="#Comparison"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To compare the five libraries, let's write a general function.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">Tokenizer</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">style</span><span class="p">):</span>
+  <span class="k">if</span> <span class="n">style</span> <span class="o">==</span> <span class="s1">'jieba'</span><span class="p">:</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">Jieba_tokenizer</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+  <span class="k">elif</span> <span class="n">style</span> <span class="o">==</span> <span class="s1">'pku'</span><span class="p">:</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">PKU_tokenizer</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+  <span class="k">elif</span> <span class="n">style</span> <span class="o">==</span> <span class="s1">'pyhan'</span><span class="p">:</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">PyHan_tokenizer</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+  <span class="k">elif</span> <span class="n">style</span> <span class="o">==</span> <span class="s1">'snow'</span><span class="p">:</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">Snow_tokenizer</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+  <span class="k">elif</span> <span class="n">style</span> <span class="o">==</span> <span class="s1">'ckip'</span><span class="p">:</span>
+    <span class="n">res1</span> <span class="o">=</span> <span class="n">Ckip_tokenizer</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">res2</span> <span class="o">=</span> <span class="n">Ckip_tokenizer</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">res3</span> <span class="o">=</span> <span class="n">Ckip_tokenizer</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Level 1: </span><span class="si">{</span><span class="n">res1</span><span class="si">}</span><span class="se">\n</span><span class="s2">Level 2: </span><span class="si">{</span><span class="n">res2</span><span class="si">}</span><span class="se">\n</span><span class="s2">Level 3: </span><span class="si">{</span><span class="n">res3</span><span class="si">}</span><span class="s2">"</span>
+  <span class="n">output</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Result tokenized by </span><span class="si">{</span><span class="n">style</span><span class="si">}</span><span class="s2">: </span><span class="se">\n</span><span class="si">{</span><span class="n">result</span><span class="si">}</span><span class="s2">"</span>
+  <span class="k">return</span> <span class="n">output</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now I'm interested in finding out whether simplified or traditional Chinese would have any effect on segmentation results. In addition to the text we've been trying (let's rename it as <code>text_A</code>), we'll also test another challenging text taken from the <a href="https://github.com/hankcs/pyhanlp">PyHanLP repo</a> (let's call it <code>text_B</code>), which is intended to be ambiguous in multiple places. Given these two texts, two versions of Chinese scripts (simplified and traditional), and five segmentation libraries, we end up having in total 20 combinations of texts and libraries.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">itertools</span>
+
+<span class="n">textA_tra</span> <span class="o">=</span> <span class="s2">"今年好煩惱少不得打官司釀酒剛剛好做醋格外酸養牛隻隻大如山老鼠隻隻死"</span>
+<span class="n">textA_sim</span> <span class="o">=</span> <span class="s2">"今年好烦恼少不得打官司酿酒刚刚好做醋格外酸养牛隻隻大如山老鼠隻隻死"</span>
+<span class="n">textB_tra</span> <span class="o">=</span> <span class="s2">"工信處女幹事每月經過下屬科室都要親口交代24口交換機等技術性器件的安裝工作"</span>
+<span class="n">textB_sim</span> <span class="o">=</span> <span class="s2">"工信处女干事每月经过下属科室都要亲口交代24口交换机等技术性器件的安装工作"</span>
+<span class="n">texts</span> <span class="o">=</span> <span class="p">[</span><span class="n">textA_tra</span><span class="p">,</span> <span class="n">textA_sim</span><span class="p">,</span> <span class="n">textB_tra</span><span class="p">,</span> <span class="n">textB_sim</span><span class="p">]</span>
+<span class="n">tokenizers</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'jieba'</span><span class="p">,</span> <span class="s1">'pku'</span><span class="p">,</span> <span class="s1">'pyhan'</span><span class="p">,</span> <span class="s1">'snow'</span><span class="p">,</span><span class="s1">'ckip'</span><span class="p">]</span>
+
+<span class="n">testing_tup</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">tokenizers</span><span class="p">))</span>
+<span class="n">testing_tup</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[('今年好煩惱少不得打官司釀酒剛剛好做醋格外酸養牛隻隻大如山老鼠隻隻死', 'jieba'),
+ ('今年好煩惱少不得打官司釀酒剛剛好做醋格外酸養牛隻隻大如山老鼠隻隻死', 'pku'),
+ ('今年好煩惱少不得打官司釀酒剛剛好做醋格外酸養牛隻隻大如山老鼠隻隻死', 'pyhan'),
+ ('今年好煩惱少不得打官司釀酒剛剛好做醋格外酸養牛隻隻大如山老鼠隻隻死', 'snow'),
+ ('今年好煩惱少不得打官司釀酒剛剛好做醋格外酸養牛隻隻大如山老鼠隻隻死', 'ckip'),
+ ('今年好烦恼少不得打官司酿酒刚刚好做醋格外酸养牛隻隻大如山老鼠隻隻死', 'jieba'),
+ ('今年好烦恼少不得打官司酿酒刚刚好做醋格外酸养牛隻隻大如山老鼠隻隻死', 'pku'),
+ ('今年好烦恼少不得打官司酿酒刚刚好做醋格外酸养牛隻隻大如山老鼠隻隻死', 'pyhan'),
+ ('今年好烦恼少不得打官司酿酒刚刚好做醋格外酸养牛隻隻大如山老鼠隻隻死', 'snow'),
+ ('今年好烦恼少不得打官司酿酒刚刚好做醋格外酸养牛隻隻大如山老鼠隻隻死', 'ckip'),
+ ('工信處女幹事每月經過下屬科室都要親口交代24口交換機等技術性器件的安裝工作', 'jieba'),
+ ('工信處女幹事每月經過下屬科室都要親口交代24口交換機等技術性器件的安裝工作', 'pku'),
+ ('工信處女幹事每月經過下屬科室都要親口交代24口交換機等技術性器件的安裝工作', 'pyhan'),
+ ('工信處女幹事每月經過下屬科室都要親口交代24口交換機等技術性器件的安裝工作', 'snow'),
+ ('工信處女幹事每月經過下屬科室都要親口交代24口交換機等技術性器件的安裝工作', 'ckip'),
+ ('工信处女干事每月经过下属科室都要亲口交代24口交换机等技术性器件的安装工作', 'jieba'),
+ ('工信处女干事每月经过下属科室都要亲口交代24口交换机等技术性器件的安装工作', 'pku'),
+ ('工信处女干事每月经过下属科室都要亲口交代24口交换机等技术性器件的安装工作', 'pyhan'),
+ ('工信处女干事每月经过下属科室都要亲口交代24口交换机等技术性器件的安装工作', 'snow'),
+ ('工信处女干事每月经过下属科室都要亲口交代24口交换机等技术性器件的安装工作', 'ckip')]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here're the results for traditional <code>textA</code>.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">sent</span> <span class="ow">in</span> <span class="n">testing_tup</span><span class="p">[:</span><span class="mi">5</span><span class="p">]:</span>
+  <span class="n">result</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">(</span><span class="n">sent</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sent</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Result tokenized by jieba: 
+今年 | 好 | 煩惱 | 少不得 | 打官司 | 釀酒 | 剛剛 | 好 | 做 | 醋 | 格外 | 酸養 | 牛 | 隻 | 隻 | 大如山 | 老鼠 | 隻 | 隻 | 死
+Result tokenized by pku: 
+今年 | 好 | 煩惱 | 少不得 | 打官司 | 釀 | 酒剛 | 剛 | 好 | 做 | 醋 | 格外 | 酸養 | 牛 | 隻隻 | 大 | 如 | 山 | 老鼠 | 隻隻 | 死
+Result tokenized by pyhan: 
+今年 | 好 | 煩惱 | 少不得 | 打官司 | 釀 | 酒 | 剛剛 | 好 | 做 | 醋 | 格外 | 酸 | 養 | 牛 | 隻 | 隻 | 大 | 如山 | 老鼠 | 隻 | 隻 | 死
+Result tokenized by snow: 
+今 | 年 | 好 | 煩 | 惱 | 少不得 | 打 | 官司 | 釀 | 酒 | 剛 | 剛 | 好 | 做醋格 | 外酸 | 養 | 牛 | 隻 | 隻 | 大 | 如 | 山 | 老 | 鼠 | 隻 | 隻 | 死
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1287.78it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 136.95it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1394.38it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 66.44it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 998.41it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 60.47it/s]</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Result tokenized by ckip: 
+Level 1: 今年 | 好 | 煩惱 | 少不得 | 打官司 | 釀酒 | 剛剛 | 好 | 做 | 醋 | 格外 | 酸 | 養 | 牛 | 隻隻 | 大如山老鼠 | 隻隻 | 死
+Level 2: 今年 | 好 | 煩惱 | 少不得 | 打官司 | 釀酒 | 剛剛好 | 做醋 | 格外 | 酸 | 養牛 | 隻隻 | 大 | 如 | 山老鼠 | 隻隻 | 死
+Level 3: 今年 | 好 | 煩惱 | 少不得 | 打官司 | 釀酒 | 剛剛 | 好 | 做 | 醋 | 格外 | 酸 | 養 | 牛隻 | 隻 | 大 | 如 | 山 | 老鼠 | 隻隻 | 死
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here're the results for the simplified version of the same text. Notice that the outcome can be quite different simply because a traditional text is converted to its simplified counterpart.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">sent</span> <span class="ow">in</span> <span class="n">testing_tup</span><span class="p">[</span><span class="mi">5</span><span class="p">:</span><span class="mi">10</span><span class="p">]:</span>
+  <span class="n">result</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">(</span><span class="n">sent</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sent</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Result tokenized by jieba: 
+今年 | 好 | 烦恼 | 少不得 | 打官司 | 酿酒 | 刚刚 | 好 | 做 | 醋 | 格外 | 酸 | 养牛 | 隻 | 隻 | 大如山 | 老鼠 | 隻 | 隻 | 死
+Result tokenized by pku: 
+今年 | 好 | 烦恼 | 少不得 | 打官司 | 酿酒 | 刚刚 | 好 | 做 | 醋 | 格外 | 酸养 | 牛隻 | 隻 | 大 | 如 | 山 | 老鼠 | 隻隻 | 死
+Result tokenized by pyhan: 
+今年 | 好 | 烦恼 | 少不得 | 打官司 | 酿酒 | 刚刚好 | 做 | 醋 | 格外 | 酸 | 养牛 | 隻 | 隻 | 大 | 如山 | 老鼠 | 隻 | 隻 | 死
+Result tokenized by snow: 
+今年 | 好 | 烦恼 | 少不得 | 打官司 | 酿酒 | 刚刚 | 好 | 做醋 | 格外 | 酸 | 养 | 牛 | 隻 | 隻 | 大 | 如 | 山 | 老 | 鼠 | 隻 | 隻 | 死
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 303.61it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 123.89it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 695.69it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 66.45it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 392.84it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 72.00it/s]</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Result tokenized by ckip: 
+Level 1: 今年 | 好 | 烦恼 | 少不得 | 打官司 | 酿 | 酒 | 刚刚 | 好 | 做 | 醋 | 格外 | 酸 | 养 | 牛隻隻 | 大如山老鼠 | 隻隻 | 死
+Level 2: 今年 | 好 | 烦恼 | 少不得 | 打官司 | 酿酒 | 刚刚 | 好 | 做醋 | 格外 | 酸 | 养 | 牛 | 隻隻 | 大 | 如 | 山老鼠 | 隻隻 | 死
+Level 3: 今年 | 好 | 烦恼 | 少不得 | 打官司 | 酿酒 | 刚刚好 | 做 | 醋 | 格外 | 酸 | 养 | 牛隻 | 隻 | 大 | 如 | 山 | 老鼠 | 隻隻 | 死
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here're the results for traditional <code>textB</code>. Serious mistakes include <code>處女</code> (for "virgin") and <code>口交</code> (for "blowjob"). Both are correct words in Chinese, but not the intended ones in this context.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">sent</span> <span class="ow">in</span> <span class="n">testing_tup</span><span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">15</span><span class="p">]:</span>
+  <span class="n">result</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">(</span><span class="n">sent</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sent</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Result tokenized by jieba: 
+工信 | 處女 | 幹事 | 每月 | 經過 | 下屬 | 科室 | 都 | 要 | 親口 | 交代 | 24 | 口交 | 換機 | 等 | 技術性 | 器件 | 的 | 安裝 | 工作
+Result tokenized by pku: 
+工信 | 處女 | 幹事 | 每月 | 經 | 過下 | 屬科室 | 都 | 要 | 親口 | 交代 | 24 | 口 | 交 | 換機 | 等 | 技術性 | 器件 | 的 | 安裝 | 工作
+Result tokenized by pyhan: 
+工 | 信 | 處女 | 幹 | 事 | 每月 | 經 | 過 | 下 | 屬 | 科室 | 都 | 要 | 親 | 口 | 交代 | 24 | 口交 | 換機 | 等 | 技 | 術 | 性 | 器件 | 的 | 安 | 裝 | 工作
+Result tokenized by snow: 
+工 | 信 | 處 | 女 | 幹 | 事 | 每 | 月 | 經 | 過 | 下 | 屬 | 科室 | 都 | 要 | 親口 | 交代 | 24 | 口 | 交 | 換 | 機 | 等 | 技 | 術性 | 器件 | 的 | 安 | 裝 | 工作
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 494.49it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 119.49it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 402.87it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 60.66it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 3942.02it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 60.56it/s]</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Result tokenized by ckip: 
+Level 1: 工信 | 處女 | 幹事 | 每 | 月 | 經過 | 下屬 | 科室 | 都 | 要 | 親口 | 交代 | 24 | 口 | 交換機 | 等 | 技術性 | 器件 | 的 | 安裝 | 工作
+Level 2: 工信處 | 女 | 幹事 | 每 | 月 | 經過 | 下屬 | 科室 | 都 | 要 | 親口 | 交代 | 24 | 口 | 交換機 | 等 | 技術性 | 器件 | 的 | 安裝 | 工作
+Level 3: 工信處 | 女 | 幹事 | 每 | 月 | 經過 | 下屬 | 科室 | 都 | 要 | 親口 | 交代 | 24 | 口 | 交換機 | 等 | 技術性 | 器件 | 的 | 安裝 | 工作
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here're the results for the simplified version of <code>textB</code>. In terms of <code>textB</code>, CKIP Transformers Level 2 and 3 are most stable, giving the same error-free results regardless of the writing sytems.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">sent</span> <span class="ow">in</span> <span class="n">testing_tup</span><span class="p">[</span><span class="mi">15</span><span class="p">:]:</span>
+  <span class="n">result</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">(</span><span class="n">sent</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sent</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+    </details>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Result tokenized by jieba: 
+工信处 | 女干事 | 每月 | 经过 | 下属 | 科室 | 都 | 要 | 亲口 | 交代 | 24 | 口 | 交换机 | 等 | 技术性 | 器件 | 的 | 安装 | 工作
+Result tokenized by pku: 
+工信 | 处女 | 干事 | 每月 | 经过 | 下属 | 科室 | 都 | 要 | 亲口 | 交代 | 24 | 口 | 交换机 | 等 | 技术性 | 器件 | 的 | 安装 | 工作
+Result tokenized by pyhan: 
+工信处 | 女干事 | 每月 | 经过 | 下属 | 科室 | 都 | 要 | 亲口 | 交代 | 24 | 口 | 交换机 | 等 | 技术性 | 器件 | 的 | 安装 | 工作
+Result tokenized by snow: 
+工 | 信处女 | 干事 | 每月 | 经过 | 下属 | 科室 | 都 | 要 | 亲口 | 交代 | 24 | 口 | 交换机 | 等 | 技术性 | 器件 | 的 | 安装 | 工作
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1220.69it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 131.83it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 878.39it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 71.48it/s]
+Tokenization: 100%|██████████| 1/1 [00:00&lt;00:00, 1254.65it/s]
+Inference: 100%|██████████| 1/1 [00:00&lt;00:00, 60.75it/s]</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Result tokenized by ckip: 
+Level 1: 工信处 | 女干 | 事 | 每 | 月 | 经过 | 下 | 属 | 科室 | 都 | 要 | 亲 | 口 | 交代 | 24 | 口 | 交换机 | 等 | 技术性 | 器件 | 的 | 安装 | 工作
+Level 2: 工信处 | 女 | 干事 | 每 | 月 | 经过 | 下属 | 科室 | 都 | 要 | 亲口 | 交代 | 24 | 口 | 交换机 | 等 | 技术性 | 器件 | 的 | 安装 | 工作
+Level 3: 工信处 | 女 | 干事 | 每 | 月 | 经过 | 下属 | 科室 | 都 | 要 | 亲口 | 交代 | 24 | 口 | 交换机 | 等 | 技术性 | 器件 | 的 | 安装 | 工作
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Recap">
+<a class="anchor" href="#Recap" aria-hidden="true"><span class="octicon octicon-link"></span></a>Recap<a class="anchor-link" href="#Recap"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This post has tested five word segmentation tools against two challenging Chinese texts. Here're the takeaways:</p>
+<ul>
+<li>
+<p>If you value speed more than anything, Jieba is definitely the top choice. If you're dealing with traditional Chinese, it is a good practice to first convert your texts to simplified Chinese before feeding them to Jieba. Doing this may produce better results.</p>
+</li>
+<li>
+<p>If you care more about accuracy instead, it's best to use CKIP Transformers. Its Level 2 and 3 produce consistent results whether your texts are in traditional or simplified Chinese.</p>
+</li>
+<li>
+<p>Finally, if you hope to levarage the power of NLP libraries such as spaCy and <a href="https://github.com/jbesomi/texthero#faq">Texthero</a> (by the way, their slogan is really awesome: <code>from zero to hero</code>), you'll have to go for Jieba or PKUSeg. I hope spaCy will also add CKIP to its inventory of tokenizers in the near future.</p>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><a class="u-url" href="/blog.ai/tokenization/jieba/pkuseg/pyhanlp/snownlp/ckip-transformers/2021/01/30/Many-ways-to-segment-Chinese.html" hidden></a>
+</article>
+
+<script src="https://utteranc.es/client.js"
+        repo="howard-haowen/blog.ai"
+        issue-term="[ENTER TERM HERE]"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog.ai/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/blog.ai/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/blog.ai/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>AI through a linguist&#39;s looking glass</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/howard-haowen" title="howard-haowen"><svg class="svg-icon grey"><use xlink:href="/blog.ai/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/haowen-jiang-phd-16242074" title="haowen-jiang-phd-16242074"><svg class="svg-icon grey"><use xlink:href="/blog.ai/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
