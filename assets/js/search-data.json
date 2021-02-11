@@ -51,7 +51,7 @@
   
       ,"page1": {
           "title": "About Me",
-          "content": "My name is Haowen Jiang. I got a PhD of linguistics from Rice University and spent most of my early career in academia doing theoretical research on indigenous languages of Taiwan, all of them related to languages such as Tagalog and Malay/Indonesian. Then along came COVID-19, which disrupted most people’s lives, including mine. Somehow I became hooked on machine learning and Python programming, and now I work as an AI engineer, focusing on Natural Language Processing (NLP) and other AI-related applicational stuff. .",
+          "content": "From a linguist to an engineer . My name is Haowen Jiang. I obtained a PhD of linguistics from Rice University and spent most of my early career in academia doing research on indigenous languages of Taiwan, all of them related to languages such as Tagalog and Malay/Indonesian. Then along came COVID-19, which disrupted most people’s lives, including mine. Somehow I became hooked on machine learning and Python programming. After several months of self-learning, I transitioned from an IT muggle to an AI engineer. My current job primarily focuses on Natural Language Processing, including text classification, clustering, topic modelling, document similarity, and information retrieval. .",
           "url": "https://howard-haowen.github.io/blog.ai/about/",
           "relUrl": "/about/",
           "date": ""
