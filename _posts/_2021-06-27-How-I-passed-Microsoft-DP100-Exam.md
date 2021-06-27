@@ -2,32 +2,28 @@
 toc: true
 layout: post
 description: In this post, I share the resources that I perused to pass the Microsoft Exam DP-100: Designing and Implementing a Data Science Solution on Azure.  
-categories: [Azure]
+categories: [azure, certificate]
+image: images/MicrosoftDP100Certificate.png
 title: What I did to pass the Microsoft Exam DP-100 for data scientists
 ---
 # What I did to pass the Microsoft Exam DP-100 for data scientists
-![]({{ site.baseurl }}/images/MicrosoftDP100Certificate.png "My DP-100 Certificate")
+![]({{ site.baseurl }}/images/MicrosoftDP100Certificate.png "My MS DP-100 Certificate")
 
 ## Resources
 
+- Official resources from Microsoft
+  - 4 online [learning paths](https://docs.microsoft.com/en-us/learn/certifications/exams/dp-100?tab=tab-learning-paths)
+  - 17 ipynb files from the MicrosoftLearning/mslearn-dp100 repo(https://github.com/MicrosoftLearning/mslearn-dp100)
+- Udemy courses
+  -
+- This book courses
 
-## The online exame
+## The exam
 
 You can use *italics*, **bold**, `code font text`, and create [links](https://www.markdownguide.org/cheat-sheet/). Here's a footnote [^1]. Here's a horizontal rule:
 
----
+## My two cents
 
-## Lists
-
-Here's a list:
-
-- item 1
-- item 2
-
-And a numbered list:
-
-1. item 1
-1. item 2
 
 ## Boxes and stuff
 
