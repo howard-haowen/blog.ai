@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>What I did to pass the Microsoft Exam DP-100 for data scientists | Haowen’s AI blog</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="What I did to pass the Microsoft Exam DP-100 for data scientists" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="I share the resources that I perused to pass the Microsoft Exam DP-100 for data scientists." />
+<meta property="og:description" content="I share the resources that I perused to pass the Microsoft Exam DP-100 for data scientists." />
+<link rel="canonical" href="https://howard-haowen.github.io/blog.ai/azure/certificate/2021/06/27/How-I-passed-Microsoft-DP100-Exam.html" />
+<meta property="og:url" content="https://howard-haowen.github.io/blog.ai/azure/certificate/2021/06/27/How-I-passed-Microsoft-DP100-Exam.html" />
+<meta property="og:site_name" content="Haowen’s AI blog" />
+<meta property="og:image" content="https://howard-haowen.github.io/blog.ai/images/certificate-comics.jpeg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-06-27T00:00:00-05:00" />
+<script type="application/ld+json">
+{"url":"https://howard-haowen.github.io/blog.ai/azure/certificate/2021/06/27/How-I-passed-Microsoft-DP100-Exam.html","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://howard-haowen.github.io/blog.ai/azure/certificate/2021/06/27/How-I-passed-Microsoft-DP100-Exam.html"},"image":"https://howard-haowen.github.io/blog.ai/images/certificate-comics.jpeg","headline":"What I did to pass the Microsoft Exam DP-100 for data scientists","dateModified":"2021-06-27T00:00:00-05:00","datePublished":"2021-06-27T00:00:00-05:00","description":"I share the resources that I perused to pass the Microsoft Exam DP-100 for data scientists.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/blog.ai/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://howard-haowen.github.io/blog.ai/feed.xml" title="Haowen's AI blog" /><link rel="shortcut icon" type="image/x-icon" href="/blog.ai/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog.ai/">Haowen&#39;s AI blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog.ai/about/">About Me</a><a class="page-link" href="/blog.ai/search/">Search</a><a class="page-link" href="/blog.ai/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">What I did to pass the Microsoft Exam DP-100 for data scientists</h1><p class="page-description">I share the resources that I perused to pass the Microsoft Exam DP-100 for data scientists.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-06-27T00:00:00-05:00" itemprop="datePublished">
+        Jun 27, 2021
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      4 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/blog.ai/categories/#azure">azure</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog.ai/categories/#certificate">certificate</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#what-i-did-to-pass-the-microsoft-exam-dp-100-for-data-scientists">What I did to pass the Microsoft Exam DP-100 for data scientists</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#one-book">One book</a></li>
+<li class="toc-entry toc-h2"><a href="#two-udemy-courses">Two Udemy courses</a></li>
+<li class="toc-entry toc-h2"><a href="#three-kinds-of-official-materials-from-microsoft">Three kinds of official materials from Microsoft</a></li>
+</ul>
+</li>
+</ul><p><img src="/blog.ai/images/certificate-comics.jpeg" alt="" title="Credit: cartoonistgroup.com"></p>
+
+<h1 id="what-i-did-to-pass-the-microsoft-exam-dp-100-for-data-scientists">
+<a class="anchor" href="#what-i-did-to-pass-the-microsoft-exam-dp-100-for-data-scientists" aria-hidden="true"><span class="octicon octicon-link"></span></a>What I did to pass the Microsoft Exam DP-100 for data scientists</h1>
+
+<p>It’s been a while since I posted anything here. And it’s primarily because I was busy preparing for the Microsoft DP-100 Exam, which is an associate (i.e. intermediate) level for designing and implementing data science solutions on Azure. I spent about 2 months preparing for it and got my certificate today! Here’s what it looks like.</p>
+
+<p><img src="/blog.ai/images/MicrosoftDP100Certificate.png" alt="" title="My MS DP-100 Certificate"></p>
+
+<p>The certificate also comes with a dedicated <a href="https://www.credly.com/badges/7c4f2a43-cf71-4604-b36d-d68544c96a2e/public_url">Credly webpage</a>, where people can verify its validity. In this post, I’ll share the resources that I perused for the prep work. They come from three sources: a book, two Udemy courses, and three kinds of official materials from Microsoft.</p>
+
+<h2 id="one-book">
+<a class="anchor" href="#one-book" aria-hidden="true"><span class="octicon octicon-link"></span></a>One book</h2>
+
+<p><img src="https://media.springernature.com/w306/springer-static/cover-hires/book/978-1-4842-6405-8" alt=""></p>
+
+<p>The book is entitled <a href="https://www.apress.com/gp/book/9781484264041">Data Science Solutions on Azure Tools and Techniques Using Databricks and MLOps</a>, which is a good start if you don’t know anything about Azure or other cloud tools that Microsoft offers. One nice thing about this book is that it includes lots of snapshots of the Azure Machine Learning interface, which gives you a clear mental map of the workflow even if you don’t have an Azure account.</p>
+
+<h2 id="two-udemy-courses">
+<a class="anchor" href="#two-udemy-courses" aria-hidden="true"><span class="octicon octicon-link"></span></a>Two Udemy courses</h2>
+
+<p>Here’re the two Udemy courses that I took.</p>
+
+<ul>
+  <li><a href="https://www.udemy.com/course/dp100-azure/">DP-100 Microsoft Azure Data Scientist Complete Exam Prep taught by Scott Duffy</a></li>
+  <li><a href="https://www.udemy.com/course/machine-learning-using-azureml/">DP-100: A-Z Machine Learning using Azure Machine Learning taught by Jitesh Khurkhuriya</a></li>
+</ul>
+
+<p>The first one is about 2.5 hours long and the second one has a staggering length of 32 hours, but they cost the same (i.e. NT$2,990 last time I checked)! The second one is long primarily because it covers a lot of the classic <strong>Azure ML Studio</strong>, which is gradually replaced by the updated <strong>Azure ML Designer</strong>. Also included is a primer on Python programming. I skipped this part, which is why I didn’t finish the second course, as indicated in my Udemy learning history.</p>
+
+<p><img src="/blog.ai/images/udemy-learning-history.jpg" alt="" title="My Udemy learning history"></p>
+
+<p>I don’t remember much from the first course while I find it hard to say the same to the second one. Its instructor, Jitesh, has a very personalized style of intonation, which makes even the dullest stuff sound interesting. He is not only pretty good at explaining complex concepts in simple and intuitive ways, but also meticulous about every bit of details regarding the exam. My only complaint about his course is the low speed at which he talks. I had to set the playback speed to x1.5 faster to stay awake.</p>
+<h2 id="three-kinds-of-official-materials-from-microsoft">
+<a class="anchor" href="#three-kinds-of-official-materials-from-microsoft" aria-hidden="true"><span class="octicon octicon-link"></span></a>Three kinds of official materials from Microsoft</h2>
+
+<p>Microsoft did an incredibly good job of making high-quality learning materials accessible to the public, which makes me feel that Microsoft really wants exam-takers to pass rather than fail. Here’re the three kinds of official materials that I went through.</p>
+
+<ul>
+  <li>4 online <a href="https://docs.microsoft.com/en-us/learn/certifications/exams/dp-100?tab=tab-learning-paths">learning paths</a>
+    <ul>
+      <li>Create machine learning models (5 Modules)</li>
+      <li>Use visual tools to create machine learning models with Azure Machine Learning (4 Modules)</li>
+      <li>Build and operate machine learning solutions with Azure Machine Learning (14 Modules)</li>
+      <li>Perform data science with Azure Databricks (12 Modules)</li>
+    </ul>
+  </li>
+  <li>17 ipynb files from the <a href="https://github.com/MicrosoftLearning/mslearn-dp100">MicrosoftLearning/mslearn-dp100 repo</a>
+</li>
+  <li>Documentation for <a href="https://docs.microsoft.com/en-us/azure/machine-learning/algorithm-module-reference/module-reference">Algorithm &amp; module reference for Azure Machine Learning designer</a>
+</li>
+</ul>
+
+<p>The learning paths give you a high-level overview of what Azure ML products can do. The ipynb files cover pretty much all you need to know about <strong>Azure Machine Learning SDK for Python</strong> as far as the exam is concerned. They are so helpful that I forked the whole repo into <a href="https://github.com/howard-haowen/mslearn-dp100">this one</a>, to which I added <a href="https://github.com/howard-haowen/mslearn-dp100/blob/main/Notes-on-Python-SDK.md">a note of crucial codes taken from all the 17 ipynb files</a>. The last material is specfically about <strong>Azure ML Designer</strong>, and I made a summary note of the entire documentation(https://github.com/howard-haowen/mslearn-dp100/blob/main/Notes-on-ML-designer.md).</p>
+
+<div class="Toast">
+   <span class="Toast-icon"><svg class="octicon octicon-info octicon octicon-info" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"></path></svg></span>
+   <span class="Toast-content">To navigate this long note, press the button with three bars and dots at the upper left corner of the markdown page.</span>
+</div>
+
+<p>Some final notes about the exam. In hindsight, I believe I could still pass the exam even without taking the Udemy courses, considering the official materials from Microsoft already cover the great majority of questions. Next, the price for taking the exam varies depending on the country you choose <strong>even if you take it online</strong>. I did it online (who wouldn’t during the pandemic!), and the price for Taiwan is $125 USD (but $165 USD instead for the USA). Finally, you have a few options for the exam language, which can be English, Japanese, Chinese, or some others. But the exam proctor only speaks English or Japanese. I wonder why Microsoft offers Japanese as the only non-English language for proctors.</p>
+
+  </div><a class="u-url" href="/blog.ai/azure/certificate/2021/06/27/How-I-passed-Microsoft-DP100-Exam.html" hidden></a>
+</article>
+
+<script src="https://utteranc.es/client.js"
+        repo="howard-haowen/blog.ai"
+        issue-term="[ENTER TERM HERE]"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog.ai/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/blog.ai/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/blog.ai/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>AI through a linguist&#39;s looking glass</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/howard-haowen" title="howard-haowen"><svg class="svg-icon grey"><use xlink:href="/blog.ai/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/haowen-jiang-phd-16242074" title="haowen-jiang-phd-16242074"><svg class="svg-icon grey"><use xlink:href="/blog.ai/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
