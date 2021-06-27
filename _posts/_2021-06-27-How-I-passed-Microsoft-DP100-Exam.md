@@ -9,6 +9,8 @@ title: What I did to pass the Microsoft Exam DP-100 for data scientists
 # What I did to pass the Microsoft Exam DP-100 for data scientists
 ![]({{ site.baseurl }}/images/MicrosoftDP100Certificate.png "My MS DP-100 Certificate")
 
+Credly verification [webpage](https://www.credly.com/badges/7c4f2a43-cf71-4604-b36d-d68544c96a2e/public_url)
+
 ## Resources
 
 The
@@ -21,6 +23,10 @@ The
 - Udemy courses
   - [DP-100 Microsoft Azure Data Scientist Complete Exam Prep taught by Scott Duffy](https://www.udemy.com/course/dp100-azure/) 
   - [DP-100: A-Z Machine Learning using Azure Machine Learning taught by Jitesh Khurkhuriya](https://www.udemy.com/course/machine-learning-using-azureml/) 
+
+![]({{ site.baseurl }}/images/udemy-learning-history.jpg "My Udemy learning history")
+
+
 - This book: ["Data Science Solutions on Azure Tools and Techniques Using Databricks and MLOps"](https://www.apress.com/gp/book/9781484264041)
 
 ## The exam
