@@ -1,7 +1,7 @@
 ---
 toc: true
 layout: post
-description: In this post, I share the resources that I perused to pass the Microsoft Exam DP-100: Designing and Implementing a Data Science Solution on Azure.  
+description: I share the resources that I perused to pass the Microsoft Exam DP-100 for data scientists.  
 categories: [azure, certificate]
 image: images/certificate-comics.jpeg
 title: What I did to pass the Microsoft Exam DP-100 for data scientists
