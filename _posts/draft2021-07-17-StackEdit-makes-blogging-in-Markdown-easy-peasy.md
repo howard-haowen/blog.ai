@@ -1,7 +1,7 @@
 ---
 toc: true
 layout: post
-description: This post describes my blogging workflow.
+description: This post describes my blogging workflow with StackEdit.
 image: images/simplified-blogging.jpg
 categories: [blogging, markdown, stackedit, colab]
 title: StackEdit makes blogging in Markdown easy-peasy
@@ -18,7 +18,7 @@ title: StackEdit makes blogging in Markdown easy-peasy
 
 Then all you need to do is select your **FastPages** repo on **GitHub** and the `_notebooks` folder. 
 
-But as for posts in `.md`, the workflow was not as smooth until I discovered **StackEdit**, which is an *in-browser Markdown editor*.  So this post shows how **StackEdit** makes blogging in Markdown easy-peasy.
+But as for posts in `.md`, my workflow was not as smooth until I discovered [**StackEdit**](https://stackedit.io), which is an *in-browser Markdown editor*.  So this post shows how **StackEdit** makes blogging in Markdown easy-peasy.
 
 
 # Markdown extensions
@@ -80,5 +80,5 @@ C --> D
 <!--stackedit_data:
 eyJwcm9wZXJ0aWVzIjoidGl0bGU6IFN0YWNrRWRpdC10ZW1wbG
 F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlst
-MTcxNzI5MzhdfQ==
+MTkzMzk3MzI2M119
 -->
