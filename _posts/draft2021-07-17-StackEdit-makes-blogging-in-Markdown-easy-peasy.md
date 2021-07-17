@@ -31,6 +31,8 @@ Then enter your **FastPages** repo URL and the `_posts` folder path (or any othe
 
 ![](https://github.com/howard-haowen/blog.ai/raw/master/images/StackEdit-snapshot.png)
 
+![StackEdit-snapshot.png](https://github.com/howard-haowen/blog.ai/raw/master/images/StackEdit-snapshot.png "StackEdit-snapshot.png")
+
 [StackEdit-snapshot.png](https://github.com/howard-haowen/blog.ai/blob/master/images/StackEdit-snapshot.png "StackEdit-snapshot.png")
 
 
@@ -92,5 +94,5 @@ C --> D
 <!--stackedit_data:
 eyJwcm9wZXJ0aWVzIjoidGl0bGU6IFN0YWNrRWRpdC10ZW1wbG
 F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlst
-MTM2NjQzNjAyNywtMjQxMzM5NjcwLC0xOTMzOTczMjYzXX0=
+MTYwNjc4MzQwMCwtMjQxMzM5NjcwLC0xOTMzOTczMjYzXX0=
 -->
