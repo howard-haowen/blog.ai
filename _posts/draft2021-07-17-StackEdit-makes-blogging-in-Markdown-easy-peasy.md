@@ -43,7 +43,9 @@ Then to display the image, you just need to add an exclamation mark at the begin
 
 ## Testing Markdown extensions
 
-In addition to default Markdown features, **StackEdit** also supports some additional extensions, including `SmartyP 
+In addition to default Markdown features, **StackEdit** also supports some additional extensions, including `SmartyPants`,  `KaTeX`, and `UML diagrams`. To test i
+
+
 
 ### SmartyPants
 
@@ -99,6 +101,6 @@ C --> D
 
 <!--stackedit_data:
 eyJwcm9wZXJ0aWVzIjoidGl0bGU6IFN0YWNrRWRpdC10ZW1wbG
-F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOls3
-ODc4MjQ2MzcsLTI0MTMzOTY3MCwtMTkzMzk3MzI2M119
+F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlsy
+MDYwNTAxODc5LC0yNDEzMzk2NzAsLTE5MzM5NzMyNjNdfQ==
 -->
