@@ -27,7 +27,7 @@ Once you're on **StackEdit**, clicking on **START WRITING** is all that needs to
 
 > Workspaces > Add a GitHub workspace 
 
-Then enter your **FastPages** repo URL and the `_posts` folder path. 
+Then enter your **FastPages** repo URL and the `_posts` folder path. Now if you click on the folder icon at the upper left corner, you'll see all your `.md` files in the the `_posts` folder. 
 
 
 ## Testing Markdown extensions
@@ -87,6 +87,6 @@ C --> D
 
 <!--stackedit_data:
 eyJwcm9wZXJ0aWVzIjoidGl0bGU6IFN0YWNrRWRpdC10ZW1wbG
-F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlst
-MjExMDY4NjU1OCwtMjQxMzM5NjcwLC0xOTMzOTczMjYzXX0=
+F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlsx
+NzcwMjg0ODE1LC0yNDEzMzk2NzAsLTE5MzM5NzMyNjNdfQ==
 -->
