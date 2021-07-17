@@ -23,7 +23,9 @@ But as for posts in `.md`, my workflow was not as smooth until I discovered [**S
 
 ## Add a workspace
 
-Once you're on **StackEdit**, clicking on **START WRITING** is all that needs to be done to, umm..., start writing in Markdown. But what comes next is not that straightforward. It took me a while to figure it out. To syn local  `.md` files to a folder on **GitHub**, you first need to add a workspace. 
+Once you're on **StackEdit**, clicking on **START WRITING** is all that needs to be done to, umm..., start writing in Markdown. But what comes next is not that straightforward. It took me a while to figure it out. To syn local  `.md` files to a folder on **GitHub**, you first need to add a workspace. This is done by clicking on the hashtag icon at the upper right corner. Then you do:
+
+> Workspaces > Add a GitHub workspace 
 
 
 
@@ -85,5 +87,5 @@ C --> D
 <!--stackedit_data:
 eyJwcm9wZXJ0aWVzIjoidGl0bGU6IFN0YWNrRWRpdC10ZW1wbG
 F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlst
-MjQxMzM5NjcwLC0xOTMzOTczMjYzXX0=
+NTk2MzQ1NDc2LC0yNDEzMzk2NzAsLTE5MzM5NzMyNjNdfQ==
 -->
