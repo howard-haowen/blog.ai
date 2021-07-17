@@ -23,7 +23,7 @@ But as for posts in `.md`, my workflow was not as smooth until I discovered [**S
 
 ## Add a workspace
 
-Once you're on **StackEdit**, clicking on **START WRITING** is all that needs to be done to, umm..., start writing in Markdown. But what comes next is not that straightforw
+Once you're on **StackEdit**, clicking on **START WRITING** is all that needs to be done to, umm..., start writing in Markdown. But what comes next is not that straightforward. To syn your `.md` files to a folder o
 
 
 
@@ -84,6 +84,6 @@ C --> D
 
 <!--stackedit_data:
 eyJwcm9wZXJ0aWVzIjoidGl0bGU6IFN0YWNrRWRpdC10ZW1wbG
-F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOls3
-MTE1MDY4NzYsLTE5MzM5NzMyNjNdfQ==
+F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOls2
+NzY3MTczMzgsLTE5MzM5NzMyNjNdfQ==
 -->
