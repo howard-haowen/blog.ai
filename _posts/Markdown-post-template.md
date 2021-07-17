@@ -4,6 +4,7 @@ layout: post
 description: A minimal example of using markdown with fastpages.
 categories: [markdown]
 title: An Example Markdown Post
+
 ---
 # Example Markdown Post
 
@@ -101,3 +102,6 @@ key: value
 
 [^1]: This is the footnote.
 
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbMTU3NDUwMjMwXX0=
+-->
