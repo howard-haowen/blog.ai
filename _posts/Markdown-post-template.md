@@ -2,6 +2,7 @@
 toc: true
 layout: post
 description: A minimal example of using markdown with fastpages.
+image: images/birds-of-a-feather.jpg
 categories: [markdown]
 title: An Example Markdown Post
 
@@ -103,5 +104,5 @@ key: value
 [^1]: This is the footnote.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTU3NDUwMjMwXX0=
+eyJoaXN0b3J5IjpbNTg0Mzc3NjM3XX0=
 -->
