@@ -3,7 +3,7 @@ toc: true
 layout: post
 description: 
 categories: [markdown]
-title: An Example Markdown Post
+title: StackEdit-template
 
 ---
 
@@ -69,5 +69,5 @@ B --> D{Rhombus}
 C --> D
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMjkzNDczNTU0XX0=
+eyJoaXN0b3J5IjpbMTA1ODAzMjQ4NV19
 -->
