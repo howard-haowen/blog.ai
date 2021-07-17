@@ -8,7 +8,7 @@ title: StackEdit makes blogging in Markdown easy-peasy
 
 ---
 
-![](https://github.com/howard-haowen/blog.ai/raw/master/images/simplified-blogging.jpg =60X50 "Credit: John Atkinson")
+![](https://github.com/howard-haowen/blog.ai/raw/master/images/simplified-blogging.jpg =300x600 "Credit: John Atkinson")
 
 # StackEdit makes blogging in Markdown easy-peasy
 
@@ -102,5 +102,5 @@ C --> D
 <!--stackedit_data:
 eyJwcm9wZXJ0aWVzIjoidGl0bGU6IFN0YWNrRWRpdC10ZW1wbG
 F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlst
-NjMxODY0NjAwLC0xNTEwMzkyODA2XX0=
+MTU2NjQyNjA2NCwtMTUxMDM5MjgwNl19
 -->
