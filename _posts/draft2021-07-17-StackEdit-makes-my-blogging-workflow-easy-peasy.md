@@ -8,7 +8,7 @@ title: StackEdit makes my blogging workflow easy-peasy
 
 ---
 
-![](https://github.com/howard-haowen/blog.ai/raw/master/images/simplified-blogging.jpg "Credit: John At")
+![](https://github.com/howard-haowen/blog.ai/raw/master/images/simplified-blogging.jpg "Credit: John Atkinson")
 
 # StackEdit makes my blogging workflow easy-peasy
 
@@ -16,7 +16,7 @@ title: StackEdit makes my blogging workflow easy-peasy
 
 > File >  Save a copy in GitHub
 
-Then you 
+Then all you need to do is select your **FastPages** repo and the `_notebooks` folder. But with 
 
 
 # Markdown extensions
@@ -77,6 +77,6 @@ C --> D
 ```
 <!--stackedit_data:
 eyJwcm9wZXJ0aWVzIjoidGl0bGU6IFN0YWNrRWRpdC10ZW1wbG
-F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOls2
-OTMyNjQ4MTYsMTU4NjkxNjI5MV19
+F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlst
+MTcxOTI0Mjg5MiwxNTg2OTE2MjkxXX0=
 -->
