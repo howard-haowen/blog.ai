@@ -14,7 +14,7 @@ title: Training lecture for the International Linguistics Olympiad
 
 ## Intro
 
-Recently, I got the honor of being invited to give a training lecture to the Taiwan team for the [International Linguistics Olympiad](https://en.wikipedia.org/wiki/International_Linguistics_Olympiad), where people from countries all over the world 
+Recently, I got the honor of being invited to give a training lecture to the Taiwan team for the [International Linguistics Olympiad](https://en.wikipedia.org/wiki/International_Linguistics_Olympiad). It's basically an annual competition where participants from countries all over the world gather to 
 
 [problem](https://ioling.org/booklets/iol-2018-indiv-prob.en.pdf)
 
@@ -25,6 +25,7 @@ Recently, I got the honor of being invited to give a training lecture to the Tai
 
 [answer](https://ioling.org/booklets/iol-2018-indiv-sol.en.pdf)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMjAyNTc2MDE1NiwyODE4NzU5MCwtNTQyMj
-kwMzQsLTE3OTAyNTAwMTMsNjgxNzA5OTc2XX0=
+eyJoaXN0b3J5IjpbMjI0ODE0NzIxLDIwMjU3NjAxNTYsMjgxOD
+c1OTAsLTU0MjI5MDM0LC0xNzkwMjUwMDEzLDY4MTcwOTk3Nl19
+
 -->
