@@ -43,7 +43,7 @@ Then to display the image, you just need to add an exclamation mark at the begin
 
 ## Testing Markdown extensions
 
-**StackEdit** all
+In addition to default Markdown features, **StackEdit** also supports some additional extensions, including `SmartyP 
 
 ### SmartyPants
 
@@ -99,6 +99,6 @@ C --> D
 
 <!--stackedit_data:
 eyJwcm9wZXJ0aWVzIjoidGl0bGU6IFN0YWNrRWRpdC10ZW1wbG
-F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOls5
-NDgyNzU3NiwtMjQxMzM5NjcwLC0xOTMzOTczMjYzXX0=
+F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOls3
+ODc4MjQ2MzcsLTI0MTMzOTY3MCwtMTkzMzk3MzI2M119
 -->
