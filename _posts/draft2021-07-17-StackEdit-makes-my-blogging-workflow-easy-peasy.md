@@ -12,7 +12,7 @@ title: List of blogs built with FastPages
 
 # StackEdit makes my blogging workflow easy-peasy
 
-**FastPages** offers three options for writing blog posts, including `Jupyter`, `Markdown`, and `Microsoft Word`. Each type of them is supposed to be saved in a dedicated folder, named `_notebooks`, `_posts`, and `_word` by **FastPages**.  If you want to learn about StackEdit, you can read me. If you want to play with Markdown, you can edit me. Once you have finished with me, you can create new files by opening the **file explorer** on the left corner of the navigation bar.
+**FastPages** offers three options for writing blog posts, including `Jupyter`, `Markdown`, and `Microsoft Word`. Files in each type of them are supposed to be saved in a dedicated folder, respectively named `_notebooks`, `_posts`, and `_word` by **FastPages**. For posts in `Jupyter`,  I'v
 
 
 # Markdown extensions
@@ -73,6 +73,6 @@ C --> D
 ```
 <!--stackedit_data:
 eyJwcm9wZXJ0aWVzIjoidGl0bGU6IFN0YWNrRWRpdC10ZW1wbG
-F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlsx
-Mzc5NjYyODEwLDE1ODY5MTYyOTFdfQ==
+F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlsz
+NTk5MDU3MDUsMTU4NjkxNjI5MV19
 -->
