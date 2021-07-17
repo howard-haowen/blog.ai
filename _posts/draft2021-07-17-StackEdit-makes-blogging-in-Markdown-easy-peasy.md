@@ -23,7 +23,7 @@ But as for posts in `.md`, my workflow was not as smooth until I discovered [**S
 
 ## Add a workspace
 
-Once you're on **StackEdit**, clicking on **START WRITING** is all that needs to be done to, umm..., start writing in Markdown. But what comes next is not that straightforward. It took me a while to figure it out. To syn a **StackEdit** browser instance with a folder on **GitHub**, you first need to add a workspace. This is done by clicking on the hashtag icon at the upper right corner. Then you do:
+Once you're on **StackEdit**, clicking on **START WRITING** is all that needs to be done to, umm..., start writing in Markdown. But what comes next is not that straightforward. It took me a while to figure it out. To sync a **StackEdit** browser instance with a folder on **GitHub**, you first need to add a workspace. This is done by clicking on the hashtag icon at the upper right corner. Then you do:
 
 > Workspaces > Add a GitHub workspace 
 
@@ -31,7 +31,7 @@ Then enter your **FastPages** repo URL and the `_posts` folder path (or any othe
 
 ![StackEdit-snapshot.png](https://github.com/howard-haowen/blog.ai/raw/master/images/StackEdit-snapshot.png "StackEdit-snapshot.png")
 
-Now you can enjoy writing on **StackEdit**, and rest assured that all your local `.md` files (saved in the browser storage) will be synched with your **GitHub** folder.  
+Now you can enjoy writing on **StackEdit**, and rest assured that all your local `.md` files (saved in the browser storage) will be synced with your **GitHub** folder.  
 
 By the way, I found a trick for quickly embedding an image on **StackEdit**. Suppose you have an image file stored on **GitHub**, you can just copy that file name on **GitHub** and paste it on **StackEdit**. Take the image above for example, this is what you'll see: 
 
@@ -100,5 +100,5 @@ C --> D
 <!--stackedit_data:
 eyJwcm9wZXJ0aWVzIjoidGl0bGU6IFN0YWNrRWRpdC10ZW1wbG
 F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlst
-ODM5NTg4OTk5LC0yNDEzMzk2NzAsLTE5MzM5NzMyNjNdfQ==
+MTY0MTUxOTkzOCwtMjQxMzM5NjcwLC0xOTMzOTczMjYzXX0=
 -->
