@@ -2,7 +2,9 @@
 layout: page
 title: About Me
 permalink: /about/
+
 ---
+![]({{ site.baseurl }}/images/profile.png)
 
 [![](https://img.shields.io/badge/Visit-My_academic_profile-blue?style=flat&logo=googlescholar&logoColor=white)](https://howard-haowen.github.io)
 
