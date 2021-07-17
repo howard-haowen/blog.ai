@@ -12,7 +12,7 @@ title: List of blogs built with FastPages
 
 # StackEdit makes my blogging workflow easy-peasy
 
-**FastPages** supports  If you want to learn about StackEdit, you can read me. If you want to play with Markdown, you can edit me. Once you have finished with me, you can create new files by opening the **file explorer** on the left corner of the navigation bar.
+**FastPages** offers  three options to   If you want to learn about StackEdit, you can read me. If you want to play with Markdown, you can edit me. Once you have finished with me, you can create new files by opening the **file explorer** on the left corner of the navigation bar.
 
 
 # Markdown extensions
@@ -73,6 +73,6 @@ C --> D
 ```
 <!--stackedit_data:
 eyJwcm9wZXJ0aWVzIjoidGl0bGU6IFN0YWNrRWRpdC10ZW1wbG
-F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOls0
-OTU3MjIxOSwxNTg2OTE2MjkxXX0=
+F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlsx
+MzA4MjQ2MzYxLDE1ODY5MTYyOTFdfQ==
 -->
