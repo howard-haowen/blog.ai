@@ -31,7 +31,7 @@ Then enter your **FastPages** repo URL and the `_posts` folder path (or any othe
 
 ![StackEdit-snapshot.png](https://github.com/howard-haowen/blog.ai/raw/master/images/StackEdit-snapshot.png "StackEdit-snapshot.png")
 
-Now you can enjoy writing on **StackEdit**, and all your local `.md` files will be sync  
+Now you can enjoy writing on **StackEdit**, and rest assued that all your local `.md` files will be synched with remote ones every now  
 
 `[StackEdit-snapshot.png](https://github.com/howard-haowen/blog.ai/blob/master/images/StackEdit-snapshot.png "StackEdit-snapshot.png")`
 
@@ -95,6 +95,6 @@ C --> D
 
 <!--stackedit_data:
 eyJwcm9wZXJ0aWVzIjoidGl0bGU6IFN0YWNrRWRpdC10ZW1wbG
-F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlsz
-NDk1ODc4LC0yNDEzMzk2NzAsLTE5MzM5NzMyNjNdfQ==
+F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOls0
+MjQ4NzcwNDUsLTI0MTMzOTY3MCwtMTkzMzk3MzI2M119
 -->
