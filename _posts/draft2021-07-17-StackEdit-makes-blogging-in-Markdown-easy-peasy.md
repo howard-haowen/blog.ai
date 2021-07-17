@@ -33,13 +33,15 @@ Then enter your **FastPages** repo URL and the `_posts` folder path (or any othe
 
 Now you can enjoy writing on **StackEdit**, and rest assured that all your local `.md` files (saved in the browser storage) will be synced with your **GitHub** folder.  
 
-By the way, I found a trick of quickly embedding an image on **StackEdit**. Suppose you have an image file stored on **GitHub**, you can just copy that file name on **GitHub** and paste it on **StackEdit**. Take the image above for example, this is what you'll see: 
+By the way, I found a trick of quickly embedding an image on **StackEdit**. Suppose you have an image file stored on **GitHub**, you can just copy that file name in the `tree` view on **GitHub** and paste it on **StackEdit**. Take the image above for example, this is what you'll see: 
 
 `[StackEdit-snapshot.png](https://github.com/howard-haowen/blog.ai/blob/master/images/StackEdit-snapshot.png "StackEdit-snapshot.png")`
 
 Then to display the image, you just need to add an exclamation mark at the beginning and replace `master` with `raw`, like this:
 
 `![StackEdit-snapshot.png](https://github.com/howard-haowen/blog.ai/raw/master/images/StackEdit-snapshot.png "StackEdit-snapshot.png")`
+
+This trick saves you the trouble of typing out the emb
 
 ## Testing Markdown extensions
 
@@ -99,6 +101,6 @@ C --> D
 
 <!--stackedit_data:
 eyJwcm9wZXJ0aWVzIjoidGl0bGU6IFN0YWNrRWRpdC10ZW1wbG
-F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlsx
-NDUyOTIxMjM4LC0yNDEzMzk2NzAsLTE5MzM5NzMyNjNdfQ==
+F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOls5
+MzQwODQ5MTAsLTI0MTMzOTY3MCwtMTkzMzk3MzI2M119
 -->
