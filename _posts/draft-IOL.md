@@ -12,7 +12,9 @@ title: Training lecture for International Linguistics Olympiad
 # Training lecture for International Linguistics Olympiad
 
 
-## Question
+## Intro
+
+Recently, I got the honor of being invited to give a 2.5-hour lecture on 
 
 [problem](https://ioling.org/booklets/iol-2018-indiv-prob.en.pdf)
 
@@ -23,5 +25,6 @@ title: Training lecture for International Linguistics Olympiad
 
 [answer](https://ioling.org/booklets/iol-2018-indiv-sol.en.pdf)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE3OTAyNTAwMTMsNjgxNzA5OTc2XX0=
+eyJoaXN0b3J5IjpbLTU0MjI5MDM0LC0xNzkwMjUwMDEzLDY4MT
+cwOTk3Nl19
 -->
