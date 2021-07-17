@@ -1,7 +1,7 @@
 ---
 toc: true
 layout: post
-description: I sha
+description: This post describes how my blogging workflow.
 image: images/simplified-blogging.jpg
 categories: [blogging, markdown, stackedit]
 title: List of blogs built with FastPages
@@ -71,6 +71,6 @@ C --> D
 ```
 <!--stackedit_data:
 eyJwcm9wZXJ0aWVzIjoidGl0bGU6IFN0YWNrRWRpdC10ZW1wbG
-F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlst
-NTcwOTgyNDEzXX0=
+F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOls1
+Nzc5MDU0Ml19
 -->
