@@ -21,14 +21,15 @@ Then all you need to do is select your **FastPages** repo on **GitHub** and the 
 But as for posts in `.md`, my workflow was not as smooth until I discovered [**StackEdit**](https://stackedit.io), which is an *in-browser Markdown editor*.  So this post shows how **StackEdit** makes blogging in Markdown easy-peasy.
 
 
-# Add a workspace
+## Add a workspace
 
 Once you're on **StackEdit**, clicking on **START WRITING** is all that needs to be done to, umm..., start writing in Markdown. But   
 
 
 
+## Testing Markdown extensions
 
-## SmartyPants
+### SmartyPants
 
 SmartyPants converts ASCII punctuation characters into "smart" typographic punctuation HTML entities. For example:
 
@@ -39,7 +40,7 @@ SmartyPants converts ASCII punctuation characters into "smart" typographic punct
 |Dashes          |`-- is en-dash, --- is em-dash`|-- is en-dash, --- is em-dash|
 
 
-## KaTeX
+### KaTeX
 
 You can render LaTeX mathematical expressions using [KaTeX](https://khan.github.io/KaTeX/):
 
@@ -52,7 +53,7 @@ $$
 > You can find more information about **LaTeX** mathematical expressions [here](http://meta.math.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference).
 
 
-## UML diagrams
+### UML diagrams
 
 You can render UML diagrams using [Mermaid](https://mermaidjs.github.io/). For example, this will produce a sequence diagram:
 
@@ -77,8 +78,12 @@ A --> C(Round Rect)
 B --> D{Rhombus}
 C --> D
 ```
+
+## Recap
+
+
 <!--stackedit_data:
 eyJwcm9wZXJ0aWVzIjoidGl0bGU6IFN0YWNrRWRpdC10ZW1wbG
 F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlst
-NTA5MTcxOTEyLC0xOTMzOTczMjYzXX0=
+NzczNzI1MTU0LC0xOTMzOTczMjYzXX0=
 -->
