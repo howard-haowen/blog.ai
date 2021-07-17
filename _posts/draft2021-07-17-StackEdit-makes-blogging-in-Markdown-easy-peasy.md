@@ -27,6 +27,7 @@ Once you're on **StackEdit**, clicking on **START WRITING** is all that needs to
 
 > Workspaces > Add a GitHub workspace 
 
+The key in your **FastPages** repo URL and the `_notebooks` folder. 
 
 
 ## Testing Markdown extensions
@@ -86,6 +87,6 @@ C --> D
 
 <!--stackedit_data:
 eyJwcm9wZXJ0aWVzIjoidGl0bGU6IFN0YWNrRWRpdC10ZW1wbG
-F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlst
-NTk2MzQ1NDc2LC0yNDEzMzk2NzAsLTE5MzM5NzMyNjNdfQ==
+F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlsx
+MDY5MzU3MjIsLTI0MTMzOTY3MCwtMTkzMzk3MzI2M119
 -->
