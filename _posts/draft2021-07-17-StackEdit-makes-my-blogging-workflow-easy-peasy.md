@@ -16,9 +16,9 @@ title: StackEdit makes my blogging workflow easy-peasy
 
 > File >  Save a copy in GitHub
 
-Then all you need to do is select your **FastPages** repo and the `_notebooks` folder. 
+Then all you need to do is select your **FastPages** repo on **GitHub** and the `_notebooks` folder. 
 
-But as for posts in `.md`, the workflow was not as smooth until I discovered **StackEdit**, which is an *in-browser Markdown editor*.  So this post shows how **StackEdit** makes 
+But as for posts in `.md`, the workflow was not as smooth until I discovered **StackEdit**, which is an *in-browser Markdown editor*.  So this post shows how **StackEdit** makes my blogging in  easy-peasy
 
 
 # Markdown extensions
@@ -79,6 +79,6 @@ C --> D
 ```
 <!--stackedit_data:
 eyJwcm9wZXJ0aWVzIjoidGl0bGU6IFN0YWNrRWRpdC10ZW1wbG
-F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlst
-NDk2NjY5NzUyLDE1ODY5MTYyOTFdfQ==
+F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOls2
+NzYyOTY4NzMsMTU4NjkxNjI5MV19
 -->
