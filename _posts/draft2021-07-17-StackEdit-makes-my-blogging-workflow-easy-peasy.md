@@ -12,7 +12,7 @@ title: List of blogs built with FastPages
 
 # StackEdit makes my blogging workflow easy-peasy
 
-**FastPages** supports blog posts in three file formats, including `.ipynb` for Jupyter`, `Markdown`, and `Microsoft Word`. Files in each type of them are supposed to be saved in a dedicated folder, respectively named `_notebooks`, `_posts`, and `_word` by **FastPages**. I've been using **Colab** to write `Jupyter` posts, and publishing them is simply a matter of saving them to **GitHub**. This can be done on **Colab** by doing:
+**FastPages** supports blog posts in three file formats, including `.ipynb` for Jupyter, `.md` for Markdown and `.docx` for Microsoft Word. Each type of formats is supposed to be saved in a dedicated folder, respectively named `_notebooks`, `_posts`, and `_word` by **FastPages**. I've been using **Colab** to write `Jupyter` posts, and publishing them is simply a matter of saving them to **GitHub**. This can be done on **Colab** by doing:
 
 > File >  Save a copy in GitHub
 
@@ -78,5 +78,5 @@ C --> D
 <!--stackedit_data:
 eyJwcm9wZXJ0aWVzIjoidGl0bGU6IFN0YWNrRWRpdC10ZW1wbG
 F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlsx
-MTAzOTk3MzQ1LDE1ODY5MTYyOTFdfQ==
+ODc2MTE1ODc2LDE1ODY5MTYyOTFdfQ==
 -->
