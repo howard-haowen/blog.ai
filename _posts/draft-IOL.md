@@ -14,7 +14,7 @@ title: Training lecture for the International Linguistics Olympiad
 
 ## Intro
 
-Recently, I got the honor of being invited to give a training lecture to the Taiwan team for the [International Linguistics Olympiad](https://en.wikipedia.org/wiki/International_Linguistics_Olympiad). It's basically an annual event where participants from countries all over the world compete to solve linguistics puzzles. You don't need to have training in linguistics in order to solve the puzzles, though knowing some linguistics does help. That's why I was asked to give this lecture, the title of which was  
+Recently, I got the honor of being invited to give a training lecture to the Taiwan team for the [International Linguistics Olympiad](https://en.wikipedia.org/wiki/International_Linguistics_Olympiad). It's basically an annual event where participants from countries all over the world compete to solve linguistics puzzles. You don't need to have training in linguistics in order to solve those puzzles, though knowing some linguistics does help. That's why I was asked to give this lecture, the title of which was  
 
 [problem](https://ioling.org/booklets/iol-2018-indiv-prob.en.pdf)
 
@@ -25,7 +25,7 @@ Recently, I got the honor of being invited to give a training lecture to the Tai
 
 [answer](https://ioling.org/booklets/iol-2018-indiv-sol.en.pdf)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTMzMjY4MjUxMSwyMDI1NzYwMTU2LDI4MT
-g3NTkwLC01NDIyOTAzNCwtMTc5MDI1MDAxMyw2ODE3MDk5NzZd
-fQ==
+eyJoaXN0b3J5IjpbNTA2OTg4MzczLDIwMjU3NjAxNTYsMjgxOD
+c1OTAsLTU0MjI5MDM0LC0xNzkwMjUwMDEzLDY4MTcwOTk3Nl19
+
 -->
