@@ -8,7 +8,7 @@ title: StackEdit makes blogging in Markdown easy-peasy
 
 ---
 
-![](https://github.com/howard-haowen/blog.ai/raw/master/images/simplified-blogging.jpg =300x600 "Credit: John Atkinson")
+![](https://github.com/howard-haowen/blog.ai/raw/master/images/simplified-blogging.jpg "Credit: John Atkinson")
 
 # StackEdit makes blogging in Markdown easy-peasy
 
@@ -47,6 +47,8 @@ This trick saves you the trouble of typing out the embedding syntax.
 
 In addition to default Markdown syntax, **StackEdit** also supports some additional extensions, including `SmartyPants`,  `KaTeX`, and `UML diagrams`. To test if these extensions will be properly rendered by **FastPages**, I simply copied and pasted examples from **StackEdit** down below:
 
+---
+
 ### SmartyPants
 
 SmartyPants converts ASCII punctuation characters into "smart" typographic punctuation HTML entities. For example:
@@ -71,36 +73,8 @@ $$
 > You can find more information about **LaTeX** mathematical expressions [here](http://meta.math.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference).
 
 
-### UML diagrams
-
-You can render UML diagrams using [Mermaid](https://mermaidjs.github.io/). For example, this will produce a sequence diagram:
-
-```mermaid
-sequenceDiagram
-Alice ->> Bob: Hello Bob, how are you?
-Bob-->>John: How about you John?
-Bob--x Alice: I am good thanks!
-Bob-x John: I am good thanks!
-Note right of John: Bob thinks a long<br/>long time, so long<br/>that the text does<br/>not fit on a row.
-
-Bob-->Alice: Checking with John...
-Alice->John: Yes... John, how are you?
-```
-
-And this will produce a flow chart:
-
-```mermaid
-graph LR
-A[Square Rect] -- Link text --> B((Circle))
-A --> C(Round Rect)
-B --> D{Rhombus}
-C --> D
-```
-
-
-
 <!--stackedit_data:
 eyJwcm9wZXJ0aWVzIjoidGl0bGU6IFN0YWNrRWRpdC10ZW1wbG
-F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlsy
-MDMyMjQzNTQwLC0xNTY2NDI2MDY0LC0xNTEwMzkyODA2XX0=
+F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlst
+MzU4NjY5NTY1LC0xNTY2NDI2MDY0LC0xNTEwMzkyODA2XX0=
 -->
