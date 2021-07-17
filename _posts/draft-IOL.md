@@ -12,7 +12,14 @@ title: Training lecture for International Linguistics Olympiad
 # Training lecture for International Linguistics Olympiad
 
 
+## Question
+
+[problem]()
+
+## Lecture Slides
 <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRzIAb2rdQHWSHOreVPJDz2oViOS9ybACd5mmjx-8TYBAuGbbhOSUHiW319fw5cu4xDreO2mCD8FcJd/embed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+
+## Answer
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTIwOTY3Mjg4MTUsNjgxNzA5OTc2XX0=
+eyJoaXN0b3J5IjpbNDg0MzUyMDgxLDY4MTcwOTk3Nl19
 -->
