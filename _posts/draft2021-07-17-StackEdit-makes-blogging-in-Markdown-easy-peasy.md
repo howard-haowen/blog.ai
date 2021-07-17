@@ -29,7 +29,9 @@ Once you're on **StackEdit**, clicking on **START WRITING** is all that needs to
 
 Then enter your **FastPages** repo URL and the `_posts` folder path (or any other **GitHub** folder). Now if you click on the folder icon at the upper left corner, you'll see all your `.md` files in the the `_posts` folder like this:
 
+![](https://github.com/howard-haowen/blog.ai/raw/master/images/StackEdit-snapshot.png)
 
+[StackEdit-snapshot.png](https://github.com/howard-haowen/blog.ai/blob/master/images/StackEdit-snapshot.png "StackEdit-snapshot.png")
 
 
 ## Testing Markdown extensions
@@ -89,6 +91,6 @@ C --> D
 
 <!--stackedit_data:
 eyJwcm9wZXJ0aWVzIjoidGl0bGU6IFN0YWNrRWRpdC10ZW1wbG
-F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOls0
-NDk5MDE4NjcsLTI0MTMzOTY3MCwtMTkzMzk3MzI2M119
+F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlst
+MTM2NjQzNjAyNywtMjQxMzM5NjcwLC0xOTMzOTczMjYzXX0=
 -->
