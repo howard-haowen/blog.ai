@@ -21,7 +21,7 @@ Then all you need to do is select your **FastPages** repo on **GitHub** and the 
 But as for posts in `.md`, my workflow was not as smooth until I discovered [**StackEdit**](https://stackedit.io), which is an *in-browser Markdown editor*.  So this post shows how **StackEdit** makes blogging in Markdown easy-peasy.
 
 
-## Add a workspace
+## Adding a workspace
 
 Once you're on **StackEdit**, clicking on **START WRITING** is all that needs to be done to, umm..., start writing in Markdown. But what comes next is not that straightforward. It took me a while to figure it out. To sync a **StackEdit** browser instance with a folder on **GitHub**, you first need to add a workspace. This is done by clicking on the hashtag icon at the upper right corner. Then you do:
 
@@ -101,6 +101,6 @@ C --> D
 
 <!--stackedit_data:
 eyJwcm9wZXJ0aWVzIjoidGl0bGU6IFN0YWNrRWRpdC10ZW1wbG
-F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlst
-MTU2NjQyNjA2NCwtMTUxMDM5MjgwNl19
+F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlsy
+MDMyMjQzNTQwLC0xNTY2NDI2MDY0LC0xNTEwMzkyODA2XX0=
 -->
