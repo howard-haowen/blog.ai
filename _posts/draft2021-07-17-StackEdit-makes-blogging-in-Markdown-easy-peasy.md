@@ -23,11 +23,11 @@ But as for posts in `.md`, my workflow was not as smooth until I discovered [**S
 
 ## Add a workspace
 
-Once you're on **StackEdit**, clicking on **START WRITING** is all that needs to be done to, umm..., start writing in Markdown. But what comes next is not that straightforward. It took me a while to figure it out. To syn local  `.md` files to a folder on **GitHub**, you first need to add a workspace. This is done by clicking on the hashtag icon at the upper right corner. Then you do:
+Once you're on **StackEdit**, clicking on **START WRITING** is all that needs to be done to, umm..., start writing in Markdown. But what comes next is not that straightforward. It took me a while to figure it out. To syn a **StackEdit** browser instance with a folder on **GitHub**, you first need to add a workspace. This is done by clicking on the hashtag icon at the upper right corner. Then you do:
 
 > Workspaces > Add a GitHub workspace 
 
-Then enter your **FastPages** repo URL and the `_posts` folder path. Now if you click on the folder icon at the upper left corner, you'll see all your `.md` files in the the `_posts` folder. 
+Then enter your **FastPages** repo URL and the `_posts` folder path (or any other URL and . Now if you click on the folder icon at the upper left corner, you'll see all your `.md` files in the the `_posts` folder. 
 
 
 ## Testing Markdown extensions
@@ -87,6 +87,6 @@ C --> D
 
 <!--stackedit_data:
 eyJwcm9wZXJ0aWVzIjoidGl0bGU6IFN0YWNrRWRpdC10ZW1wbG
-F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlsx
-NzcwMjg0ODE1LC0yNDEzMzk2NzAsLTE5MzM5NzMyNjNdfQ==
+F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlst
+MTMxMDE0OTczNiwtMjQxMzM5NjcwLC0xOTMzOTczMjYzXX0=
 -->
