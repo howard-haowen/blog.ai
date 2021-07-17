@@ -4,11 +4,11 @@ layout: post
 description: This post describes my blogging workflow.
 image: images/simplified-blogging.jpg
 categories: [blogging, markdown, stackedit, colab]
-title: List of blogs built with FastPages
+title: StackEdit makes my blogging workflow easy-peasy
 
 ---
 
-![](https://github.com/howard-haowen/blog.ai/raw/master/images/simplified-blogging.jpg "Credit: blogs.lse.ac.uk")
+![](https://github.com/howard-haowen/blog.ai/raw/master/images/simplified-blogging.jpg "Credit: John At")
 
 # StackEdit makes my blogging workflow easy-peasy
 
@@ -16,7 +16,7 @@ title: List of blogs built with FastPages
 
 > File >  Save a copy in GitHub
 
-Then 
+Then you 
 
 
 # Markdown extensions
@@ -77,6 +77,6 @@ C --> D
 ```
 <!--stackedit_data:
 eyJwcm9wZXJ0aWVzIjoidGl0bGU6IFN0YWNrRWRpdC10ZW1wbG
-F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlst
-Mzk4NzQ4NjAyLDE1ODY5MTYyOTFdfQ==
+F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOls2
+OTMyNjQ4MTYsMTU4NjkxNjI5MV19
 -->
