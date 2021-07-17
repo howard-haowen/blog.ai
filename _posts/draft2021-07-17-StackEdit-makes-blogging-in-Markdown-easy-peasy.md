@@ -43,8 +43,7 @@ Then to display the image, you just need to add an exclamation mark at the begin
 
 ## Testing Markdown extensions
 
-In addition to default Markdown syntax, **StackEdit** also supports some additional extensions, including `SmartyPants`,  `KaTeX`, and `UML diagrams`. To test if these extensions will be properly rendered by **FastPages**, I spasted 
-
+In addition to default Markdown syntax, **StackEdit** also supports some additional extensions, including `SmartyPants`,  `KaTeX`, and `UML diagrams`. To test if these extensions will be properly rendered by **FastPages**, I simply copied and pasted the examples **StackEdit** pr
 
 ### SmartyPants
 
@@ -101,5 +100,5 @@ C --> D
 <!--stackedit_data:
 eyJwcm9wZXJ0aWVzIjoidGl0bGU6IFN0YWNrRWRpdC10ZW1wbG
 F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlst
-ODEzMDg3OTc5LC0yNDEzMzk2NzAsLTE5MzM5NzMyNjNdfQ==
+MjEyNDA5MTEwOSwtMjQxMzM5NjcwLC0xOTMzOTczMjYzXX0=
 -->
