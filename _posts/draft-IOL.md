@@ -4,17 +4,17 @@ layout: post
 description: A minimal example of using markdown with fastpages.
 image: images/birds-of-a-feather.jpg
 categories: [linguistics, olympiad, google-slides]
-title: Training lecture for International Linguistics Olympiad
+title: Training lecture for the International Linguistics Olympiad
 
 ---
 ![](https://github.com/howard-haowen/blog.ai/raw/master/images/birds-of-a-feather.jpg "Credit: blogs.lse.ac.uk")
 
-# Training for International Linguistics Olympiad
+# Training for the International Linguistics Olympiad
 
 
 ## Intro
 
-Recently, I got the honor of being invited to train the Taiwan team for International Linguistics Olympiad
+Recently, I got the honor of being invited to give a training lecture to the Taiwan team for the [International Linguistics Olympiad](https://en.wikipedia.org/wiki/International_Linguistics_Olympiad), where people from countries
 
 [problem](https://ioling.org/booklets/iol-2018-indiv-prob.en.pdf)
 
@@ -25,6 +25,6 @@ Recently, I got the honor of being invited to train the Taiwan team for Internat
 
 [answer](https://ioling.org/booklets/iol-2018-indiv-sol.en.pdf)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNzI1ODcwNDY5LDI4MTg3NTkwLC01NDIyOT
-AzNCwtMTc5MDI1MDAxMyw2ODE3MDk5NzZdfQ==
+eyJoaXN0b3J5IjpbLTEzODc1MDUzMDYsMjgxODc1OTAsLTU0Mj
+I5MDM0LC0xNzkwMjUwMDEzLDY4MTcwOTk3Nl19
 -->
