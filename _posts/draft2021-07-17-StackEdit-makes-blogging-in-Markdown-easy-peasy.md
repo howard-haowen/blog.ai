@@ -23,7 +23,7 @@ But as for posts in `.md`, my workflow was not as smooth until I discovered [**S
 
 # Add a workspace
 
-Once you're on  **Markdown extensions**, providing you with some nice features.
+Once you're on **StackEdit**, clicking on **START WRITING** is all it taks to  providing you with some nice features.
 
 > **ProTip:** You can disable any **Markdown extension** in the **File properties** dialog.
 
@@ -79,6 +79,6 @@ C --> D
 ```
 <!--stackedit_data:
 eyJwcm9wZXJ0aWVzIjoidGl0bGU6IFN0YWNrRWRpdC10ZW1wbG
-F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlst
-MTA4NTg1MTE1NywtMTkzMzk3MzI2M119
+F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOls1
+NTk3Mzk2NjksLTE5MzM5NzMyNjNdfQ==
 -->
