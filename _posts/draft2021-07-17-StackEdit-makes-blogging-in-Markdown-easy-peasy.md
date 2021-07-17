@@ -21,9 +21,9 @@ Then all you need to do is select your **FastPages** repo on **GitHub** and the 
 But as for posts in `.md`, my workflow was not as smooth until I discovered [**StackEdit**](https://stackedit.io), which is an *in-browser Markdown editor*.  So this post shows how **StackEdit** makes blogging in Markdown easy-peasy.
 
 
-# Markdown extensions
+# Add a workspace
 
-StackEdit extends the standard Markdown syntax by adding extra **Markdown extensions**, providing you with some nice features.
+Once you're on  **Markdown extensions**, providing you with some nice features.
 
 > **ProTip:** You can disable any **Markdown extension** in the **File properties** dialog.
 
@@ -80,5 +80,5 @@ C --> D
 <!--stackedit_data:
 eyJwcm9wZXJ0aWVzIjoidGl0bGU6IFN0YWNrRWRpdC10ZW1wbG
 F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlst
-MTkzMzk3MzI2M119
+MTA4NTg1MTE1NywtMTkzMzk3MzI2M119
 -->
