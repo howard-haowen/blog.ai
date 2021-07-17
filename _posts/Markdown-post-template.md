@@ -7,7 +7,7 @@ categories: [markdown]
 title: An Example Markdown Post
 
 ---
-![]({{ site.baseurl }}/images/birds-of-a-feather.jpg "Credit: blogs.lse.ac.uk")
+![](https://github.com/howard-haowen/blog.ai/raw/master/images/birds-of-a-feather.jpg "Credit: blogs.lse.ac.uk")
 
 # Example Markdown Post
 
@@ -106,5 +106,5 @@ key: value
 [^1]: This is the footnote.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTI3ODAzNTAyOV19
+eyJoaXN0b3J5IjpbMTY5MzMxNDUzN119
 -->
