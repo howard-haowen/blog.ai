@@ -1,20 +1,14 @@
 ---
 toc: true
 layout: post
-description: 
-categories: [markdown]
-title: StackEdit-template
-
-toc: true
-layout: post
-description: This post aggregates other blogs built with FastPages that I came across.
-image: images/birds-of-a-feather.jpg
-categories: [fastpages]
+description: I sha
+image: images/simplified-blogging.jpg
+categories: [blogging, markdown, stackedit]
 title: List of blogs built with FastPages
 
 ---
 
-# StackEdit-template
+# StackEdit makes my blogging workflow easy-peasy
 
 Hi! I'm your first Markdown file in **StackEdit**. If you want to learn about StackEdit, you can read me. If you want to play with Markdown, you can edit me. Once you have finished with me, you can create new files by opening the **file explorer** on the left corner of the navigation bar.
 
@@ -77,6 +71,6 @@ C --> D
 ```
 <!--stackedit_data:
 eyJwcm9wZXJ0aWVzIjoidGl0bGU6IFN0YWNrRWRpdC10ZW1wbG
-F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlsx
-NjI1NzgzOTkzXX0=
+F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlst
+NTcwOTgyNDEzXX0=
 -->
