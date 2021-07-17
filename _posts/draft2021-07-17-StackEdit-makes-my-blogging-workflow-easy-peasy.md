@@ -1,12 +1,14 @@
 ---
 toc: true
 layout: post
-description: This post describes how my blogging workflow.
+description: This post describes my blogging workflow.
 image: images/simplified-blogging.jpg
-categories: [blogging, markdown, stackedit]
+categories: [blogging, markdown, stackedit, colab]
 title: List of blogs built with FastPages
 
 ---
+
+![](https://github.com/howard-haowen/blog.ai/raw/master/images/simplified-blogging.jpg "Credit: blogs.lse.ac.uk")
 
 # StackEdit makes my blogging workflow easy-peasy
 
@@ -71,6 +73,6 @@ C --> D
 ```
 <!--stackedit_data:
 eyJwcm9wZXJ0aWVzIjoidGl0bGU6IFN0YWNrRWRpdC10ZW1wbG
-F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOls1
-Nzc5MDU0Ml19
+F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlsx
+NTg2OTE2MjkxXX0=
 -->
