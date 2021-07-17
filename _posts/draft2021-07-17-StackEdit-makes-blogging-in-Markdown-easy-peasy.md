@@ -31,7 +31,7 @@ Then enter your **FastPages** repo URL and the `_posts` folder path (or any othe
 
 ![StackEdit-snapshot.png](https://github.com/howard-haowen/blog.ai/raw/master/images/StackEdit-snapshot.png "StackEdit-snapshot.png")
 
-Now you can enjoy writing on **StackEdit**, and rest assued that all your local `.md` files will be synched with remote ones.  
+Now you can enjoy writing on **StackEdit**, and rest assured that all your local `.md` files will be synched with remote ones.  
 
 By the way, I found a trick for quickly embedding an image on **StackEdit**. Suppose you have an image file stored on **GitHub**, you can just copy that file name on **GitHub** and paste it on **StackEdit**. Take the image above for example, this is what you'll see: 
 
@@ -98,6 +98,6 @@ C --> D
 
 <!--stackedit_data:
 eyJwcm9wZXJ0aWVzIjoidGl0bGU6IFN0YWNrRWRpdC10ZW1wbG
-F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlsy
-MDI2MzM2MDM1LC0yNDEzMzk2NzAsLTE5MzM5NzMyNjNdfQ==
+F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlst
+MTk2MDI5MDU3LC0yNDEzMzk2NzAsLTE5MzM5NzMyNjNdfQ==
 -->
