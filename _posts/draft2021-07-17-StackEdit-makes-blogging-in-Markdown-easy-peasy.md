@@ -23,7 +23,7 @@ But as for posts in `.md`, my workflow was not as smooth until I discovered [**S
 
 ## Add a workspace
 
-Once you're on **StackEdit**, clicking on **START WRITING** is all that needs to be done to, umm..., start writing in Markdown. But   
+Once you're on **StackEdit**, clicking on **START WRITING** is all that needs to be done to, umm..., start writing in Markdown. But 
 
 
 
@@ -84,6 +84,6 @@ C --> D
 
 <!--stackedit_data:
 eyJwcm9wZXJ0aWVzIjoidGl0bGU6IFN0YWNrRWRpdC10ZW1wbG
-F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlst
-NzczNzI1MTU0LC0xOTMzOTczMjYzXX0=
+F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOls0
+NjcxMDc2NzgsLTE5MzM5NzMyNjNdfQ==
 -->
