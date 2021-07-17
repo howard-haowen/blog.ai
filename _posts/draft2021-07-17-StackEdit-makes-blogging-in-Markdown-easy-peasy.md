@@ -1,7 +1,7 @@
 ---
 toc: true
 layout: post
-description: This post describes my blogging workflow with StackEdit.
+description: This post describes my blogging workflow.
 image: images/simplified-blogging.jpg
 categories: [blogging, markdown, stackedit, colab]
 title: StackEdit makes blogging in Markdown easy-peasy
@@ -12,7 +12,7 @@ title: StackEdit makes blogging in Markdown easy-peasy
 
 # StackEdit makes blogging in Markdown easy-peasy
 
-**FastPages** supports blog posts in three file formats, including `.ipynb` for Jupyter, `.md` for Markdown and `.docx` for Microsoft Word. Each type of formats is supposed to be saved in a dedicated folder, respectively named `_notebooks`, `_posts`, and `_word` by **FastPages**. I've been using **Colab** to write posts in `.ipynb` because publishing them is as easy as saving them to **GitHub**. This can be done on **Colab** by doing:
+[**FastPages**](https://github.com/fastai/fastpages) supports blog posts in three file formats, including `.ipynb` for Jupyter, `.md` for Markdown and `.docx` for Microsoft Word. Each type of formats is supposed to be saved in a dedicated folder, respectively named `_notebooks`, `_posts`, and `_word` by **FastPages**. I've been using **Colab** to write posts in `.ipynb` because publishing them is as easy as saving them to **GitHub**. This can be done on **Colab** by doing:
 
 > File >  Save a copy in GitHub
 
@@ -43,7 +43,7 @@ Then to display the image, you just need to add an exclamation mark at the begin
 
 ## Testing Markdown extensions
 
-In addition to default Markdown syntax, **StackEdit** also supports some additional extensions, including `SmartyPants`,  `KaTeX`, and `UML diagrams`. To test if these extensions will be properly rendered by **FastPages**, I simply copied and pasted examples from **StackEdit** provides down below:
+In addition to default Markdown syntax, **StackEdit** also supports some additional extensions, including `SmartyPants`,  `KaTeX`, and `UML diagrams`. To test if these extensions will be properly rendered by **FastPages**, I simply copied and pasted examples from **StackEdit** down below:
 
 ### SmartyPants
 
@@ -100,5 +100,5 @@ C --> D
 <!--stackedit_data:
 eyJwcm9wZXJ0aWVzIjoidGl0bGU6IFN0YWNrRWRpdC10ZW1wbG
 F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlst
-ODgwMDI0MjExLC0yNDEzMzk2NzAsLTE5MzM5NzMyNjNdfQ==
+ODM5NTg4OTk5LC0yNDEzMzk2NzAsLTE5MzM5NzMyNjNdfQ==
 -->
