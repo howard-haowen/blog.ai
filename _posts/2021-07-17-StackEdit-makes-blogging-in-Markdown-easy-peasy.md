@@ -10,7 +10,7 @@ title: StackEdit makes blogging in Markdown easy-peasy
 
 ![](https://github.com/howard-haowen/blog.ai/raw/master/images/simplified-blogging.jpg "Credit: John Atkinson")
 
-# StackEdit makes blogging in Markdown easy-peasy
+# Intro
 
 [**FastPages**](https://github.com/fastai/fastpages) supports blog posts in three file formats, including `.ipynb` for Jupyter, `.md` for Markdown and `.docx` for Microsoft Word. Each type of formats is supposed to be saved in a dedicated folder, respectively named `_notebooks`, `_posts`, and `_word` by **FastPages**. I've been using **Colab** to write posts in `.ipynb` because publishing them is as easy as saving them to **GitHub**. This can be done on **Colab** by doing:
 
@@ -76,5 +76,6 @@ $$
 <!--stackedit_data:
 eyJwcm9wZXJ0aWVzIjoidGl0bGU6IFN0YWNrRWRpdC10ZW1wbG
 F0ZVxuZGF0ZTogMjAyMS0wNy0wMTdcbiIsImhpc3RvcnkiOlst
-MzU4NjY5NTY1LC0xNTY2NDI2MDY0LC0xNTEwMzkyODA2XX0=
+MTkwODk5MTMzNiwtMzU4NjY5NTY1LC0xNTY2NDI2MDY0LC0xNT
+EwMzkyODA2XX0=
 -->
