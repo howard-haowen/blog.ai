@@ -2,8 +2,8 @@
 toc: true
 layout: post
 description: I share my training lecture and a problem set for the International Linguistics Olympiad. 
-image: images/birds-of-a-feather.jpg
-categories: [linguistics, olympiad, google-slides]
+image: images/IOL-banner.png
+categories: [linguistics-olympiad, google-slides, languages-of-taiwan]
 title: Training lecture for the International Linguistics Olympiad
 
 ---
@@ -59,7 +59,7 @@ The task is to fill in the gaps indicated by (1) through (4). If you go through 
 
 [^3]: [The Cluster-internal Ordering of Clitics in Kavalan (East Formosan, Austronesian]((http://journals.linguisticsociety.org/proceedings/index.php/BLS/article/view/3351)) by Doris Ching-jung Yen and Loren Billings, presented at the Annual Meeting of the Berkeley Linguistics Society.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTY0NzEzMTk0OCwxNzcyMTE4OTYwLDkyNT
+eyJoaXN0b3J5IjpbMTY2ODUwNDY2MCwxNzcyMTE4OTYwLDkyNT
 Q3MDU0NCw2MDI4MTg4MDUsLTEyMzE3NjgxMjcsODgwNDkzMjk1
 LC0xNDkwMDg5OTE5LDIwMjU3NjAxNTYsMjgxODc1OTAsLTU0Mj
 I5MDM0LC0xNzkwMjUwMDEzLDY4MTcwOTk3Nl19
