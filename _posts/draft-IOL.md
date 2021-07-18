@@ -14,17 +14,17 @@ title: Training lecture for the International Linguistics Olympiad
 ## Intro
 Recently, I had the honor of being invited to give a training lecture to the Taiwan team for the [International Linguistics Olympiad](https://en.wikipedia.org/wiki/International_Linguistics_Olympiad). It's basically an annual competition where participants from countries all over the world get together to solve linguistics puzzles. You don't need to have official training in linguistics in order to solve those puzzles, though knowing some linguistics does help. That's why I was asked to give this lecture. 
 
-## Past problem set
+## A problem set
 
 The whole point of the competition is not so much the scope of linguistic knowledge one has as the analytic ability of accounting for the systematic patterns buried in the given data. The  process is actually quite similar to solving programming problems on [LeetCode](https://leetcode.com).  
 
-Take this problem set from the 16th competition in 2018 (https://ioling.org/booklets/iol-2018-indiv-prob.en.pdf) for instance.
+Take this problem set from the 16th competition in 2018 for instance[^1].
 
 ![](https://github.com/howard-haowen/blog.ai/raw/master/images/Terena-problem.png "Terêna problem set")
 
-The problem set is from Terêna, a language spoken in Brazil. Given the information provided here, participants are asked to fill in the gaps indicated by numbers 1 through 14. I encourage those of you who know little about linguistics to work on this puzzle before checking out the answer.   
+The problem set is from Terêna, a language spoken in Brazil. Given the information provided here, participants are asked to fill in the gaps indicated by numbers 1 through 14. I encourage those of you who know little about linguistics to work on this puzzle before checking out the answer[^2].   
 
-[answer](https://ioling.org/booklets/iol-2018-indiv-sol.en.pdf)
+
 
 
 ## Lecture slides
@@ -35,9 +35,11 @@ The title of my lecture was  **verbal person marking & pronominal clitics**, whi
 ## Exercises
 
 [^1]: The 
+(https://ioling.org/booklets/iol-2018-indiv-prob.en.pdf)
 
+[answer](https://ioling.org/booklets/iol-2018-indiv-sol.en.pdf)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTIwOTg4NDkzNzAsLTEyMzE3NjgxMjcsOD
-gwNDkzMjk1LC0xNDkwMDg5OTE5LDIwMjU3NjAxNTYsMjgxODc1
-OTAsLTU0MjI5MDM0LC0xNzkwMjUwMDEzLDY4MTcwOTk3Nl19
+eyJoaXN0b3J5IjpbLTM2MzMwNTIxMCwtMTIzMTc2ODEyNyw4OD
+A0OTMyOTUsLTE0OTAwODk5MTksMjAyNTc2MDE1NiwyODE4NzU5
+MCwtNTQyMjkwMzQsLTE3OTAyNTAwMTMsNjgxNzA5OTc2XX0=
 -->
