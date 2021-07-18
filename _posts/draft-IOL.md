@@ -40,8 +40,8 @@ The Terêna problem set happens to be relevant to one of my favorite research to
 | 05| pmukuniku sunisku. | I'm beating my child.|
 | 06| mai wasusu qmaRat wasuku ni? | Didn't your dog bite mine? |
 | 07| maipamaisu maynep ni? | Aren't you asleep yet? |
-| 08| mayneptisu ni? | Are you already asleep? |
-| 09| pmukuntisu wasusu ni? | Did you beat your dog? |
+| 08| mayneptiisu ni? | Are you already asleep? |
+| 09| pmukuntiisu wasusu ni? | Did you beat your dog? |
 | 10| maiiku pukunanna. | He didn't beat me.|
 
 
@@ -50,7 +50,7 @@ The Terêna problem set happens to be relevant to one of my favorite research to
 
 [^2]: Here's the complete [solution](https://ioling.org/booklets/iol-2018-indiv-sol.en.pdf) to the Terêna problem set.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTY5MTI2Mjc5LC0xMjMxNzY4MTI3LDg4MD
-Q5MzI5NSwtMTQ5MDA4OTkxOSwyMDI1NzYwMTU2LDI4MTg3NTkw
-LC01NDIyOTAzNCwtMTc5MDI1MDAxMyw2ODE3MDk5NzZdfQ==
+eyJoaXN0b3J5IjpbLTM1MDMwMTg2OSwtMTIzMTc2ODEyNyw4OD
+A0OTMyOTUsLTE0OTAwODk5MTksMjAyNTc2MDE1NiwyODE4NzU5
+MCwtNTQyMjkwMzQsLTE3OTAyNTAwMTMsNjgxNzA5OTc2XX0=
 -->
