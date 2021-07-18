@@ -29,7 +29,7 @@ The Terêna problem set happens to be relevant to one of my favorite research to
 <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRzIAb2rdQHWSHOreVPJDz2oViOS9ybACd5mmjx-8TYBAuGbbhOSUHiW319fw5cu4xDreO2mCD8FcJd/embed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 
 ## A problem set from Taiwan
-In addition to the slides, I created a problem set based on a language of Taiwan, which is called Kavalan. You pro  
+In addition to the slides, I created a problem set based on a language of Taiwan, which is called Kavalan. You've probably heard of it from  
 
 | SN| Kavalan | English  |
 |--|:-|:-|
@@ -46,7 +46,7 @@ In addition to the slides, I created a problem set based on a language of Taiwan
 | 11| qaRatansuiku ni? | (1) |
 | 12| maiiku qmaRat sunissu. | (2)|
 | 13| (3) | I haven't beaten my child yet.|
-| 14| (4) | He didn't beat me.|
+| 14| (4) | Didn't you beat your child?|
 
 
 ## Footnotes
@@ -54,7 +54,7 @@ In addition to the slides, I created a problem set based on a language of Taiwan
 
 [^2]: Here's the complete [solution](https://ioling.org/booklets/iol-2018-indiv-sol.en.pdf) to the Terêna problem set.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTI0NDI3MTIzMCw5MjU0NzA1NDQsNjAyOD
+eyJoaXN0b3J5IjpbMTc3MjExODk2MCw5MjU0NzA1NDQsNjAyOD
 E4ODA1LC0xMjMxNzY4MTI3LDg4MDQ5MzI5NSwtMTQ5MDA4OTkx
 OSwyMDI1NzYwMTU2LDI4MTg3NTkwLC01NDIyOTAzNCwtMTc5MD
 I1MDAxMyw2ODE3MDk5NzZdfQ==
