@@ -1,7 +1,7 @@
 ---
 toc: true
 layout: post
-title: My First Post: Setting tone for this blog
+title: My first post
 description: For almost everything you'd like to learn, there's an awesome list for that on GitHub. On this blog, I plan to add my personal touch to various tools, documenting not only what I did right to get the ball rolling, but also what I did wrong to save you (or even future me) from abysmal frustration.  
 categories: [awesome-list, fastpages]
 image: images/reinvent-the-wheel.jpg
@@ -32,5 +32,5 @@ Truth be told that I actually failed twice before I successfully set up this blo
 
 {% include info.html text="I was clueless when I read PR in the instructions. It turns out to mean 'pull requests'. Click on the tab that says 'pull requests' when you are done forking the original repo. Then you're good to go by following the instructions there." %}
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTExMjA3NzE0OTRdfQ==
+eyJoaXN0b3J5IjpbMjA5MjIyMjMwOV19
 -->
