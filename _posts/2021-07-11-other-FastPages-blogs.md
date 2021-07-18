@@ -7,11 +7,9 @@ categories: [fastpages]
 title: List of blogs built with FastPages
 
 ---
-![]({{ site.baseurl }}/images/birds-of-a-feather.jpg "Credit: blogs.lse.ac.uk")
+![](https://github.com/howard-haowen/blog.ai/raw/master/images/birds-of-a-feather.jpg "Credit: blogs.lse.ac.uk")
 
-Last updated: 12 July, 2021
-
-# List of blogs built with FastPages
+> Last updated: 12 July, 2021
 
 This post aggregates other blogs built with FastPages that I came across. This list is constantly updated. 
 
@@ -23,3 +21,6 @@ This post aggregates other blogs built with FastPages that I came across. This l
 
 ## Visualization
 - [COVID-19 Dashboards](https://covid19dashboards.com)
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTE4NDM0OTc4MjddfQ==
+-->
