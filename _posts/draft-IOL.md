@@ -7,7 +7,7 @@ categories: [linguistics, olympiad, google-slides]
 title: Training lecture for the International Linguistics Olympiad
 
 ---
-![](https://github.com/howard-haowen/blog.ai/raw/master/images/birds-of-a-feather.jpg "Credit: blogs.lse.ac.uk")
+![](https://github.com/howard-haowen/blog.ai/raw/master/images/IOL-banner. "Credit: blogs.lse.ac.uk")
 
 # Training for the International Linguistics Olympiad
 
@@ -31,7 +31,7 @@ The problem set comes from Terêna
 
 [answer](https://ioling.org/booklets/iol-2018-indiv-sol.en.pdf)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbODgwNDkzMjk1LC0xNDkwMDg5OTE5LDIwMj
-U3NjAxNTYsMjgxODc1OTAsLTU0MjI5MDM0LC0xNzkwMjUwMDEz
-LDY4MTcwOTk3Nl19
+eyJoaXN0b3J5IjpbLTEyMzE3NjgxMjcsODgwNDkzMjk1LC0xND
+kwMDg5OTE5LDIwMjU3NjAxNTYsMjgxODc1OTAsLTU0MjI5MDM0
+LC0xNzkwMjUwMDEzLDY4MTcwOTk3Nl19
 -->
