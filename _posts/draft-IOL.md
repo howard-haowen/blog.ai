@@ -18,7 +18,7 @@ Recently, I had the honor of being invited to give a training lecture to the Tai
 
 The whole point of the competition is not so much the scope of linguistic knowledge one has as the analytic ability of accounting for the systematic patterns buried in the given data. The  process is actually quite similar to solving programming problems on [LeetCode](https://leetcode.com).  
 
-Take this problem set from the [16th competition in 2018](https://ioling.org/booklets/iol-2018-indiv-prob.en.pdf) for instance.
+Take this problem set from the 16th competition in 2018 (https://ioling.org/booklets/iol-2018-indiv-prob.en.pdf) for instance.
 
 ![](https://github.com/howard-haowen/blog.ai/raw/master/images/Terena-problem.png "Terêna problem set")
 
@@ -34,8 +34,10 @@ The title of my lecture was  **verbal person marking & pronominal clitics**, whi
 
 ## Exercises
 
+[^1]: The 
+
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNjkzODcwMDU4LC0xMjMxNzY4MTI3LDg4MD
-Q5MzI5NSwtMTQ5MDA4OTkxOSwyMDI1NzYwMTU2LDI4MTg3NTkw
-LC01NDIyOTAzNCwtMTc5MDI1MDAxMyw2ODE3MDk5NzZdfQ==
+eyJoaXN0b3J5IjpbLTIwOTg4NDkzNzAsLTEyMzE3NjgxMjcsOD
+gwNDkzMjk1LC0xNDkwMDg5OTE5LDIwMjU3NjAxNTYsMjgxODc1
+OTAsLTU0MjI5MDM0LC0xNzkwMjUwMDEzLDY4MTcwOTk3Nl19
 -->
