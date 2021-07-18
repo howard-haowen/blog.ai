@@ -1,16 +1,14 @@
 ---
 toc: true
 layout: post
-title: My First Post
+title: My First Post: Setting tone for this blog
 description: For almost everything you'd like to learn, there's an awesome list for that on GitHub. On this blog, I plan to add my personal touch to various tools, documenting not only what I did right to get the ball rolling, but also what I did wrong to save you (or even future me) from abysmal frustration.  
 categories: [awesome-list, fastpages]
 image: images/reinvent-the-wheel.jpg
 sticky_rank: 1
 
 ---
-# My First Post: Setting tone for this blog
-
-![]({{ site.baseurl }}/images/reinvent-the-wheel.jpg "Credit: JohnHartStudio.com")
+![](https://github.com/howard-haowen/blog.ai/raw/master/images/reinvent-the-wheel.jpg "Credit: JohnHartStudio.com")
 
 ## There's always an awesome list for X.
 
@@ -33,3 +31,6 @@ I'd like to start with a series of tools that I dub `the fast stack`, including 
 Truth be told that I actually failed twice before I successfully set up this blog. The lesson learned is this: **do exactly what's said in the [instructions](https://github.com/fastai/fastpages)!** Humanities majors like me are often taught to be creative, but be sure to leave your creativity at the door when you set up computer programs. This then concludes my first post. Nothing is super technical here since it's just a warm-up. I'll save other tools in the fast stack for another day. 
 
 {% include info.html text="I was clueless when I read PR in the instructions. It turns out to mean 'pull requests'. Click on the tab that says 'pull requests' when you are done forking the original repo. Then you're good to go by following the instructions there." %}
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTExMjA3NzE0OTRdfQ==
+-->
