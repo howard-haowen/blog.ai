@@ -22,7 +22,7 @@ Take this problem set from the 16th competition in 2018 for instance.
 
 ![](https://github.com/howard-haowen/blog.ai/raw/master/images/Terena-problem.png "Terêna problem set")
 
-The language tested Terêna Given the information 
+The problem set is from Terêna Given the information 
 
 , which happens to be relevant to one of my favorite research topics. 
 The problem set comes from Terêna
@@ -40,7 +40,7 @@ The title of my lecture was  **verbal person marking & pronominal clitics**, whi
 ## Exercises
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTE5MjI4MjE2NywtMTIzMTc2ODEyNyw4OD
+eyJoaXN0b3J5IjpbLTU0OTMwMzA3MywtMTIzMTc2ODEyNyw4OD
 A0OTMyOTUsLTE0OTAwODk5MTksMjAyNTc2MDE1NiwyODE4NzU5
 MCwtNTQyMjkwMzQsLTE3OTAyNTAwMTMsNjgxNzA5OTc2XX0=
 -->
