@@ -31,15 +31,15 @@ The Terêna problem set happens to be relevant to one of my favorite research to
 ## A problem set from Taiwan
 
 
-|SN |  Kavalan | English  |
+|SN | Kavalan | English  |
 |--|--|--|
-| 01|pukunankuisu. | I beat you.|
-| 02|pukunansuiku. | You beat me.|
-| 03|qaRatannaiku. | He bit me.|
-| 04|maiiku pmukun wasusu. | I didn't beat your dog.|
-| 05|pmukuniku sunisku. | I beat you.|
-| 06|pukunankuisu | I beat you.|
-| 07|pukunankuisu | I beat you.|
+| 01| pukunankuisu. | I beat you.|
+| 02| pukunansuiku. | You beat me.|
+| 03| qaRatannaiku. | He bit me.|
+| 04| maiiku pmukun wasusu. | I didn't beat your dog.|
+| 05| pmukuniku sunisku. | I'm beating my child.|
+| 06| mai wasusu qmaRat wasuku ni? | Didn't your dog bite mine? |
+| 07| maipamaisu maynep ni? | I beat you.|
 | 08|pukunankuisu | I beat you.|
 | 09|pukunankuisu | I beat you.|
 | 10|pukunankuisu | I beat you.|
@@ -50,7 +50,7 @@ The Terêna problem set happens to be relevant to one of my favorite research to
 
 [^2]: Here's the complete [solution](https://ioling.org/booklets/iol-2018-indiv-sol.en.pdf) to the Terêna problem set.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTI2MzI0NDA1MSwtMTIzMTc2ODEyNyw4OD
-A0OTMyOTUsLTE0OTAwODk5MTksMjAyNTc2MDE1NiwyODE4NzU5
-MCwtNTQyMjkwMzQsLTE3OTAyNTAwMTMsNjgxNzA5OTc2XX0=
+eyJoaXN0b3J5IjpbNDY3NjE5NDMsLTEyMzE3NjgxMjcsODgwND
+kzMjk1LC0xNDkwMDg5OTE5LDIwMjU3NjAxNTYsMjgxODc1OTAs
+LTU0MjI5MDM0LC0xNzkwMjUwMDEzLDY4MTcwOTk3Nl19
 -->
