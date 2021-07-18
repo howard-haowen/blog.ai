@@ -28,18 +28,31 @@ The Terêna problem set happens to be relevant to one of my favorite research to
 
 <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRzIAb2rdQHWSHOreVPJDz2oViOS9ybACd5mmjx-8TYBAuGbbhOSUHiW319fw5cu4xDreO2mCD8FcJd/embed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 
-## A problem set from a 
+## A problem set from Taiwan
 
-| |  Kavalan|English  |
-| |--|--|
-| |  |  |
 
+|SN |  Kavalan|English  |
+|--|--|--|
+| 01|pukunankuisu | I beat you.|
+| 01|pukunankuisu | I beat you.|
+| 01|pukunankuisu | I beat you.|
+| 01|pukunankuisu | I beat you.|
+| 01|pukunankuisu | I beat you.|
+| 01|pukunankuisu | I beat you.|
+|--|--|--|
+| 01|pukunankuisu | I beat you.|
+|--|--|--|
+| 01|pukunankuisu | I beat you.|
+|--|--|--|
+| 01|pukunankuisu | I beat you.|
+|--|--|--|
+| 01|pukunankuisu | I beat you.|
 ## Footnotes
 [^1]: Here's the complete Terêna [problem set](https://ioling.org/booklets/iol-2018-indiv-prob.en.pdf).
 
 [^2]: Here's the complete [solution](https://ioling.org/booklets/iol-2018-indiv-sol.en.pdf) to the Terêna problem set.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNTY2NjcxNjkyLC0xMjMxNzY4MTI3LDg4MD
-Q5MzI5NSwtMTQ5MDA4OTkxOSwyMDI1NzYwMTU2LDI4MTg3NTkw
-LC01NDIyOTAzNCwtMTc5MDI1MDAxMyw2ODE3MDk5NzZdfQ==
+eyJoaXN0b3J5IjpbLTc3MTcyMDMyNCwtMTIzMTc2ODEyNyw4OD
+A0OTMyOTUsLTE0OTAwODk5MTksMjAyNTc2MDE1NiwyODE4NzU5
+MCwtNTQyMjkwMzQsLTE3OTAyNTAwMTMsNjgxNzA5OTc2XX0=
 -->
