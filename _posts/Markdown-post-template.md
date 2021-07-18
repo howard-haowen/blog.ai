@@ -5,7 +5,7 @@ description: A minimal example of using markdown with fastpages.
 image: images/birds-of-a-feather.jpg
 categories: [markdown]
 title: An Example Markdown Post
-
+> Never use s
 ---
 ![](https://github.com/howard-haowen/blog.ai/raw/master/images/birds-of-a-feather.jpg "Credit: blogs.lse.ac.uk")
 
@@ -117,6 +117,6 @@ The second row is just metadata for the table that determines how the text will 
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE0NTQzMzA1MTgsMTUxNjI1MDU4MywxNj
-kzMzE0NTM3XX0=
+eyJoaXN0b3J5IjpbLTYwMzQ2MDc4OCwtMTQ1NDMzMDUxOCwxNT
+E2MjUwNTgzLDE2OTMzMTQ1MzddfQ==
 -->
