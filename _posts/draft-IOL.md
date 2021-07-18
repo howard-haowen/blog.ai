@@ -34,12 +34,11 @@ The title of my lecture was  **verbal person marking & pronominal clitics**, whi
 
 ## Exercises
 
-[^1]: The 
-(https://ioling.org/booklets/iol-2018-indiv-prob.en.pdf)
+[^1]: Here's the complete [problem set](https://ioling.org/booklets/iol-2018-indiv-prob.en.pdf).
 
-[answer](https://ioling.org/booklets/iol-2018-indiv-sol.en.pdf)
+[^2]: Here's the complete [solution](https://ioling.org/booklets/iol-2018-indiv-sol.en.pdf).
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTM2MzMwNTIxMCwtMTIzMTc2ODEyNyw4OD
-A0OTMyOTUsLTE0OTAwODk5MTksMjAyNTc2MDE1NiwyODE4NzU5
-MCwtNTQyMjkwMzQsLTE3OTAyNTAwMTMsNjgxNzA5OTc2XX0=
+eyJoaXN0b3J5IjpbNzAwNzQ0MzIzLC0xMjMxNzY4MTI3LDg4MD
+Q5MzI5NSwtMTQ5MDA4OTkxOSwyMDI1NzYwMTU2LDI4MTg3NTkw
+LC01NDIyOTAzNCwtMTc5MDI1MDAxMyw2ODE3MDk5NzZdfQ==
 -->
