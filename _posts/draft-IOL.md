@@ -21,9 +21,7 @@ Take this problem set from the 16th competition in 2018 for instance[^1].
 
 ![](https://github.com/howard-haowen/blog.ai/raw/master/images/Terena-problem.png "Terêna problem set")
 
-The problem set is from Terêna, a language spoken in Brazil. Given the information provided here, participants are asked to fill in the gaps indicated by numbers 1 through 14. NLP models might be able to solve a problem like this, but that would require way more training data than provided here.  
-
-I encourage those of you who know little about linguistics to work on this puzzle before checking out the answer[^2].    
+The problem set is from Terêna, a language spoken in Brazil. Given the information provided here, participants are asked to fill in the gaps indicated by numbers 1 through 14. NLP models might be able to solve a problem like this, but that would require way more training data than provided here. But we humans are pretty good at making generalizations with a limited amount of data. I encourage those of you who know little about linguistics to work on this puzzle before checking out the answer[^2].    
 
 ## Lecture slides
 The Terêna problem set happens to be relevant to one of my favorite research topics, which is why I chose this title for my lecture: **verbal person marking & pronominal clitics**. It may sound like gibberish if you don't know anything about linguistics. Although the technical terms may sound obscure, the linguistic patterns they are meant to describe are in fact quite straightforward. To find out, check out some examples in the lecture slides below. 
@@ -63,8 +61,8 @@ I encourage to share your solution in the comments below.
 
 [^3]: [The Cluster-internal Ordering of Clitics in Kavalan (East Formosan, Austronesian]((http://journals.linguisticsociety.org/proceedings/index.php/BLS/article/view/3351)) by Doris Ching-jung Yen and Loren Billings, presented at the Annual Meeting of the Berkeley Linguistics Society.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNDI5NzI0NDgsMTc3MjExODk2MCw5MjU0Nz
-A1NDQsNjAyODE4ODA1LC0xMjMxNzY4MTI3LDg4MDQ5MzI5NSwt
-MTQ5MDA4OTkxOSwyMDI1NzYwMTU2LDI4MTg3NTkwLC01NDIyOT
-AzNCwtMTc5MDI1MDAxMyw2ODE3MDk5NzZdfQ==
+eyJoaXN0b3J5IjpbMTI1OTkyNzMyMywxNzcyMTE4OTYwLDkyNT
+Q3MDU0NCw2MDI4MTg4MDUsLTEyMzE3NjgxMjcsODgwNDkzMjk1
+LC0xNDkwMDg5OTE5LDIwMjU3NjAxNTYsMjgxODc1OTAsLTU0Mj
+I5MDM0LC0xNzkwMjUwMDEzLDY4MTcwOTk3Nl19
 -->
