@@ -9,8 +9,6 @@ title: Training lecture for the International Linguistics Olympiad
 ---
 ![](https://github.com/howard-haowen/blog.ai/raw/master/images/IOL-banner.png "Credit: ioling.org")
 
-# Training lecture for the International Linguistics Olympiad
-
 ## Intro
 Recently, I had the honor of being invited to give a training lecture to the Taiwan team for the [International Linguistics Olympiad](https://en.wikipedia.org/wiki/International_Linguistics_Olympiad). It's basically an annual competition where participants from countries all over the world get together to solve linguistics puzzles. You don't need to have official training in linguistics in order to solve those puzzles, though knowing some linguistics does help. That's why I was asked to give this lecture. 
 
@@ -59,5 +57,5 @@ The task is to fill in the gaps indicated by (1) through (4). If you go through 
 
 [^3]: [The Cluster-internal Ordering of Clitics in Kavalan (East Formosan, Austronesian]((http://journals.linguisticsociety.org/proceedings/index.php/BLS/article/view/3351)) by Doris Ching-jung Yen and Loren Billings, presented at the Annual Meeting of the Berkeley Linguistics Society.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTk1MDU5NjQwNl19
+eyJoaXN0b3J5IjpbLTIwNDE1MTE3MzgsMTk1MDU5NjQwNl19
 -->
