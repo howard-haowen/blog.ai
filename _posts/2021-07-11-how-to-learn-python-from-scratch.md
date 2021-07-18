@@ -7,7 +7,7 @@ image: images/learn-python-from-natives.jpg
 title: How I learned Python from scratch
 
 ---
-![]({{ site.baseurl }}/images/learn-python-from-natives.jpg "Credit: Harry Potter and the Wizarding World")
+![](https://github.com/howard-haowen/blog.ai/raw/master/images/learn-python-from-natives.jpg "Credit: Harry Potter and the Wizarding World")
 
 # How I learned Python from scratch
 
@@ -15,5 +15,5 @@ Before the outbreak of Covid-19, I couldn't write any single line of code. But b
 
 <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQZoqJ8fuXzpeeXKT_fpoZtV0Lh5VhKA9ookO_52cL9QDW-zVBbmrMPTFJHpP8rLqicw0dIF6iTGXu9/embed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTU1Nzk0MjcyNl19
+eyJoaXN0b3J5IjpbMTkzMDgyODkzMF19
 -->
