@@ -93,6 +93,18 @@ key: value
 |-|-|
 | A thing | Another thing |
 
+```
+The second row is just metadata for the table that determines how the text will be vertically aligned. Each column can be aligned left, right, or center. The alignment is set by using a pattern of dashes and a colon separated by spaces and pipes.
+
+-   To left-align a column, put a colon to the left of two dashes  `:--`.
+    
+    -   Three dashes  `---`  can also be used.
+    
+
+-   To right-align, put a colon to the right of two dashes  `--:`.
+
+-   To center-align, surround a dash with two colons  `:-:`.
+```
 
 ## Tweetcards
 
@@ -107,5 +119,6 @@ key: value
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTUxNjI1MDU4MywxNjkzMzE0NTM3XX0=
+eyJoaXN0b3J5IjpbNzAzNzM3MTk1LDE1MTYyNTA1ODMsMTY5Mz
+MxNDUzN119
 -->
