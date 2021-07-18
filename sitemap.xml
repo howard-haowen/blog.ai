@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>https://howard-haowen.github.io/blog.ai/awesome-list/fastpages/2020/01/17/my-first-post.html</loc>
+<lastmod>2020-01-17T00:00:00-06:00</lastmod>
+</url>
+<url>
 <loc>https://howard-haowen.github.io/blog.ai/fasttext/embeddings/similar-words/2021/01/22/fastText-embeddings-for-traditional-Chinese.html</loc>
 <lastmod>2021-01-22T00:00:00-06:00</lastmod>
 </url>
@@ -21,15 +25,15 @@
 <lastmod>2021-03-12T00:00:00-06:00</lastmod>
 </url>
 <url>
-<loc>https://howard-haowen.github.io/blog.ai/azure/certificate/2021/06/27/How-I-passed-Microsoft-DP100-Exam.html</loc>
+<loc>https://howard-haowen.github.io/blog.ai/azure/certificate/2021/06/27/how-I-passed-Microsoft-DP100-Exam.html</loc>
 <lastmod>2021-06-27T00:00:00-05:00</lastmod>
 </url>
 <url>
-<loc>https://howard-haowen.github.io/blog.ai/python/google-slides/2021/07/11/how-to-learn-python-from-scratch.html</loc>
+<loc>https://howard-haowen.github.io/blog.ai/fastpages/nlp/visualization/backend/2021/07/11/FastPages-blogs.html</loc>
 <lastmod>2021-07-11T00:00:00-05:00</lastmod>
 </url>
 <url>
-<loc>https://howard-haowen.github.io/blog.ai/fastpages/nlp/visualization/backend/2021/07/11/other-FastPages-blogs.html</loc>
+<loc>https://howard-haowen.github.io/blog.ai/python/google-slides/2021/07/11/how-to-learn-python-from-scratch.html</loc>
 <lastmod>2021-07-11T00:00:00-05:00</lastmod>
 </url>
 <url>
@@ -37,7 +41,7 @@
 <lastmod>2021-07-17T00:00:00-05:00</lastmod>
 </url>
 <url>
-<loc>https://howard-haowen.github.io/blog.ai/linguistics-olympiad/google-slides/languages-of-taiwan/2021/07/18/Training-lecture-for-the-international-linguistics-olympiad.html</loc>
+<loc>https://howard-haowen.github.io/blog.ai/linguistics-olympiad/google-slides/languages-of-taiwan/2021/07/18/International-Linguistics-Olympiad.html</loc>
 <lastmod>2021-07-18T00:00:00-05:00</lastmod>
 </url>
 <url>
