@@ -29,7 +29,7 @@ The Terêna problem set happens to be relevant to one of my favorite research to
 <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRzIAb2rdQHWSHOreVPJDz2oViOS9ybACd5mmjx-8TYBAuGbbhOSUHiW319fw5cu4xDreO2mCD8FcJd/embed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 
 ## A problem set from Taiwan
-In addition to the slides, I created a problem set based on a language   
+In addition to the slides, I created a problem set based on a language of Taiwan, which is called Kavalan.   
 
 | SN| Kavalan | English  |
 |--|:-|:-|
@@ -50,7 +50,7 @@ In addition to the slides, I created a problem set based on a language
 
 [^2]: Here's the complete [solution](https://ioling.org/booklets/iol-2018-indiv-sol.en.pdf) to the Terêna problem set.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE1ODAwMTA5MjAsOTI1NDcwNTQ0LDYwMj
+eyJoaXN0b3J5IjpbLTEwNzM0NzMyMTMsOTI1NDcwNTQ0LDYwMj
 gxODgwNSwtMTIzMTc2ODEyNyw4ODA0OTMyOTUsLTE0OTAwODk5
 MTksMjAyNTc2MDE1NiwyODE4NzU5MCwtNTQyMjkwMzQsLTE3OT
 AyNTAwMTMsNjgxNzA5OTc2XX0=
