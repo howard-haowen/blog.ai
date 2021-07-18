@@ -14,14 +14,11 @@ title: Training lecture for the International Linguistics Olympiad
 ## Intro
 Recently, I had the honor of being invited to give a training lecture to the Taiwan team for the [International Linguistics Olympiad](https://en.wikipedia.org/wiki/International_Linguistics_Olympiad). It's basically an annual competition where participants from countries all over the world get together to solve linguistics puzzles. You don't need to have official training in linguistics in order to solve those puzzles, though knowing some linguistics does help. That's why I was asked to give this lecture. 
 
-## Lecture slides
-The title of my lecture was  **verbal person marking & pronominal clitics**, which may sound like gibberish if you don't know anything about linguistics. Although the technical terms may sound obscure, the linguistic patterns they are meant to describe are in fact quite straightforward. Check out some examples in the lecture slides below. 
-
-<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRzIAb2rdQHWSHOreVPJDz2oViOS9ybACd5mmjx-8TYBAuGbbhOSUHiW319fw5cu4xDreO2mCD8FcJd/embed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
-
 ## Past problem set
 
-The whole point of the competition is not to know many languages, but to be able to work out the the most plausible way of I chose this topic because I saw this following problem set from the 2018 competition, which happens to be relevant to one of my favorite research topics. 
+The whole point of the competition is not to know many languages, but to be able to work out the most plausible way of account for the patterns  
+
+I chose this topic because I saw this following problem set from the 2018 competition, which happens to be relevant to one of my favorite research topics. 
 The problem set comes from Terêna
 
 
@@ -30,10 +27,15 @@ The problem set comes from Terêna
 [answer](https://ioling.org/booklets/iol-2018-indiv-sol.en.pdf)
 
 
+## Lecture slides
+The title of my lecture was  **verbal person marking & pronominal clitics**, which may sound like gibberish if you don't know anything about linguistics. Although the technical terms may sound obscure, the linguistic patterns they are meant to describe are in fact quite straightforward. Check out some examples in the lecture slides below. 
+
+<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRzIAb2rdQHWSHOreVPJDz2oViOS9ybACd5mmjx-8TYBAuGbbhOSUHiW319fw5cu4xDreO2mCD8FcJd/embed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+
 ## Exercises
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTU0OTM4MzU5NywtMTIzMTc2ODEyNyw4OD
-A0OTMyOTUsLTE0OTAwODk5MTksMjAyNTc2MDE1NiwyODE4NzU5
-MCwtNTQyMjkwMzQsLTE3OTAyNTAwMTMsNjgxNzA5OTc2XX0=
+eyJoaXN0b3J5IjpbLTEwODA1NDgxMDAsLTEyMzE3NjgxMjcsOD
+gwNDkzMjk1LC0xNDkwMDg5OTE5LDIwMjU3NjAxNTYsMjgxODc1
+OTAsLTU0MjI5MDM0LC0xNzkwMjUwMDEzLDY4MTcwOTk3Nl19
 -->
