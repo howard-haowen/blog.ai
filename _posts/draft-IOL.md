@@ -31,7 +31,7 @@ The Terêna problem set happens to be relevant to one of my favorite research to
 ## A problem set from Taiwan
 In addition to the slides, I created a problem set based on a language of Taiwan, which is called Kavalan. You've probably heard of this name because of [Kavalan Whisky](https://edition.cnn.com/travel/article/taiwan-whisky-kavalan/index.html). That's right. This is the same Kavalan we're talking about here. I wrote my MA thesis on the Kavalan language, but I've never tried Kavalan Whisky. 
 
-Here's the Kavalan problem set, most examples of which are drawn from this paper. 
+Here's the Kavalan problem set, most examples of which are drawn from this paper[^3]. 
 
 | SN| Kavalan | English  |
 |--|:-|:-|
@@ -58,9 +58,9 @@ You're supposed to fill in the gaps indicated by (1) through (4). If you go thro
 
 [^2]: Here's the complete [solution](https://ioling.org/booklets/iol-2018-indiv-sol.en.pdf) to the Terêna problem set.
 
-[^3]: The Cluster-internal Ordering of Clitics in Kavalan (East Formosan, Austronesian) by Doris Ching-jung Yen and Loren Billings, presented at the [Annual Meeting of the Berkeley Linguistics Society](http://journals.linguisticsociety.org/proceedings/index.php/BLS/article/view/3351).
+[^3]: [The Cluster-internal Ordering of Clitics in Kavalan (East Formosan, Austronesian]((http://journals.linguisticsociety.org/proceedings/index.php/BLS/article/view/3351)) by Doris Ching-jung Yen and Loren Billings, presented at the Annual Meeting of the Berkeley Linguistics Society.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTAzNDczNzM4NCwxNzcyMTE4OTYwLDkyNT
+eyJoaXN0b3J5IjpbLTQzODYxOTc4OSwxNzcyMTE4OTYwLDkyNT
 Q3MDU0NCw2MDI4MTg4MDUsLTEyMzE3NjgxMjcsODgwNDkzMjk1
 LC0xNDkwMDg5OTE5LDIwMjU3NjAxNTYsMjgxODc1OTAsLTU0Mj
 I5MDM0LC0xNzkwMjUwMDEzLDY4MTcwOTk3Nl19
