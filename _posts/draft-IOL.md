@@ -1,7 +1,7 @@
 ---
 toc: true
 layout: post
-description: A minimal example of using markdown with fastpages.
+description: I share my lecture slides for the International Linguistics Olympiad.
 image: images/birds-of-a-feather.jpg
 categories: [linguistics, olympiad, google-slides]
 title: Training lecture for the International Linguistics Olympiad
@@ -33,7 +33,7 @@ The problem set comes from Terêna
 ## Exercises
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTQ4NzA2MTczLC0xMjMxNzY4MTI3LDg4MD
-Q5MzI5NSwtMTQ5MDA4OTkxOSwyMDI1NzYwMTU2LDI4MTg3NTkw
-LC01NDIyOTAzNCwtMTc5MDI1MDAxMyw2ODE3MDk5NzZdfQ==
+eyJoaXN0b3J5IjpbLTEwNjQ1NzI3NzQsLTEyMzE3NjgxMjcsOD
+gwNDkzMjk1LC0xNDkwMDg5OTE5LDIwMjU3NjAxNTYsMjgxODc1
+OTAsLTU0MjI5MDM0LC0xNzkwMjUwMDEzLDY4MTcwOTk3Nl19
 -->
