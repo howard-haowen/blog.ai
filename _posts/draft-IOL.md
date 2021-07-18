@@ -21,7 +21,7 @@ Take this problem set from the 16th competition in 2018 for instance[^1].
 
 ![](https://github.com/howard-haowen/blog.ai/raw/master/images/Terena-problem.png "Terêna problem set")
 
-The problem set is from Terêna, a language spoken in Brazil. Given the information provided here, participants are asked to fill in the gaps indicated by numbers 1 through 14. I encourage those of you who know little about linguistics to work on this puzzle before checking out the answer[^2].   
+The problem set is from Terêna, a language spoken in Brazil. Given the information provided here, participants are asked to fill in the gaps indicated by numbers 1 through 14. I encourage those of you who know little about linguistics to work on this puzzle before checking out the answer[^2].    
 
 ## Lecture slides
 The Terêna problem set happens to be relevant to one of my favorite research topics, which is why I chose this title for my lecture: **verbal person marking & pronominal clitics**. It may sound like gibberish if you don't know anything about linguistics. Although the technical terms may sound obscure, the linguistic patterns they are meant to describe are in fact quite straightforward. To find out, check out some examples in the lecture slides below. 
@@ -50,7 +50,9 @@ Here's the Kavalan problem set, most examples of which are drawn from this paper
 | 13| (3) | I haven't beaten my child yet.|
 | 14| (4) | Didn't you beat your child?|
 
-You're supposed to fill in the gaps indicated by (1) through (4). If you go through the slides, you'll be in a better position to solve this puzzle. I encourage to share your solution in the comments below.
+You're supposed to fill in the gaps indicated by (1) through (4). If you go through the slides, you'll be in a better position to solve this puzzle. 
+
+I encourage to share your solution in the comments below.
 
 ## Footnotes
 [^1]: Here's the complete Terêna [problem set](https://ioling.org/booklets/iol-2018-indiv-prob.en.pdf).
@@ -59,8 +61,8 @@ You're supposed to fill in the gaps indicated by (1) through (4). If you go thro
 
 [^3]: [The Cluster-internal Ordering of Clitics in Kavalan (East Formosan, Austronesian]((http://journals.linguisticsociety.org/proceedings/index.php/BLS/article/view/3351)) by Doris Ching-jung Yen and Loren Billings, presented at the Annual Meeting of the Berkeley Linguistics Society.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTU3NDk3MDc1MCwxNzcyMTE4OTYwLDkyNT
-Q3MDU0NCw2MDI4MTg4MDUsLTEyMzE3NjgxMjcsODgwNDkzMjk1
-LC0xNDkwMDg5OTE5LDIwMjU3NjAxNTYsMjgxODc1OTAsLTU0Mj
-I5MDM0LC0xNzkwMjUwMDEzLDY4MTcwOTk3Nl19
+eyJoaXN0b3J5IjpbLTIxMzczNjI4NzgsMTc3MjExODk2MCw5Mj
+U0NzA1NDQsNjAyODE4ODA1LC0xMjMxNzY4MTI3LDg4MDQ5MzI5
+NSwtMTQ5MDA4OTkxOSwyMDI1NzYwMTU2LDI4MTg3NTkwLC01ND
+IyOTAzNCwtMTc5MDI1MDAxMyw2ODE3MDk5NzZdfQ==
 -->
