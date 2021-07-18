@@ -15,13 +15,15 @@ title: Training lecture for the International Linguistics Olympiad
 Recently, I had the honor of being invited to give a training lecture to the Taiwan team for the [International Linguistics Olympiad](https://en.wikipedia.org/wiki/International_Linguistics_Olympiad). It's basically an annual competition where participants from countries all over the world get together to solve linguistics puzzles. You don't need to have official training in linguistics in order to solve those puzzles, though knowing some linguistics does help. That's why I was asked to give this lecture. 
 
 ## A past problem set
-The whole point of the competition is not so much the scope of linguistic knowledge one has as the analytic ability of accounting for the systematic patterns buried in the given data. The  process is actually quite similar to solving programming problems on [LeetCode](https://leetcode.com).  
+The whole point of the competition is not so much the scope of linguistic knowledge one has as the analytic ability of identifying the systematic patterns buried in the given data. The  process is actually quite similar to solving programming problems on [LeetCode](https://leetcode.com).  
 
 Take this problem set from the 16th competition in 2018 for instance[^1].
 
 ![](https://github.com/howard-haowen/blog.ai/raw/master/images/Terena-problem.png "Terêna problem set")
 
-The problem set is from Terêna, a language spoken in Brazil. Given the information provided here, participants are asked to fill in the gaps indicated by numbers 1 through 14. I encourage those of you who know little about linguistics to work on this puzzle before checking out the answer[^2].    
+The problem set is from Terêna, a language spoken in Brazil. Given the information provided here, participants are asked to fill in the gaps indicated by numbers 1 through 14. NLP algorithms might be able to solve a problem like this, but that would require tons of trdata 
+
+I encourage those of you who know little about linguistics to work on this puzzle before checking out the answer[^2].    
 
 ## Lecture slides
 The Terêna problem set happens to be relevant to one of my favorite research topics, which is why I chose this title for my lecture: **verbal person marking & pronominal clitics**. It may sound like gibberish if you don't know anything about linguistics. Although the technical terms may sound obscure, the linguistic patterns they are meant to describe are in fact quite straightforward. To find out, check out some examples in the lecture slides below. 
@@ -61,7 +63,7 @@ I encourage to share your solution in the comments below.
 
 [^3]: [The Cluster-internal Ordering of Clitics in Kavalan (East Formosan, Austronesian]((http://journals.linguisticsociety.org/proceedings/index.php/BLS/article/view/3351)) by Doris Ching-jung Yen and Loren Billings, presented at the Annual Meeting of the Berkeley Linguistics Society.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE5NjY5NDA1ODcsMTc3MjExODk2MCw5Mj
+eyJoaXN0b3J5IjpbLTE3OTkxOTMzNjEsMTc3MjExODk2MCw5Mj
 U0NzA1NDQsNjAyODE4ODA1LC0xMjMxNzY4MTI3LDg4MDQ5MzI5
 NSwtMTQ5MDA4OTkxOSwyMDI1NzYwMTU2LDI4MTg3NTkwLC01ND
 IyOTAzNCwtMTc5MDI1MDAxMyw2ODE3MDk5NzZdfQ==
