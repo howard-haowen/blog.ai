@@ -30,13 +30,23 @@ The Terêna problem set happens to be relevant to one of my favorite research to
 
 ## A problem set from a 
 
+01 pukunankuisu 我打你。
+02 pukunansuiku 你打我。
+03 qaRatannaiku 他咬我。
+04 maiiku pmukun wasusu 我沒有打你的狗。
+05 pmukuniku sunisku 我在打我的小孩。
+06 mai wasusu qmaRat wasuku ni 你的狗沒有咬我的狗嗎？
+07 maipamaisu maynep ni 你還沒睡覺嗎？
+08 mayneptisu ni 你睡了嗎？
+09 pmukuntisu wasusu ni 你打了你的狗嗎？
+10 maiiku pukunanna 他沒有打我。
 
 ## Footnotes
 [^1]: Here's the complete Terêna [problem set](https://ioling.org/booklets/iol-2018-indiv-prob.en.pdf).
 
 [^2]: Here's the complete [solution](https://ioling.org/booklets/iol-2018-indiv-sol.en.pdf) to the Terêna problem set.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTk0MjMyOTA2NiwtMTIzMTc2ODEyNyw4OD
+eyJoaXN0b3J5IjpbLTI3MTg0NDAzOSwtMTIzMTc2ODEyNyw4OD
 A0OTMyOTUsLTE0OTAwODk5MTksMjAyNTc2MDE1NiwyODE4NzU5
 MCwtNTQyMjkwMzQsLTE3OTAyNTAwMTMsNjgxNzA5OTc2XX0=
 -->
