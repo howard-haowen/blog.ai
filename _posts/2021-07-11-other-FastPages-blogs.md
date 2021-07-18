@@ -3,7 +3,7 @@ toc: true
 layout: post
 description: This post aggregates other blogs built with FastPages that I came across.
 image: images/birds-of-a-feather.jpg
-categories: [fastpages]
+categories: [fastpages, nlp, visualization, backend]
 title: List of blogs built with FastPages
 
 ---
@@ -22,5 +22,5 @@ This post aggregates other blogs built with FastPages that I came across. This l
 ## Visualization
 - [COVID-19 Dashboards](https://covid19dashboards.com)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE4NDM0OTc4MjddfQ==
+eyJoaXN0b3J5IjpbMjAxMjE1OTg1M119
 -->
