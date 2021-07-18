@@ -16,7 +16,7 @@ Recently, I had the honor of being invited to give a training lecture to the Tai
 
 ## Past problem set
 
-The whole point of the competition is not so much the scope of linguistic knowledge one has as the analytic ability of accounting for the systematic patterns buried in the data. The solving process is actually quite 
+The whole point of the competition is not so much the scope of linguistic knowledge one has as the analytic ability of accounting for the systematic patterns buried in the data. The  process is actually quite similar to solving LeetCode proble 
 
 I chose this topic because I saw this following problem set from the 2018 competition, which happens to be relevant to one of my favorite research topics. 
 The problem set comes from Terêna
@@ -35,7 +35,7 @@ The title of my lecture was  **verbal person marking & pronominal clitics**, whi
 ## Exercises
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTU4ODcxMzA5LC0xMjMxNzY4MTI3LDg4MD
-Q5MzI5NSwtMTQ5MDA4OTkxOSwyMDI1NzYwMTU2LDI4MTg3NTkw
-LC01NDIyOTAzNCwtMTc5MDI1MDAxMyw2ODE3MDk5NzZdfQ==
+eyJoaXN0b3J5IjpbLTI3Nzc1MTYzMiwtMTIzMTc2ODEyNyw4OD
+A0OTMyOTUsLTE0OTAwODk5MTksMjAyNTc2MDE1NiwyODE4NzU5
+MCwtNTQyMjkwMzQsLTE3OTAyNTAwMTMsNjgxNzA5OTc2XX0=
 -->
