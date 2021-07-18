@@ -1,7 +1,7 @@
 ---
 toc: true
 layout: post
-description: I share my training lecture for the International Linguistics Olympiad. 
+description: I share my training lecture and a problem set for the International Linguistics Olympiad. 
 image: images/birds-of-a-feather.jpg
 categories: [linguistics, olympiad, google-slides]
 title: Training lecture for the International Linguistics Olympiad
@@ -50,7 +50,7 @@ Here's the Kavalan problem set, most examples of which are drawn from this paper
 | 13| (3) | I haven't beaten my child yet.|
 | 14| (4) | Didn't you beat your child?|
 
-You're supposed to fill in the gaps indicated by (1) through (4). If you go through the slides, you'll be in a better position to solve this puzzle. 
+You're supposed to fill in the gaps indicated by (1) through (4). If you go through the slides, you'll be in a better position to solve this puzzle. This is 
 
 I encourage to share your solution in the comments below.
 
@@ -61,7 +61,7 @@ I encourage to share your solution in the comments below.
 
 [^3]: [The Cluster-internal Ordering of Clitics in Kavalan (East Formosan, Austronesian]((http://journals.linguisticsociety.org/proceedings/index.php/BLS/article/view/3351)) by Doris Ching-jung Yen and Loren Billings, presented at the Annual Meeting of the Berkeley Linguistics Society.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTIxMzczNjI4NzgsMTc3MjExODk2MCw5Mj
+eyJoaXN0b3J5IjpbLTE5NjY5NDA1ODcsMTc3MjExODk2MCw5Mj
 U0NzA1NDQsNjAyODE4ODA1LC0xMjMxNzY4MTI3LDg4MDQ5MzI5
 NSwtMTQ5MDA4OTkxOSwyMDI1NzYwMTU2LDI4MTg3NTkwLC01ND
 IyOTAzNCwtMTc5MDI1MDAxMyw2ODE3MDk5NzZdfQ==
