@@ -14,10 +14,10 @@ title: Training lecture for the International Linguistics Olympiad
 
 ## Intro
 
-Recently, I had the honor of being invited to give a training lecture to the Taiwan team for the [International Linguistics Olympiad](https://en.wikipedia.org/wiki/International_Linguistics_Olympiad). It's basically an annual competition where participants from countries all over the world get together to solve linguistics puzzles. You don't need to have official training in linguistics in order to solve those puzzles, though knowing some linguistics does help. That's why I was asked to give this lecture. The whole point of the competition is not to know many languages, but to be able to work out the the most plausible way of 
+Recently, I had the honor of being invited to give a training lecture to the Taiwan team for the [International Linguistics Olympiad](https://en.wikipedia.org/wiki/International_Linguistics_Olympiad). It's basically an annual competition where participants from countries all over the world get together to solve linguistics puzzles. You don't need to have official training in linguistics in order to solve those puzzles, though knowing some linguistics does help. That's why I was asked to give this lecture. 
 
-
-The title was  **verbal person marking & pronominal clitics**, which may sound like gibberish if you don't know anything about linguistics. I chose this topic because I saw this following problem set from the 2018 competition, which happens to be relevant to one of my favorite research topics. 
+The title of my lecture was  **verbal person marking & pronominal clitics**, which may sound like gibberish if you don't know anything about linguistics. I chose this topic because I saw this following problem set from the 2018 competition, which happens to be relevant to one of my favorite research topics. 
+The whole point of the competition is not to know many languages, but to be able to work out the the most plausible way of 
 
 The problem set comes from Terêna
 
@@ -31,7 +31,7 @@ The problem set comes from Terêna
 
 [answer](https://ioling.org/booklets/iol-2018-indiv-sol.en.pdf)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEyMzE3NjgxMjcsODgwNDkzMjk1LC0xND
-kwMDg5OTE5LDIwMjU3NjAxNTYsMjgxODc1OTAsLTU0MjI5MDM0
-LC0xNzkwMjUwMDEzLDY4MTcwOTk3Nl19
+eyJoaXN0b3J5IjpbLTE0Mzg1NTQyNjAsLTEyMzE3NjgxMjcsOD
+gwNDkzMjk1LC0xNDkwMDg5OTE5LDIwMjU3NjAxNTYsMjgxODc1
+OTAsLTU0MjI5MDM0LC0xNzkwMjUwMDEzLDY4MTcwOTk3Nl19
 -->
