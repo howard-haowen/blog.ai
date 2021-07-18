@@ -15,9 +15,11 @@ title: Training lecture for the International Linguistics Olympiad
 Recently, I had the honor of being invited to give a training lecture to the Taiwan team for the [International Linguistics Olympiad](https://en.wikipedia.org/wiki/International_Linguistics_Olympiad). It's basically an annual competition where participants from countries all over the world get together to solve linguistics puzzles. You don't need to have official training in linguistics in order to solve those puzzles, though knowing some linguistics does help. That's why I was asked to give this lecture. 
 
 ## Lecture slides
-The title of my lecture was  **verbal person marking & pronominal clitics**, which may sound like gibberish if you don't know anything about linguistics. But 
+The title of my lecture was  **verbal person marking & pronominal clitics**, which may sound like gibberish if you don't know anything about linguistics. But only the technical terms are obscure, 
 
 <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRzIAb2rdQHWSHOreVPJDz2oViOS9ybACd5mmjx-8TYBAuGbbhOSUHiW319fw5cu4xDreO2mCD8FcJd/embed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+
+## Past problem
 
 The whole point of the competition is not to know many languages, but to be able to work out the the most plausible way of I chose this topic because I saw this following problem set from the 2018 competition, which happens to be relevant to one of my favorite research topics. 
 The problem set comes from Terêna
@@ -25,17 +27,13 @@ The problem set comes from Terêna
 
 [problem](https://ioling.org/booklets/iol-2018-indiv-prob.en.pdf)
 
-## Answer
-
 [answer](https://ioling.org/booklets/iol-2018-indiv-sol.en.pdf)
-
-
 
 
 ## Exercises
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTAzNjIxNTE5NCwtMTIzMTc2ODEyNyw4OD
-A0OTMyOTUsLTE0OTAwODk5MTksMjAyNTc2MDE1NiwyODE4NzU5
-MCwtNTQyMjkwMzQsLTE3OTAyNTAwMTMsNjgxNzA5OTc2XX0=
+eyJoaXN0b3J5IjpbNDM1MjQ4MzIxLC0xMjMxNzY4MTI3LDg4MD
+Q5MzI5NSwtMTQ5MDA4OTkxOSwyMDI1NzYwMTU2LDI4MTg3NTkw
+LC01NDIyOTAzNCwtMTc5MDI1MDAxMyw2ODE3MDk5NzZdfQ==
 -->
