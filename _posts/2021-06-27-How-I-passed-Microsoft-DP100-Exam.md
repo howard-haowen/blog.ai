@@ -7,9 +7,9 @@ image: images/certificate-comics.jpeg
 title: What I did to pass the Microsoft Exam DP-100 for data scientists
 
 ---
-![]({{ site.baseurl }}/images/certificate-comics.jpeg "Credit: cartoonistgroup.com")
+![](https://github.com/howard-haowen/blog.ai/raw/master/images/certificate-comics.jpeg "Credit: cartoonistgroup.com")
 
-# What I did to pass the Microsoft Exam DP-100 for data scientists
+## Intro
 
 It's been a while since I posted anything here. And it's primarily because I was busy preparing for the Microsoft DP-100 Exam, which is an associate (i.e. intermediate) level for designing and implementing data science solutions on Azure. I spent about 2 months preparing for it and got my certificate today! Here's what it looks like.  
 
@@ -52,3 +52,6 @@ The learning paths give you a high-level overview of what Azure ML products can 
 {% include info.html text="To navigate this long note, press the button with three bars and dots at the upper left corner of the markdown page." %}
 
 Some final notes about the exam. In hindsight, I believe I could still pass the exam even without taking the Udemy courses, considering the official materials from Microsoft already cover the great majority of questions. Next, the price for taking the exam varies depending on the country you choose **even if you take it online**. I did it online (who wouldn't during the pandemic!), and the price for Taiwan is $125 USD (but $165 USD instead for the USA). Finally, you have a few options for the exam language, which can be English, Japanese, Chinese, or some others. But the exam proctor only speaks English or Japanese. I wonder why Microsoft offers Japanese as the only non-English language for proctors.     
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTE5NzU5ODg4MDddfQ==
+-->
