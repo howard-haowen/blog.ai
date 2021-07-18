@@ -22,8 +22,7 @@ Take this problem set from the [16th competition in 2018](https://ioling.org/boo
 
 ![](https://github.com/howard-haowen/blog.ai/raw/master/images/Terena-problem.png "Terêna problem set")
 
-The problem set is from Terêna, a language spoken in Brazil. Given the information provided here, participants are asked to fill in the gaps indicated by numbers.  
-
+The problem set is from Terêna, a language spoken in Brazil. Given the information provided here, participants are asked to fill in the gaps indicated by numbers 1 through 14.   
 
 [answer](https://ioling.org/booklets/iol-2018-indiv-sol.en.pdf)
 
@@ -36,7 +35,7 @@ The title of my lecture was  **verbal person marking & pronominal clitics**, whi
 ## Exercises
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbOTY2MTY1MTU5LC0xMjMxNzY4MTI3LDg4MD
-Q5MzI5NSwtMTQ5MDA4OTkxOSwyMDI1NzYwMTU2LDI4MTg3NTkw
-LC01NDIyOTAzNCwtMTc5MDI1MDAxMyw2ODE3MDk5NzZdfQ==
+eyJoaXN0b3J5IjpbLTQ1MTIyMzEzMCwtMTIzMTc2ODEyNyw4OD
+A0OTMyOTUsLTE0OTAwODk5MTksMjAyNTc2MDE1NiwyODE4NzU5
+MCwtNTQyMjkwMzQsLTE3OTAyNTAwMTMsNjgxNzA5OTc2XX0=
 -->
