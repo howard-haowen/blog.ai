@@ -50,8 +50,7 @@ Here's the Kavalan problem set, most examples of which are drawn from this paper
 | 13| (3) | I haven't beaten my child yet.|
 | 14| (4) | Didn't you beat your child?|
 
-You're supposed to fill in the gaps indicated by (1) through (4). If you go through the slides, you'll be in a better position to solve this puzzle. 
-
+You're supposed to fill in the gaps indicated by (1) through (4). If you go through the slides, you'll be in a better position to solve this puzzle. I encourage to share your solution in the comments below.
 
 ## Footnotes
 [^1]: Here's the complete Terêna [problem set](https://ioling.org/booklets/iol-2018-indiv-prob.en.pdf).
@@ -60,7 +59,7 @@ You're supposed to fill in the gaps indicated by (1) through (4). If you go thro
 
 [^3]: [The Cluster-internal Ordering of Clitics in Kavalan (East Formosan, Austronesian]((http://journals.linguisticsociety.org/proceedings/index.php/BLS/article/view/3351)) by Doris Ching-jung Yen and Loren Billings, presented at the Annual Meeting of the Berkeley Linguistics Society.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTQzODYxOTc4OSwxNzcyMTE4OTYwLDkyNT
+eyJoaXN0b3J5IjpbLTU3NDk3MDc1MCwxNzcyMTE4OTYwLDkyNT
 Q3MDU0NCw2MDI4MTg4MDUsLTEyMzE3NjgxMjcsODgwNDkzMjk1
 LC0xNDkwMDg5OTE5LDIwMjU3NjAxNTYsMjgxODc1OTAsLTU0Mj
 I5MDM0LC0xNzkwMjUwMDEzLDY4MTcwOTk3Nl19
