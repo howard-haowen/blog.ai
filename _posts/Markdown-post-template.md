@@ -5,7 +5,7 @@ description: A minimal example of using markdown with fastpages.
 image: images/birds-of-a-feather.jpg
 categories: [markdown]
 title: An Example Markdown Post
-> Never use s
+> Never use special symbols in the title!
 ---
 ![](https://github.com/howard-haowen/blog.ai/raw/master/images/birds-of-a-feather.jpg "Credit: blogs.lse.ac.uk")
 
@@ -117,6 +117,6 @@ The second row is just metadata for the table that determines how the text will 
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTYwMzQ2MDc4OCwtMTQ1NDMzMDUxOCwxNT
-E2MjUwNTgzLDE2OTMzMTQ1MzddfQ==
+eyJoaXN0b3J5IjpbLTE1MDMxODk1NzYsLTE0NTQzMzA1MTgsMT
+UxNjI1MDU4MywxNjkzMzE0NTM3XX0=
 -->
