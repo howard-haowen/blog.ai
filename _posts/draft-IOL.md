@@ -22,7 +22,7 @@ Take this problem set from the [16th competition in 2018](https://ioling.org/boo
 
 ![](https://github.com/howard-haowen/blog.ai/raw/master/images/Terena-problem.png "Terêna problem set")
 
-The problem set is from Terêna Given the information 
+The problem set is from Terêna, a language spoken in Brazil. Given the information provided here, participants are supposed to figure 
 
 , which happens to be relevant to one of my favorite research topics. 
 The problem set comes from Terêna
@@ -40,7 +40,7 @@ The title of my lecture was  **verbal person marking & pronominal clitics**, whi
 ## Exercises
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTIxMzAxMTI0MDIsLTEyMzE3NjgxMjcsOD
+eyJoaXN0b3J5IjpbLTEyOTI4Njc0MzEsLTEyMzE3NjgxMjcsOD
 gwNDkzMjk1LC0xNDkwMDg5OTE5LDIwMjU3NjAxNTYsMjgxODc1
 OTAsLTU0MjI5MDM0LC0xNzkwMjUwMDEzLDY4MTcwOTk3Nl19
 -->
