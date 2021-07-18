@@ -28,7 +28,7 @@ The Terêna problem set happens to be relevant to one of my favorite research to
 
 <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRzIAb2rdQHWSHOreVPJDz2oViOS9ybACd5mmjx-8TYBAuGbbhOSUHiW319fw5cu4xDreO2mCD8FcJd/embed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 
-## A problem set 
+## A problem set from a 
 
 
 ## Footnotes
@@ -36,7 +36,7 @@ The Terêna problem set happens to be relevant to one of my favorite research to
 
 [^2]: Here's the complete [solution](https://ioling.org/booklets/iol-2018-indiv-sol.en.pdf) to the Terêna problem set.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE5NTAzODA1OTMsLTEyMzE3NjgxMjcsOD
-gwNDkzMjk1LC0xNDkwMDg5OTE5LDIwMjU3NjAxNTYsMjgxODc1
-OTAsLTU0MjI5MDM0LC0xNzkwMjUwMDEzLDY4MTcwOTk3Nl19
+eyJoaXN0b3J5IjpbMTk0MjMyOTA2NiwtMTIzMTc2ODEyNyw4OD
+A0OTMyOTUsLTE0OTAwODk5MTksMjAyNTc2MDE1NiwyODE4NzU5
+MCwtNTQyMjkwMzQsLTE3OTAyNTAwMTMsNjgxNzA5OTc2XX0=
 -->
