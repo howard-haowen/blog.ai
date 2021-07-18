@@ -16,7 +16,7 @@ Recently, I had the honor of being invited to give a training lecture to the Tai
 
 ## Past problem set
 
-The whole point of the competition is not to know many languages, but to be able to work out the most plausible way of account for the patterns  
+The whole point of the competition is not so much about , but to be able to work out the most plausible way of accounting for the patterns  
 
 I chose this topic because I saw this following problem set from the 2018 competition, which happens to be relevant to one of my favorite research topics. 
 The problem set comes from Terêna
@@ -35,7 +35,7 @@ The title of my lecture was  **verbal person marking & pronominal clitics**, whi
 ## Exercises
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEwODA1NDgxMDAsLTEyMzE3NjgxMjcsOD
-gwNDkzMjk1LC0xNDkwMDg5OTE5LDIwMjU3NjAxNTYsMjgxODc1
-OTAsLTU0MjI5MDM0LC0xNzkwMjUwMDEzLDY4MTcwOTk3Nl19
+eyJoaXN0b3J5IjpbNjgxMzg5MzIyLC0xMjMxNzY4MTI3LDg4MD
+Q5MzI5NSwtMTQ5MDA4OTkxOSwyMDI1NzYwMTU2LDI4MTg3NTkw
+LC01NDIyOTAzNCwtMTc5MDI1MDAxMyw2ODE3MDk5NzZdfQ==
 -->
