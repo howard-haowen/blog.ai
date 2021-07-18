@@ -43,10 +43,10 @@ In addition to the slides, I created a problem set based on a language of Taiwan
 | 08| mayneptiisu ni? | Are you already asleep? |
 | 09| pmukuntiisu wasusu ni? | Did you already beat your dog? |
 | 10| maiiku pukunanna. | He didn't beat me.|
-| 11| maiiku pukunanna. | He didn't beat me.|
-| 12| maiiku pukunanna. | He didn't beat me.|
-| 13| maiiku pukunanna. | He didn't beat me.|
-| 14| maiiku pukunanna. | He didn't beat me.|
+| 11| qaRatansuiku ni? | (1) |
+| 12| maiiku qmaRat sunissu. | (2)|
+| 13| (3) | I haven't beaten my child yet.|
+| 14| (4) | He didn't beat me.|
 
 
 ## Footnotes
@@ -54,7 +54,7 @@ In addition to the slides, I created a problem set based on a language of Taiwan
 
 [^2]: Here's the complete [solution](https://ioling.org/booklets/iol-2018-indiv-sol.en.pdf) to the Terêna problem set.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTE1NTE1Nzc1OSw5MjU0NzA1NDQsNjAyOD
+eyJoaXN0b3J5IjpbLTI0NDI3MTIzMCw5MjU0NzA1NDQsNjAyOD
 E4ODA1LC0xMjMxNzY4MTI3LDg4MDQ5MzI5NSwtMTQ5MDA4OTkx
 OSwyMDI1NzYwMTU2LDI4MTg3NTkwLC01NDIyOTAzNCwtMTc5MD
 I1MDAxMyw2ODE3MDk5NzZdfQ==
