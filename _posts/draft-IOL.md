@@ -31,7 +31,7 @@ The Terêna problem set happens to be relevant to one of my favorite research to
 ## A problem set from Taiwan
 In addition to the slides, I created a problem set based on a language of Taiwan, which is called Kavalan. You've probably heard of this name because of [Kavalan Whisky](https://edition.cnn.com/travel/article/taiwan-whisky-kavalan/index.html). That's right. This is the same Kavalan we're talking about here. I wrote my MA thesis on the Kavalan language, but I've never tried Kavalan Whisky. 
 
-Most of this problem set 
+Here's the Kavaproblem set, 
 
 | SN| Kavalan | English  |
 |--|:-|:-|
@@ -50,7 +50,7 @@ Most of this problem set
 | 13| (3) | I haven't beaten my child yet.|
 | 14| (4) | Didn't you beat your child?|
 
-If you go through the slides, you'll be in a better positionYou're supposed to fill in the gaps indicated by (1) through (4). 
+You're supposed to fill in the gaps indicated by (1) through (4). If you go through the slides, you'll be in a better position to solve this puzzle. 
 
 
 ## Footnotes
@@ -58,8 +58,8 @@ If you go through the slides, you'll be in a better positionYou're supposed to f
 
 [^2]: Here's the complete [solution](https://ioling.org/booklets/iol-2018-indiv-sol.en.pdf) to the Terêna problem set.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTExNDgwOTI0MiwxNzcyMTE4OTYwLDkyNT
-Q3MDU0NCw2MDI4MTg4MDUsLTEyMzE3NjgxMjcsODgwNDkzMjk1
-LC0xNDkwMDg5OTE5LDIwMjU3NjAxNTYsMjgxODc1OTAsLTU0Mj
-I5MDM0LC0xNzkwMjUwMDEzLDY4MTcwOTk3Nl19
+eyJoaXN0b3J5IjpbLTIwMjc3MjYwNzIsMTc3MjExODk2MCw5Mj
+U0NzA1NDQsNjAyODE4ODA1LC0xMjMxNzY4MTI3LDg4MDQ5MzI5
+NSwtMTQ5MDA4OTkxOSwyMDI1NzYwMTU2LDI4MTg3NTkwLC01ND
+IyOTAzNCwtMTc5MDI1MDAxMyw2ODE3MDk5NzZdfQ==
 -->
