@@ -5,7 +5,6 @@ title: My first post
 description: For almost everything you'd like to learn, there's an awesome list for that on GitHub. On this blog, I plan to add my personal touch to various tools, documenting not only what I did right to get the ball rolling, but also what I did wrong to save you (or even future me) from abysmal frustration.  
 categories: [awesome-list, fastpages]
 image: images/reinvent-the-wheel.jpg
-sticky_rank: 1
 
 ---
 ![](https://github.com/howard-haowen/blog.ai/raw/master/images/reinvent-the-wheel.jpg "Credit: JohnHartStudio.com")
