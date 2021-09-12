@@ -156,14 +156,6 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><a href="https://colab.research.google.com/github/howard-haowen/blog.ai/blob/master/_notebooks/2021-09-12-Scraping-Dcard-with-cloudscraper.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 <p><img src="https://github.com/howard-haowen/blog.ai/raw/master/images/data-scraping.jpg" alt=""></p>
 
 </div>
@@ -1740,32 +1732,7 @@ if (outputEl) {{
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Uncomment and run the following command to test the scheduler, which will keep running unless stopped!</p>
-
-</div>
-</div>
-</div>
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    
-
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>If you run <code>scheduler.py</code> for a while and then stop it, <code>logging.txt</code> will look something like this:</p>
+<p>Now run <code>python scheduler.py</code> in the terminal to test the scheduler, which will keep running unless stopped! If you run it for a while and then stop it, <code>logging.txt</code> will look something like this:</p>
 
 </div>
 </div>
@@ -1813,28 +1780,11 @@ if (outputEl) {{
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now that we've covered all the components we need, let's remove <code>logging.txt</code> and <code>Dcard.db</code> to start afresh and put everything together. To do that, just uncomment the command below and run it.</p>
+<p>Now that we've covered all the components we need, let's remove <code>logging.txt</code> and <code>Dcard.db</code> to start afresh and put everything together. To do that, just run <code>rm logging.txt Dcard.db</code> in the terminal.</p>
 
 </div>
 </div>
 </div>
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    
-
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1989,32 +1939,7 @@ if (outputEl) {{
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now it's harvest time! Uncomment and run the following command to start <code>Dcard_scraper.py</code>, which will run every 30 minutes unless stopped.</p>
-
-</div>
-</div>
-</div>
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    
-
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>If you run the scraper successfully, the <code>logging.txt</code> file will look like this:</p>
+<p>Now it's harvest time! Run <code>python Dcard_scraper.py</code> in the terminal to start the scraper, which will run every 30 minutes unless stopped. If everything goes well, the <code>logging.txt</code> file will look like this:</p>
 
 </div>
 </div>
@@ -2258,7 +2183,7 @@ if (outputEl) {{
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In this post, we used <code>cloudscraper</code> to scrape data from Dcard and <code>schedule</code> to regularly run the scraper. Both are powerful and elegant libraries that can be applied to any other scraping project.</p>
+<p>In this post, we used <code>cloudscraper</code> to scrape data from Dcard and <code>schedule</code> to regularly run the scraper. Both are powerful and elegant libraries that can be applied to any other scraping project. As a side note, I was able to run the Dcard scraper for several days in a row without having any error!</p>
 
 </div>
 </div>
