@@ -1,0 +1,2294 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Scraping Dcard with cloudscraper | Haowen’s AI blog</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Scraping Dcard with cloudscraper" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="This post goes over the steps for scraping data from Dcard at regular intervals and saving the data to a SQL database." />
+<meta property="og:description" content="This post goes over the steps for scraping data from Dcard at regular intervals and saving the data to a SQL database." />
+<link rel="canonical" href="https://howard-haowen.github.io/blog.ai/cloudscraper/schedule/sqlite3/logging/2021/09/12/Scraping-Dcard-with-cloudscraper.html" />
+<meta property="og:url" content="https://howard-haowen.github.io/blog.ai/cloudscraper/schedule/sqlite3/logging/2021/09/12/Scraping-Dcard-with-cloudscraper.html" />
+<meta property="og:site_name" content="Haowen’s AI blog" />
+<meta property="og:image" content="https://howard-haowen.github.io/blog.ai/images/data-scraping.jpeg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-09-12T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2021-09-12T00:00:00-05:00","url":"https://howard-haowen.github.io/blog.ai/cloudscraper/schedule/sqlite3/logging/2021/09/12/Scraping-Dcard-with-cloudscraper.html","@type":"BlogPosting","dateModified":"2021-09-12T00:00:00-05:00","image":"https://howard-haowen.github.io/blog.ai/images/data-scraping.jpeg","mainEntityOfPage":{"@type":"WebPage","@id":"https://howard-haowen.github.io/blog.ai/cloudscraper/schedule/sqlite3/logging/2021/09/12/Scraping-Dcard-with-cloudscraper.html"},"headline":"Scraping Dcard with cloudscraper","description":"This post goes over the steps for scraping data from Dcard at regular intervals and saving the data to a SQL database.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/blog.ai/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://howard-haowen.github.io/blog.ai/feed.xml" title="Haowen's AI blog" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','G-46Y745KSM9','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="shortcut icon" type="image/x-icon" href="/blog.ai/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog.ai/">Haowen&#39;s AI blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog.ai/about/">About Me</a><a class="page-link" href="/blog.ai/search/">Search</a><a class="page-link" href="/blog.ai/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Scraping Dcard with cloudscraper</h1><p class="page-description">This post goes over the steps for scraping data from Dcard at regular intervals and saving the data to a SQL database.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-09-12T00:00:00-05:00" itemprop="datePublished">
+        Sep 12, 2021
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      16 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/blog.ai/categories/#cloudscraper">cloudscraper</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog.ai/categories/#schedule">schedule</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog.ai/categories/#sqlite3">sqlite3</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog.ai/categories/#logging">logging</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/howard-haowen/blog.ai/tree/master/_notebooks/2021-09-12-Scraping-Dcard-with-cloudscraper.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/blog.ai/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/howard-haowen/blog.ai/master?filepath=_notebooks%2F2021-09-12-Scraping-Dcard-with-cloudscraper.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/blog.ai/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/howard-haowen/blog.ai/blob/master/_notebooks/2021-09-12-Scraping-Dcard-with-cloudscraper.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/blog.ai/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#Intro">Intro </a></li>
+<li class="toc-entry toc-h1"><a href="#Installing-dependencies">Installing dependencies </a></li>
+<li class="toc-entry toc-h1"><a href="#Testing-the-Dcard-API">Testing the Dcard API </a></li>
+<li class="toc-entry toc-h1"><a href="#Parsing-the-JSON-response">Parsing the JSON response </a></li>
+<li class="toc-entry toc-h1"><a href="#Creating-DataFrame-from-JSON">Creating DataFrame from JSON </a></li>
+<li class="toc-entry toc-h1"><a href="#Getting-forum-names">Getting forum names </a></li>
+<li class="toc-entry toc-h1"><a href="#Persisting-data-to-SQL">Persisting data to SQL </a></li>
+<li class="toc-entry toc-h1"><a href="#Testing-the-logger">Testing the logger </a></li>
+<li class="toc-entry toc-h1"><a href="#Testing-the-scheduler">Testing the scheduler </a></li>
+<li class="toc-entry toc-h1"><a href="#Putting-everything-together">Putting everything together </a></li>
+<li class="toc-entry toc-h1"><a href="#Recap">Recap </a></li>
+</ul><body>
+<!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2021-09-12-Scraping-Dcard-with-cloudscraper.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Intro">
+<a class="anchor" href="#Intro" aria-hidden="true"><span class="octicon octicon-link"></span></a>Intro<a class="anchor-link" href="#Intro"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>Dcard</code> is a popular social networking platform in Taiwan, and as such offers great resources for text mining and NLP model building. Our goals in this post is to scrape data from Dcard at regular intervals and persist it to a SQL database without duplicating the same records. We'll be leveraging the Dcard API v2 as well as the following libraries, which are not included in <a href="https://docs.python.org/3/library/">Python's standard library</a>:</p>
+<ul>
+<li>
+<code>cloudscraper</code>: for bypassing Cloudflare's anti-bot page</li>
+<li>
+<code>pandas</code>: for organizing the scraped data into a tabular format, which can then be easily saved as a SQL table</li>
+<li>
+<code>schedule</code>: for scheduling tasks</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Installing-dependencies">
+<a class="anchor" href="#Installing-dependencies" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installing dependencies<a class="anchor-link" href="#Installing-dependencies"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Since <code>pandas</code> is preinstalled on Colab, we only need to install <code>cloudscraper</code> and <code>schedule</code>.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">cloudscraper</span>
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">schedule</span>
+<span class="c1">#!pip pandas # uncomment this if pandas is not installed in your environment</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Output" data-close="Show Output"></summary>
+        <p>
+</p>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Collecting cloudscraper
+  Downloading cloudscraper-1.2.58-py2.py3-none-any.whl (96 kB)
+     |████████████████████████████████| 96 kB 4.5 MB/s 
+Requirement already satisfied: requests&gt;=2.9.2 in /usr/local/lib/python3.7/dist-packages (from cloudscraper) (2.23.0)
+Requirement already satisfied: pyparsing&gt;=2.4.7 in /usr/local/lib/python3.7/dist-packages (from cloudscraper) (2.4.7)
+Collecting requests-toolbelt&gt;=0.9.1
+  Downloading requests_toolbelt-0.9.1-py2.py3-none-any.whl (54 kB)
+     |████████████████████████████████| 54 kB 2.4 MB/s 
+Requirement already satisfied: certifi&gt;=2017.4.17 in /usr/local/lib/python3.7/dist-packages (from requests&gt;=2.9.2-&gt;cloudscraper) (2021.5.30)
+Requirement already satisfied: idna&lt;3,&gt;=2.5 in /usr/local/lib/python3.7/dist-packages (from requests&gt;=2.9.2-&gt;cloudscraper) (2.10)
+Requirement already satisfied: chardet&lt;4,&gt;=3.0.2 in /usr/local/lib/python3.7/dist-packages (from requests&gt;=2.9.2-&gt;cloudscraper) (3.0.4)
+Requirement already satisfied: urllib3!=1.25.0,!=1.25.1,&lt;1.26,&gt;=1.21.1 in /usr/local/lib/python3.7/dist-packages (from requests&gt;=2.9.2-&gt;cloudscraper) (1.24.3)
+Installing collected packages: requests-toolbelt, cloudscraper
+Successfully installed cloudscraper-1.2.58 requests-toolbelt-0.9.1
+Collecting schedule
+  Downloading schedule-1.1.0-py2.py3-none-any.whl (10 kB)
+Installing collected packages: schedule
+Successfully installed schedule-1.1.0
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's check out the Python version on Colab.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">python</span> <span class="o">--</span><span class="n">version</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Python 3.7.11
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Testing-the-Dcard-API">
+<a class="anchor" href="#Testing-the-Dcard-API" aria-hidden="true"><span class="octicon octicon-link"></span></a>Testing the Dcard API<a class="anchor-link" href="#Testing-the-Dcard-API"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's first test the Dcard API v2 with <code>cloudscraper</code>, the syntax of which is much like that of <code>requests</code>. The only difference is that we'll have to first create a scraper instance with <code>cloudscraper.create_scraper()</code>. For each HTTP request, we'll get a batch of 30 posts. The <code>forum</code> variable in the URL is the English name of a forum, and we'll first test the one named <code>stock</code>.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="kn">import</span> <span class="nn">cloudscraper</span>
+
+<span class="n">forum</span> <span class="o">=</span> <span class="s2">"stock"</span>
+<span class="n">URL</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"https://www.dcard.tw/service/api/v2/forums/</span><span class="si">{</span><span class="n">forum</span><span class="si">}</span><span class="s2">/posts"</span>
+<span class="n">scraper</span> <span class="o">=</span> <span class="n">cloudscraper</span><span class="o">.</span><span class="n">create_scraper</span><span class="p">()</span> 
+<span class="n">batch</span> <span class="o">=</span> <span class="n">scraper</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">URL</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>30</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here's what one single post looks like.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="kn">import</span> <span class="nn">pprint</span>
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">batch</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Output" data-close="Show Output"></summary>
+        <p>
+</p>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>{'activityAvatar': '',
+ 'anonymousDepartment': True,
+ 'anonymousSchool': False,
+ 'categories': ['請益'],
+ 'commentCount': 0,
+ 'createdAt': '2021-09-12T14:22:22.276Z',
+ 'customStyle': None,
+ 'elapsedTime': 515,
+ 'excerpt': '如題，我知道官股存股首推兆豐金，配息又配股，可是會配股的股票代表股本要很大，且每年獲利如果沒跟上的話，EPS會掉，股價也會跟著掉，官股獲利跟十年前比有如一攤死水，小弟我真的不曉得為什麼存股比起存民營金',
+ 'excerptComments': [],
+ 'forumAlias': 'stock',
+ 'forumId': '2fb88b62-aa28-4b18-af51-dda08dd037a9',
+ 'forumName': '股票',
+ 'gender': 'M',
+ 'hidden': False,
+ 'id': 236953704,
+ 'isModerator': False,
+ 'isSuspiciousAccount': False,
+ 'layout': 'classic',
+ 'likeCount': 0,
+ 'media': [],
+ 'mediaMeta': [],
+ 'memberType': '',
+ 'meta': {'layout': 'classic'},
+ 'nsfw': False,
+ 'pinned': False,
+ 'postAvatar': '',
+ 'reactions': [],
+ 'replyId': None,
+ 'replyTitle': None,
+ 'reportReason': '',
+ 'reportReasonText': '',
+ 'school': '弘光科技大學',
+ 'spoilerAlert': False,
+ 'tags': [],
+ 'title': '#請益 #請益 金融股存股疑問 官股 民股',
+ 'topics': ['請益', '金融', '投資', '官股', '民營金控'],
+ 'totalCommentCount': 0,
+ 'updatedAt': '2021-09-12T14:22:22.276Z',
+ 'verifiedBadge': False,
+ 'withImages': False,
+ 'withNickname': False,
+ 'withVideos': False}
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Parsing-the-JSON-response">
+<a class="anchor" href="#Parsing-the-JSON-response" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parsing the JSON response<a class="anchor-link" href="#Parsing-the-JSON-response"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Then we'll parse the JSON response to get the data we're interested in, including <code>title</code>, <code>createdAt</code>, <code>categories</code>, <code>excerpt</code>, and <code>topics</code>.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'title'</span><span class="p">,</span> <span class="s1">'createdAt'</span><span class="p">,</span> <span class="s1">'categories'</span><span class="p">,</span> <span class="s1">'excerpt'</span><span class="p">,</span> <span class="s1">'topics'</span><span class="p">]</span>
+<span class="n">title</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cols</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">]</span>
+<span class="n">createdAt</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cols</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">]</span>
+<span class="n">categories</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cols</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">]</span>
+<span class="n">excerpt</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cols</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">]</span>
+<span class="n">topics</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cols</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For instance, the <code>topics</code> column contains a list of topic terms for each post, but the list may be empty.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="n">topics</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Output" data-close="Show Output"></summary>
+        <p>
+</p>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[['請益', '金融', '投資', '官股', '民營金控'],
+ ['分析', '台股', '當沖', '波段', '技術分析'],
+ ['投資', '股票', '理財', '台股', '股市'],
+ ['請益'],
+ ['兇', '韭菜'],
+ ['投資', '股票', '美股', 'ETF', '新聞'],
+ ['投資', '股票', '美股', '股市', '新手'],
+ ['股票', '投資', '理財', '台股', '當沖'],
+ ['投資', '股票', '理財', '台股', '生活'],
+ ['股票', '美股', '技術分析', '狼王'],
+ ['請益', '新聞', '影響', '投資', '股票'],
+ ['投資', '股票', '理財', '台股', '股市'],
+ ['時事', '分享', '股票', '理財', '新聞'],
+ ['老師', '直播', '筆記', '股票', '投資'],
+ ['海外', '券商', '法律'],
+ ['分享', '金融', '投資', '股票', '理財'],
+ ['投資', 'app'],
+ ['股票'],
+ ['股票', '分享'],
+ ['分享', '股票', '投資', '當沖', '分析'],
+ ['股息', '分享', '股利', '股票', '投資'],
+ ['投資', '理財', '台股', '股票', '股市'],
+ ['股票', '台股'],
+ ['投資', '股票', '理財', '台股', '股市'],
+ ['股市', '當沖', '波段', '大盤'],
+ ['etf', '投資'],
+ ['美股', '股票', '技術分析', '狼王'],
+ ['美股', '股票', '理財', 'NVIDIA', '投資'],
+ ['股票', '投資'],
+ ['請益', '券商', '股票', '投資', '台股']]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Creating-DataFrame-from-JSON">
+<a class="anchor" href="#Creating-DataFrame-from-JSON" aria-hidden="true"><span class="octicon octicon-link"></span></a>Creating DataFrame from JSON<a class="anchor-link" href="#Creating-DataFrame-from-JSON"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now let's define a function called <code>parse_batch()</code> that takes the JSON response as input and returns a DataFrame instance.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="k">def</span> <span class="nf">parse_batch</span><span class="p">(</span><span class="n">batch</span><span class="p">):</span>
+    <span class="n">createdAt</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'createdAt'</span><span class="p">,</span> <span class="s1">'None'</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">]</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'title'</span><span class="p">,</span> <span class="s1">'None'</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">]</span>
+    <span class="n">excerpt</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'excerpt'</span><span class="p">,</span> <span class="s1">'None'</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">]</span>
+    <span class="n">dummy</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">categories</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'categories'</span><span class="p">,</span> <span class="n">dummy</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">]</span> <span class="c1"># every element is a list</span>
+    <span class="n">topics</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'topics'</span><span class="p">,</span> <span class="n">dummy</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">]</span> <span class="c1"># every element is a list</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">'createdAt'</span><span class="p">:</span> <span class="n">createdAt</span><span class="p">,</span>
+        <span class="s1">'title'</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span>
+        <span class="s1">'excerpt'</span><span class="p">:</span> <span class="n">excerpt</span><span class="p">,</span>
+        <span class="s1">'categories'</span><span class="p">:</span> <span class="n">categories</span><span class="p">,</span>
+        <span class="s1">'topics'</span><span class="p">:</span> <span class="n">topics</span><span class="p">,</span>    
+        <span class="p">}</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">loc</span> <span class="p">[:,</span> <span class="s1">'categories'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'categories'</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">" | "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">loc</span> <span class="p">[:,</span> <span class="s1">'topics'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'topics'</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">" | "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">df</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here's the first five rows of our scraped data.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="n">stock</span> <span class="o">=</span> <span class="n">parse_batch</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+<span class="n">stock</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>createdAt</th>
+      <th>title</th>
+      <th>excerpt</th>
+      <th>categories</th>
+      <th>topics</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2021-09-12T14:22:22.276Z</td>
+      <td>#請益 #請益 金融股存股疑問 官股 民股</td>
+      <td>如題，我知道官股存股首推兆豐金，配息又配股，可是會配股的股票代表股本要很大，且每年獲利如果沒...</td>
+      <td>請益</td>
+      <td>請益 | 金融 | 投資 | 官股 | 民營金控</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2021-09-12T13:59:36.831Z</td>
+      <td>#分享 9/12隔日當沖+波段分析</td>
+      <td>**無推薦跟單之意**，**純個人操作分享**，**損益自負**，本人當沖熱愛Tick流玩法...</td>
+      <td>分享</td>
+      <td>分析 | 台股 | 當沖 | 波段 | 技術分析</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2021-09-12T13:02:01.859Z</td>
+      <td>#分享 09/12類股分享-技術、籌碼分析</td>
+      <td>以下為個人技術及籌碼面分析，僅供參考，進出場請依照個人看法做決定。每日會有一篇更詳細的類股分...</td>
+      <td>分享</td>
+      <td>投資 | 股票 | 理財 | 台股 | 股市</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2021-09-12T11:55:08.194Z</td>
+      <td>#請益 長榮成本17元。11年前買的</td>
+      <td>請問一下。長榮海運股票10張。成本17元…11年前買的，，，忘記自己有 這檔股票。何時該出場賣掉？</td>
+      <td>請益</td>
+      <td>請益</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2021-09-12T11:25:08.604Z</td>
+      <td>#其他 簡訊越來越兇了啦</td>
+      <td>現在報明牌的簡訊越來越兇了~大家有發現嗎？啊每天那麼多封簡訊～一下ㄟ咪～一下candy，都不...</td>
+      <td>其他</td>
+      <td>兇 | 韭菜</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Getting-forum-names">
+<a class="anchor" href="#Getting-forum-names" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting forum names<a class="anchor-link" href="#Getting-forum-names"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As of Sep 11, 2021, there are in total 527 forums on Dcard.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="kn">import</span> <span class="nn">cloudscraper</span>
+
+<span class="n">URL</span> <span class="o">=</span> <span class="s2">"https://www.dcard.tw/service/api/v2/forums"</span> 
+<span class="n">scraper</span> <span class="o">=</span> <span class="n">cloudscraper</span><span class="o">.</span><span class="n">create_scraper</span><span class="p">()</span> 
+<span class="n">result</span> <span class="o">=</span> <span class="n">scraper</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">URL</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>527</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For each forum, we can get its English name, Chinese name, and the number of users who subscribe to it, as shown in the following dataframe.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">alias</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'alias'</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">result</span><span class="p">]</span>
+<span class="n">name</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'name'</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">result</span><span class="p">]</span>
+<span class="n">subscriptionCount</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'subscriptionCount'</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">result</span><span class="p">]</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"name"</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s2">"alias"</span><span class="p">:</span> <span class="n">alias</span><span class="p">,</span> <span class="s2">"subs"</span><span class="p">:</span> <span class="n">subscriptionCount</span><span class="p">})</span>
+<span class="n">df</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>alias</th>
+      <th>subs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>午夜實驗室</td>
+      <td>midnightlab</td>
+      <td>1711</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>時光膠囊</td>
+      <td>timecapsule</td>
+      <td>4284</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>母親節</td>
+      <td>mother</td>
+      <td>373</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>聖誕CiaoCiao</td>
+      <td>merryxmas</td>
+      <td>16807</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>父親節</td>
+      <td>father</td>
+      <td>363</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>522</th>
+      <td>スポーツ</td>
+      <td>jp_sport</td>
+      <td>110</td>
+    </tr>
+    <tr>
+      <th>523</th>
+      <td>ミーム</td>
+      <td>jp_meme</td>
+      <td>48</td>
+    </tr>
+    <tr>
+      <th>524</th>
+      <td>MAMAMOO</td>
+      <td>mamamoo</td>
+      <td>4316</td>
+    </tr>
+    <tr>
+      <th>525</th>
+      <td>無性戀</td>
+      <td>asexuality</td>
+      <td>769</td>
+    </tr>
+    <tr>
+      <th>526</th>
+      <td>學士後</td>
+      <td>post_bachelor</td>
+      <td>592</td>
+    </tr>
+  </tbody>
+</table>
+<p>527 rows × 3 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's just focus on the top 20 forums in terms of subscriptions.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">'subs'</span><span class="p">],</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">top20</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">top20</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>alias</th>
+      <th>subs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>373</th>
+      <td>西斯</td>
+      <td>sex</td>
+      <td>639112</td>
+    </tr>
+    <tr>
+      <th>224</th>
+      <td>穿搭</td>
+      <td>dressup</td>
+      <td>586341</td>
+    </tr>
+    <tr>
+      <th>228</th>
+      <td>感情</td>
+      <td>relationship</td>
+      <td>583232</td>
+    </tr>
+    <tr>
+      <th>217</th>
+      <td>美妝</td>
+      <td>makeup</td>
+      <td>487542</td>
+    </tr>
+    <tr>
+      <th>233</th>
+      <td>梗圖</td>
+      <td>meme</td>
+      <td>476599</td>
+    </tr>
+    <tr>
+      <th>273</th>
+      <td>美食</td>
+      <td>food</td>
+      <td>413792</td>
+    </tr>
+    <tr>
+      <th>230</th>
+      <td>閒聊</td>
+      <td>talk</td>
+      <td>375398</td>
+    </tr>
+    <tr>
+      <th>270</th>
+      <td>星座</td>
+      <td>horoscopes</td>
+      <td>364226</td>
+    </tr>
+    <tr>
+      <th>346</th>
+      <td>時事</td>
+      <td>trending</td>
+      <td>358119</td>
+    </tr>
+    <tr>
+      <th>340</th>
+      <td>理財</td>
+      <td>money</td>
+      <td>323464</td>
+    </tr>
+    <tr>
+      <th>231</th>
+      <td>有趣</td>
+      <td>funny</td>
+      <td>295991</td>
+    </tr>
+    <tr>
+      <th>287</th>
+      <td>Netflix</td>
+      <td>netflix</td>
+      <td>295088</td>
+    </tr>
+    <tr>
+      <th>234</th>
+      <td>女孩</td>
+      <td>girl</td>
+      <td>289326</td>
+    </tr>
+    <tr>
+      <th>212</th>
+      <td>YouTuber</td>
+      <td>youtuber</td>
+      <td>283766</td>
+    </tr>
+    <tr>
+      <th>229</th>
+      <td>心情</td>
+      <td>mood</td>
+      <td>281588</td>
+    </tr>
+    <tr>
+      <th>328</th>
+      <td>減肥</td>
+      <td>weight_loss</td>
+      <td>255195</td>
+    </tr>
+    <tr>
+      <th>261</th>
+      <td>寵物</td>
+      <td>pet</td>
+      <td>248843</td>
+    </tr>
+    <tr>
+      <th>447</th>
+      <td>股票</td>
+      <td>stock</td>
+      <td>239823</td>
+    </tr>
+    <tr>
+      <th>327</th>
+      <td>健身</td>
+      <td>fitness</td>
+      <td>239310</td>
+    </tr>
+    <tr>
+      <th>347</th>
+      <td>工作</td>
+      <td>job</td>
+      <td>231564</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To get a better visual representation, let's plot out <code>top20</code> with <code>plotly</code>, which has better support for Chinese characters than <code>matplotlib</code>.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span>
+            <span class="n">top20</span><span class="p">,</span> <span class="c1"># df object</span>
+            <span class="n">x</span><span class="o">=</span><span class="s2">"name"</span><span class="p">,</span> 
+            <span class="n">y</span><span class="o">=</span><span class="s2">"subs"</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="s2">"subs"</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="s2">"Dcard各版訂閱數"</span><span class="p">,</span>
+            <span class="n">barmode</span><span class="o">=</span><span class="s2">"group"</span><span class="p">,</span>
+            <span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+            <span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+
+<meta charset="utf-8">
+
+    <div>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script type="text/javascript">if (window.MathJax) {MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>
+                <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>    
+            <div id="c04146a9-c724-4c4d-94eb-4b8ee19ff552" class="plotly-graph-div" style="height:300px; width:100%;"></div>
+            <script type="text/javascript">
+                
+                    window.PLOTLYENV=window.PLOTLYENV || {};
+                    
+                if (document.getElementById("c04146a9-c724-4c4d-94eb-4b8ee19ff552")) {
+                    Plotly.newPlot(
+                        'c04146a9-c724-4c4d-94eb-4b8ee19ff552',
+                        [{"alignmentgroup": "True", "hoverlabel": {"namelength": 0}, "hovertemplate": "name=%{x}<br>subs=%{marker.color}", "legendgroup": "", "marker": {"color": [638362, 584443, 582358, 486337, 474964, 413011, 373710, 363787, 357286, 323081, 295694, 294429, 288908, 283508, 281066, 254336, 248602, 239127, 239059, 230879], "coloraxis": "coloraxis"}, "name": "", "offsetgroup": "", "orientation": "v", "showlegend": false, "textposition": "auto", "type": "bar", "x": ["\u897f\u65af", "\u7a7f\u642d", "\u611f\u60c5", "\u7f8e\u599d", "\u6897\u5716", "\u7f8e\u98df", "\u9592\u804a", "\u661f\u5ea7", "\u6642\u4e8b", "\u7406\u8ca1", "\u6709\u8da3", "Netflix", "\u5973\u5b69", "YouTuber", "\u5fc3\u60c5", "\u6e1b\u80a5", "\u5bf5\u7269", "\u80a1\u7968", "\u5065\u8eab", "\u5de5\u4f5c"], "xaxis": "x", "y": [638362, 584443, 582358, 486337, 474964, 413011, 373710, 363787, 357286, 323081, 295694, 294429, 288908, 283508, 281066, 254336, 248602, 239127, 239059, 230879], "yaxis": "y"}],
+                        {"barmode": "group", "coloraxis": {"colorbar": {"title": {"text": "subs"}}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]]}, "height": 300, "legend": {"tracegroupgap": 0}, "template": {"data": {"bar": [{"error_x": {"color": "#2a3f5f"}, "error_y": {"color": "#2a3f5f"}, "marker": {"line": {"color": "#E5ECF6", "width": 0.5}}, "type": "bar"}], "barpolar": [{"marker": {"line": {"color": "#E5ECF6", "width": 0.5}}, "type": "barpolar"}], "carpet": [{"aaxis": {"endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f"}, "baxis": {"endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f"}, "type": "carpet"}], "choropleth": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "choropleth"}], "contour": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "contour"}], "contourcarpet": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "contourcarpet"}], "heatmap": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmap"}], "heatmapgl": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmapgl"}], "histogram": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "histogram"}], "histogram2d": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2d"}], "histogram2dcontour": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2dcontour"}], "mesh3d": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "mesh3d"}], "parcoords": [{"line": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "parcoords"}], "pie": [{"automargin": true, "type": "pie"}], "scatter": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatter"}], "scatter3d": [{"line": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatter3d"}], "scattercarpet": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattercarpet"}], "scattergeo": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattergeo"}], "scattergl": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattergl"}], "scattermapbox": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattermapbox"}], "scatterpolar": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterpolar"}], "scatterpolargl": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterpolargl"}], "scatterternary": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterternary"}], "surface": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "surface"}], "table": [{"cells": {"fill": {"color": "#EBF0F8"}, "line": {"color": "white"}}, "header": {"fill": {"color": "#C8D4E3"}, "line": {"color": "white"}}, "type": "table"}]}, "layout": {"annotationdefaults": {"arrowcolor": "#2a3f5f", "arrowhead": 0, "arrowwidth": 1}, "coloraxis": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "colorscale": {"diverging": [[0, "#8e0152"], [0.1, "#c51b7d"], [0.2, "#de77ae"], [0.3, "#f1b6da"], [0.4, "#fde0ef"], [0.5, "#f7f7f7"], [0.6, "#e6f5d0"], [0.7, "#b8e186"], [0.8, "#7fbc41"], [0.9, "#4d9221"], [1, "#276419"]], "sequential": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "sequentialminus": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]]}, "colorway": ["#636efa", "#EF553B", "#00cc96", "#ab63fa", "#FFA15A", "#19d3f3", "#FF6692", "#B6E880", "#FF97FF", "#FECB52"], "font": {"color": "#2a3f5f"}, "geo": {"bgcolor": "white", "lakecolor": "white", "landcolor": "#E5ECF6", "showlakes": true, "showland": true, "subunitcolor": "white"}, "hoverlabel": {"align": "left"}, "hovermode": "closest", "mapbox": {"style": "light"}, "paper_bgcolor": "white", "plot_bgcolor": "#E5ECF6", "polar": {"angularaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "bgcolor": "#E5ECF6", "radialaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}}, "scene": {"xaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}, "yaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}, "zaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}}, "shapedefaults": {"line": {"color": "#2a3f5f"}}, "ternary": {"aaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "baxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "bgcolor": "#E5ECF6", "caxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}}, "title": {"x": 0.05}, "xaxis": {"automargin": true, "gridcolor": "white", "linecolor": "white", "ticks": "", "title": {"standoff": 15}, "zerolinecolor": "white", "zerolinewidth": 2}, "yaxis": {"automargin": true, "gridcolor": "white", "linecolor": "white", "ticks": "", "title": {"standoff": 15}, "zerolinecolor": "white", "zerolinewidth": 2}}}, "title": {"text": "Dcard\u5404\u7248\u8a02\u95b1\u6578"}, "xaxis": {"anchor": "y", "domain": [0.0, 1.0], "title": {"text": "name"}}, "yaxis": {"anchor": "x", "domain": [0.0, 1.0], "title": {"text": "subs"}}},
+                        {"responsive": true}
+                    ).then(function(){
+                            
+var gd = document.getElementById('c04146a9-c724-4c4d-94eb-4b8ee19ff552');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })
+                };
+                
+            </script>
+        </div>
+
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Persisting-data-to-SQL">
+<a class="anchor" href="#Persisting-data-to-SQL" aria-hidden="true"><span class="octicon octicon-link"></span></a>Persisting data to SQL<a class="anchor-link" href="#Persisting-data-to-SQL"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We'll use the <code>sqlite3</code> module to interact with a SQL database. First, the <code>sqlite3.connect()</code> function creates and then connects to a <code>.db</code> file, which we name <code>Dcard.db</code>. The next important thing to do is to create a table in the database. The <code>create_table</code> variable contains SQL syntax for creating a table named <code>Posts</code> with five columns, including <code>createdAt</code>, <code>title</code>, <code>excerpt</code>, <code>categories</code>, and <code>topics</code>. Crucially, we make the <code>createdAt</code> column the primary key so that posts with the same primary key will be ignored. The assumption here is that posts with the same timestamp are duplicates, though this might not be always the case. But in lack of info like post IDs, we'll just make do with timestamps.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="kn">import</span> <span class="nn">sqlite3</span>
+
+<span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">'Dcard.db'</span><span class="p">)</span>  
+<span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="n">create_table</span> <span class="o">=</span> <span class="s2">"""</span>
+<span class="s2">CREATE TABLE IF NOT EXISTS Posts (</span>
+<span class="s2">    createdAt TIMESTAMP PRIMARY KEY ON CONFLICT IGNORE,</span>
+<span class="s2">    title,</span>
+<span class="s2">    excerpt, </span>
+<span class="s2">    categories, </span>
+<span class="s2">    topics);</span>
+<span class="s2">"""</span>
+<span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">create_table</span><span class="p">)</span>  
+<span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Then we save the <code>stock</code> dataframe to the table we just created.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="n">stock</span><span class="o">.</span><span class="n">to_sql</span><span class="p">(</span><span class="s1">'Posts'</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">'append'</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> 
+<span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To make sure the data is properly saved, let's load back the dataframe from the database.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="n">new_stock</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="s2">"SELECT * FROM Posts;"</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
+<span class="n">new_stock</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Output" data-close="Show Output"></summary>
+        <p>
+</p>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>createdAt</th>
+      <th>title</th>
+      <th>excerpt</th>
+      <th>categories</th>
+      <th>topics</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2021-09-12T14:22:22.276Z</td>
+      <td>#請益 #請益 金融股存股疑問 官股 民股</td>
+      <td>如題，我知道官股存股首推兆豐金，配息又配股，可是會配股的股票代表股本要很大，且每年獲利如果沒...</td>
+      <td>請益</td>
+      <td>請益 | 金融 | 投資 | 官股 | 民營金控</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2021-09-12T13:59:36.831Z</td>
+      <td>#分享 9/12隔日當沖+波段分析</td>
+      <td>**無推薦跟單之意**，**純個人操作分享**，**損益自負**，本人當沖熱愛Tick流玩法...</td>
+      <td>分享</td>
+      <td>分析 | 台股 | 當沖 | 波段 | 技術分析</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2021-09-12T13:02:01.859Z</td>
+      <td>#分享 09/12類股分享-技術、籌碼分析</td>
+      <td>以下為個人技術及籌碼面分析，僅供參考，進出場請依照個人看法做決定。每日會有一篇更詳細的類股分...</td>
+      <td>分享</td>
+      <td>投資 | 股票 | 理財 | 台股 | 股市</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2021-09-12T11:55:08.194Z</td>
+      <td>#請益 長榮成本17元。11年前買的</td>
+      <td>請問一下。長榮海運股票10張。成本17元…11年前買的，，，忘記自己有 這檔股票。何時該出場賣掉？</td>
+      <td>請益</td>
+      <td>請益</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2021-09-12T11:25:08.604Z</td>
+      <td>#其他 簡訊越來越兇了啦</td>
+      <td>現在報明牌的簡訊越來越兇了~大家有發現嗎？啊每天那麼多封簡訊～一下ㄟ咪～一下candy，都不...</td>
+      <td>其他</td>
+      <td>兇 | 韭菜</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2021-09-12T10:23:31.827Z</td>
+      <td>#分享 這週方舟機構ARK持股變化</td>
+      <td>分享這週（9/6 ~9/10）ARK持股變化，股票代碼-ARKQ 所屬ETF ARKQ，PA...</td>
+      <td>分享</td>
+      <td>投資 | 股票 | 美股 | ETF | 新聞</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2021-09-12T10:10:13.080Z</td>
+      <td>#分享 美股屑財報-本週財報與重點事件</td>
+      <td>.，IG ：美股餅乾屑，（週報固定每週日晚上6點更新），.，本週財報真的是有些無聊，但！要發...</td>
+      <td>分享</td>
+      <td>投資 | 股票 | 美股 | 股市 | 新手</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2021-09-12T09:55:47.721Z</td>
+      <td>#分享 明日當沖觀盤重點</td>
+      <td>歡迎大家追蹤我一起學習哦！</td>
+      <td>分享</td>
+      <td>股票 | 投資 | 理財 | 台股 | 當沖</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2021-09-12T09:47:05.404Z</td>
+      <td>#標的 聯電以及智原個股分析</td>
+      <td>這禮拜最後一次寫聯電發現大家真的對聯電很有興趣🤣那我們廢話不多說，馬上開始吧～聯電（2303...</td>
+      <td>標的</td>
+      <td>投資 | 股票 | 理財 | 台股 | 生活</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2021-09-12T08:03:31.864Z</td>
+      <td>#分享 狼王9月11日周六特輯</td>
+      <td>粉絲個股投票時間以及那些可以 中線佈局的股票們 ROKU ADSK CHWY SAVA SA...</td>
+      <td>分享</td>
+      <td>股票 | 美股 | 技術分析 | 狼王</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>2021-09-12T05:46:00.967Z</td>
+      <td>#請益 關於這新聞，各位怎麼看？真的會影響嗎？</td>
+      <td>像這種新聞，對於股市的影響程度會有影響嗎？股市常常起起伏伏，真的很怕被這種新聞給狙擊</td>
+      <td>請益</td>
+      <td>請益 | 新聞 | 影響 | 投資 | 股票</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>2021-09-12T05:26:03.419Z</td>
+      <td>#分享 分享個股看法 2390 3450</td>
+      <td>本次解析一下云辰和聯鈞，歡迎下方留言處討論，有任何地方標示錯誤請指教。我是股海一滴水，我們下...</td>
+      <td>分享</td>
+      <td>投資 | 股票 | 理財 | 台股 | 股市</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>2021-09-12T04:44:13.512Z</td>
+      <td>#分享 時事分享—以股分交換作為企業佈局手段</td>
+      <td>大鯨魚吃小蝦米的故事，在資本市場其實很常發生，尤其是在歐美市場很流行以併購的方式，來壯大公司...</td>
+      <td>分享</td>
+      <td>時事 | 分享 | 股票 | 理財 | 新聞</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>2021-09-12T03:57:18.993Z</td>
+      <td>#分享 Ashin老師9/10直播筆記</td>
+      <td></td>
+      <td>分享</td>
+      <td>老師 | 直播 | 筆記 | 股票 | 投資</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>2021-09-12T03:33:35.076Z</td>
+      <td>#請益 海外券商閒置太久會有什麼法律上的問題嗎</td>
+      <td>如題目 最近想開始存美股了 哪其實上網查到很多有用的資訊了 剩下這個問題 如果閒置太久會有法...</td>
+      <td>請益</td>
+      <td>海外 | 券商 | 法律</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>2021-09-12T02:57:04.070Z</td>
+      <td>#分享 搭上轉型列車-金融數位化</td>
+      <td>金融轉型勢必為未來趨勢，金融數位化，也是現在台灣金融產業正在著手進行的事情，而開發金也不難看...</td>
+      <td>分享</td>
+      <td>分享 | 金融 | 投資 | 股票 | 理財</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>2021-09-12T02:38:43.280Z</td>
+      <td>#請益 【請教】XQ全球贏家APP 新功能-贏家選股使用心得</td>
+      <td>最近在XQ全球贏家的FB粉專上，看到他們的手機APP有推出一個全新的功能—贏家選股，聽說有高...</td>
+      <td>請益</td>
+      <td>投資 | app</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>2021-09-12T02:00:14.107Z</td>
+      <td>#其他 本周紀錄</td>
+      <td>前幾天發文沒開到卡稱，再發一次紀錄，這邊只留短線操作紀錄，長線是定期定額ETF，一詮，欣興小...</td>
+      <td>其他</td>
+      <td>股票</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>2021-09-11T18:23:49.445Z</td>
+      <td>#分享 各位到底知道股票為什麼會漲嗎？</td>
+      <td>我資歷大約12年，從高中時就知道，一定要學股票，因為多數的基金也是靠買股票賺，那何不自己學起...</td>
+      <td>分享</td>
+      <td>股票 | 分享</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>2021-09-11T14:55:53.481Z</td>
+      <td>#分享 當沖Tick流分享</td>
+      <td>這兩天很多人問我這個問題，這邊來分享一下當沖Tick玩法，單純分享自身經驗、操作模式，沒有任...</td>
+      <td>分享</td>
+      <td>分享 | 股票 | 投資 | 當沖 | 分析</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>2021-09-11T12:21:23.991Z</td>
+      <td>#分享 近期高殖利率標的</td>
+      <td>下週一一張國揚（2505）可以領1.5，下週二一張聲寶（1604）可以領2.5，目前這兩檔都...</td>
+      <td>分享</td>
+      <td>股息 | 分享 | 股利 | 股票 | 投資</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>2021-09-11T12:17:40.308Z</td>
+      <td>#分享 編劇給我找出來</td>
+      <td>不囉嗦上圖，你們就看看麗珠，早在幾年前就已經看好航運了，你各位現在才追？附上人權啦，豪冷，2...</td>
+      <td>分享</td>
+      <td>投資 | 理財 | 台股 | 股票 | 股市</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>2021-09-11T04:46:19.407Z</td>
+      <td>#分享 高伯精選股-2481多</td>
+      <td>單純看K棒來說 股價來打左點紅棒低點 停損小，現在進場大約目標就是110的位置 我自己停損大...</td>
+      <td>分享</td>
+      <td>股票 | 台股</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>2021-09-11T02:42:41.606Z</td>
+      <td>#分享 東海彼得 - 9/10盤後分析</td>
+      <td>9/10 盤後分析，近期美股的走勢相對平穩，相較於一個月前的波動，可以說反差非常劇烈，最主要...</td>
+      <td>分享</td>
+      <td>投資 | 股票 | 理財 | 台股 | 股市</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>2021-09-11T01:38:21.750Z</td>
+      <td>#分享 如我上週所判斷，那股市下週該如何..</td>
+      <td>上週分享的..也被我說中了..，以下是上週分享的觀點，那本週的狀況..，有關注的就會發現大盤...</td>
+      <td>分享</td>
+      <td>股市 | 當沖 | 波段 | 大盤</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>2021-09-11T01:09:59.029Z</td>
+      <td>#請益 定期定額買etf</td>
+      <td>想請教大家，我是股市新手，同時也是社會新鮮人，由於現在台股一直都在1w7左右，應該是台股最旺...</td>
+      <td>請益</td>
+      <td>etf | 投資</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>2021-09-11T01:04:15.684Z</td>
+      <td>#分享 狼王9月10日美股復盤</td>
+      <td>震蕩的一周 貌似上週推演就提醒危險了~？今天我出手買貨了哦~ MA TSLA AAPL NF...</td>
+      <td>分享</td>
+      <td>美股 | 股票 | 技術分析 | 狼王</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>2021-09-10T16:19:52.902Z</td>
+      <td>#標的 美股 Nvidia 輝達（$NVDA） 看多</td>
+      <td>今天要來談的標的是 $NVDA。如果你有在打遊戲，就一定會知道他們的超強顯卡。他們的顯卡不只...</td>
+      <td>標的</td>
+      <td>美股 | 股票 | 理財 | NVIDIA | 投資</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>2021-09-10T15:55:10.143Z</td>
+      <td>#請益 請問這是600萬賠到300萬嗎</td>
+      <td>很謝謝大家的回覆但原本的資訊好像不太清楚，這是完整內容再麻煩大家解惑了謝謝，————————...</td>
+      <td>請益</td>
+      <td>股票 | 投資</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>2021-09-10T15:51:03.972Z</td>
+      <td>#請益 #請益 請問這是哪家券商的介面</td>
+      <td>請問這是哪家券商的下單系統，可以顯示百分比！，跪求各位大神‍️‍️‍️</td>
+      <td>請益</td>
+      <td>請益 | 券商 | 股票 | 投資 | 台股</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Testing-the-logger">
+<a class="anchor" href="#Testing-the-logger" aria-hidden="true"><span class="octicon octicon-link"></span></a>Testing the logger<a class="anchor-link" href="#Testing-the-logger"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We'll use the <code>logging</code> module to create a log file named <code>logging.txt</code>, which can be configured by the <code>logging.basicConfig()</code> function. I'd like the logging format to be <code>[{timestamp}] {logging level} | {logging message}</code>, so the value of the <code>format</code> argument is <code>[%(asctime)s] %(levelname)s | %(message)s</code>. In addition, the format of the timestamp can be set up by the <code>datefmt</code> argument.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span>
+        <span class="n">filename</span><span class="o">=</span><span class="s1">'logging.txt'</span><span class="p">,</span>
+        <span class="n">filemode</span><span class="o">=</span><span class="s2">"a"</span><span class="p">,</span>
+        <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span>
+        <span class="nb">format</span><span class="o">=</span><span class="s2">"[</span><span class="si">%(asctime)s</span><span class="s2">] </span><span class="si">%(levelname)s</span><span class="s2"> | </span><span class="si">%(message)s</span><span class="s2">"</span><span class="p">,</span>
+        <span class="n">datefmt</span><span class="o">=</span><span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S"</span><span class="p">,</span>
+    <span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's test out three types of logs and check out the logging file.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"This is an info."</span><span class="p">)</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">"This an error!"</span><span class="p">)</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"This is a warning!"</span><span class="p">)</span>
+<span class="err">!</span><span class="n">head</span> <span class="n">logging</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[2021-09-12 08:31:31] INFO | This is an info.
+[2021-09-12 08:31:31] ERROR | This an error!
+[2021-09-12 08:31:31] WARNING | This is a warning!
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Testing-the-scheduler">
+<a class="anchor" href="#Testing-the-scheduler" aria-hidden="true"><span class="octicon octicon-link"></span></a>Testing the scheduler<a class="anchor-link" href="#Testing-the-scheduler"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We'll use the <code>schedule</code> library to activate our Dcard scraper at regular intervals. As a test for the scheduling function, the <code>scheduler.py</code> simply logs the current time to <code>logging.txt</code> every three seconds. The first step for scheduling a job is to define a function, which is named <code>job()</code> in this case. Then the job can be put on schedule by simply calling the <code>schedule.every({num}).{unit}.do({job})</code> function, where <code>{num}</code> is an integer, <code>{unit}</code> a string for unit of time like <code>seconds</code>, <code>minutes</code> or <code>hours</code>, and finally <code>{job}</code> the function scheduled to run. Finally, if we call the <code>schedule.run_pending()</code> function within a <code>while</code> loop, the programm will run indefinitely. Run the following cell to create <code>scheduler.py</code>.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="o">%%</span><span class="n">writefile</span> <span class="n">scheduler</span><span class="o">.</span><span class="n">py</span>
+
+<span class="kn">import</span> <span class="nn">schedule</span> 
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span>
+        <span class="n">filename</span><span class="o">=</span><span class="s1">'logging.txt'</span><span class="p">,</span>
+        <span class="n">filemode</span><span class="o">=</span><span class="s2">"a"</span><span class="p">,</span>
+        <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span>
+        <span class="nb">format</span><span class="o">=</span><span class="s2">"[</span><span class="si">%(asctime)s</span><span class="s2">] </span><span class="si">%(levelname)s</span><span class="s2"> | </span><span class="si">%(message)s</span><span class="s2">"</span><span class="p">,</span>
+        <span class="n">datefmt</span><span class="o">=</span><span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S"</span><span class="p">,</span>
+    <span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">job</span><span class="p">():</span>
+    <span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Hello, the current time is </span><span class="si">{</span><span class="n">now</span><span class="si">}</span><span class="s2">."</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+<span class="n">schedule</span><span class="o">.</span><span class="n">every</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">seconds</span><span class="o">.</span><span class="n">do</span><span class="p">(</span><span class="n">job</span><span class="p">)</span>
+<span class="n">schedule</span><span class="o">.</span><span class="n">run_all</span><span class="p">()</span> <span class="c1">#Without this line, the job will start in 3 seconds rather than immediately. </span>
+
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">schedule</span><span class="o">.</span><span class="n">run_pending</span><span class="p">()</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Uncomment and run the following command to test the scheduler, which will keep running unless stopped!</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>If you run <code>scheduler.py</code> for a while and then stop it, <code>logging.txt</code> will look something like this:</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tail</span> <span class="n">logging</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[2021-09-12 08:31:31] ERROR | This an error!
+[2021-09-12 08:31:31] WARNING | This is a warning!
+[2021-09-12 08:37:40] INFO | Hello, the current time is 2021-09-12 08:37:40.643431.
+[2021-09-12 08:37:43] INFO | Hello, the current time is 2021-09-12 08:37:43.647108.
+[2021-09-12 08:37:46] INFO | Hello, the current time is 2021-09-12 08:37:46.651045.
+[2021-09-12 08:37:49] INFO | Hello, the current time is 2021-09-12 08:37:49.655009.
+[2021-09-12 08:37:52] INFO | Hello, the current time is 2021-09-12 08:37:52.658558.
+[2021-09-12 08:37:55] INFO | Hello, the current time is 2021-09-12 08:37:55.662393.
+[2021-09-12 08:37:58] INFO | Hello, the current time is 2021-09-12 08:37:58.666367.
+[2021-09-12 08:38:01] INFO | Hello, the current time is 2021-09-12 08:38:01.669397.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now that we've covered all the components we need, let's remove <code>logging.txt</code> and <code>Dcard.db</code> to start afresh and put everything together. To do that, just uncomment the command below and run it.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Putting-everything-together">
+<a class="anchor" href="#Putting-everything-together" aria-hidden="true"><span class="octicon octicon-link"></span></a>Putting everything together<a class="anchor-link" href="#Putting-everything-together"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Finally, it's time to put everything together. Run the following cell to create <code>Dcard_scraper.py</code>. The only thing new here is that this time around we are going to scrape multiple forums rather than just one. So we first create a dictionary called <code>forums</code>, where the keys are forum names in English and the values their equivalents in Chinese. We'll need the English forum names to get the API full URLs. Plus, we add two more columns in the <code>Posts</code> tabel of <code>Dcard.db</code> (i.e. <code>forum_en</code> and <code>forum_zh</code>) to store the forum names. The <code>main()</code> function takes care of iteration over every forum stored in the <code>forums</code> variable as well as some basic exception handling.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="o">%%</span><span class="n">writefile</span> <span class="n">Dcard_scraper</span><span class="o">.</span><span class="n">py</span>
+
+<span class="kn">import</span> <span class="nn">cloudscraper</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span>
+<span class="kn">import</span> <span class="nn">schedule</span>
+<span class="kn">import</span> <span class="nn">sqlite3</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="c1"># Configuring the logging.txt file</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span>
+        <span class="n">filename</span><span class="o">=</span><span class="s1">'logging.txt'</span><span class="p">,</span>
+        <span class="n">filemode</span><span class="o">=</span><span class="s2">"a"</span><span class="p">,</span>
+        <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span>
+        <span class="nb">format</span><span class="o">=</span><span class="s2">"[</span><span class="si">%(asctime)s</span><span class="s2">] </span><span class="si">%(levelname)s</span><span class="s2"> | </span><span class="si">%(message)s</span><span class="s2">"</span><span class="p">,</span>
+        <span class="n">datefmt</span><span class="o">=</span><span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S"</span><span class="p">,</span>
+    <span class="p">)</span>
+
+<span class="c1"># Dcard API base URL</span>
+<span class="n">baseURL</span> <span class="o">=</span> <span class="s2">"https://www.dcard.tw/service/api/v2/forums/"</span>
+
+<span class="c1"># List of forums. Add as many as you want. Here I'm just picking 18 forums. </span>
+<span class="n">forums</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"dressup"</span><span class="p">:</span> <span class="s2">"穿搭"</span><span class="p">,</span>
+    <span class="s2">"relationship"</span><span class="p">:</span> <span class="s2">"感情"</span><span class="p">,</span>
+    <span class="s2">"makeup"</span><span class="p">:</span> <span class="s2">"美妝"</span><span class="p">,</span>
+    <span class="s2">"food"</span><span class="p">:</span> <span class="s2">"美食"</span><span class="p">,</span>
+    <span class="s2">"horoscopes"</span><span class="p">:</span> <span class="s2">"星座"</span><span class="p">,</span>
+    <span class="s2">"talk"</span><span class="p">:</span> <span class="s2">"閒聊"</span><span class="p">,</span>
+    <span class="s2">"trending"</span><span class="p">:</span> <span class="s2">"時事"</span><span class="p">,</span>
+    <span class="s2">"money"</span><span class="p">:</span> <span class="s2">"理財"</span><span class="p">,</span>
+    <span class="s2">"funny"</span><span class="p">:</span> <span class="s2">"有趣"</span><span class="p">,</span>
+    <span class="s2">"girl"</span><span class="p">:</span> <span class="s2">"女孩"</span><span class="p">,</span>
+    <span class="s2">"netflix"</span><span class="p">:</span> <span class="s2">"Netflix"</span><span class="p">,</span>
+    <span class="s2">"youtuber"</span><span class="p">:</span> <span class="s2">"YouTuber"</span><span class="p">,</span>
+    <span class="s2">"mood"</span><span class="p">:</span> <span class="s2">"心情"</span><span class="p">,</span>
+    <span class="s2">"pet"</span><span class="p">:</span> <span class="s2">"寵物"</span><span class="p">,</span>
+    <span class="s2">"weight_loss"</span><span class="p">:</span> <span class="s2">"減肥"</span><span class="p">,</span>
+    <span class="s2">"fitness"</span><span class="p">:</span> <span class="s2">"健身"</span><span class="p">,</span>
+    <span class="s2">"stock"</span><span class="p">:</span> <span class="s2">"股票"</span><span class="p">,</span>
+    <span class="s2">"job"</span><span class="p">:</span> <span class="s2">"工作"</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="c1"># Creating a SQLite database and a table named Posts</span>
+<span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">'Dcard.db'</span><span class="p">)</span>  
+<span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="n">create_table</span> <span class="o">=</span> <span class="s2">"""</span>
+<span class="s2">CREATE TABLE IF NOT EXISTS Posts (</span>
+<span class="s2">    createdAt TIMESTAMP PRIMARY KEY ON CONFLICT IGNORE,</span>
+<span class="s2">    title,</span>
+<span class="s2">    excerpt, </span>
+<span class="s2">    categories, </span>
+<span class="s2">    topics,</span>
+<span class="s2">    forum_en,</span>
+<span class="s2">    forum_zh);</span>
+<span class="s2">"""</span>
+<span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">create_table</span><span class="p">)</span>  
+<span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+<span class="c1"># Parsing a batch of JSON response and creating a dataframe out of it</span>
+<span class="k">def</span> <span class="nf">parse_batch</span><span class="p">(</span><span class="n">batch</span><span class="p">):</span>
+    <span class="n">createdAt</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'createdAt'</span><span class="p">,</span> <span class="s1">'None'</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">]</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'title'</span><span class="p">,</span> <span class="s1">'None'</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">]</span>
+    <span class="n">excerpt</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'excerpt'</span><span class="p">,</span> <span class="s1">'None'</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">]</span>
+    <span class="n">dummy</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">categories</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'categories'</span><span class="p">,</span> <span class="n">dummy</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">]</span> <span class="c1"># every element is a list</span>
+    <span class="n">topics</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'topics'</span><span class="p">,</span> <span class="n">dummy</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">]</span> <span class="c1"># every element is a list</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">'createdAt'</span><span class="p">:</span> <span class="n">createdAt</span><span class="p">,</span>
+        <span class="s1">'title'</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span>
+        <span class="s1">'excerpt'</span><span class="p">:</span> <span class="n">excerpt</span><span class="p">,</span>
+        <span class="s1">'categories'</span><span class="p">:</span> <span class="n">categories</span><span class="p">,</span>
+        <span class="s1">'topics'</span><span class="p">:</span> <span class="n">topics</span><span class="p">,</span>    
+        <span class="p">}</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">loc</span> <span class="p">[:,</span> <span class="s1">'categories'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'categories'</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">" | "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">loc</span> <span class="p">[:,</span> <span class="s1">'topics'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'topics'</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">" | "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">df</span>
+
+<span class="c1"># Main scraper</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">scraper</span> <span class="o">=</span> <span class="n">cloudscraper</span><span class="o">.</span><span class="n">create_scraper</span><span class="p">()</span>
+    <span class="n">sec</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">forum_en</span><span class="p">,</span> <span class="n">forum_zh</span> <span class="ow">in</span> <span class="n">forums</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">scraper</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">baseURL</span> <span class="o">+</span> <span class="n">forum_en</span> <span class="o">+</span> <span class="s2">"/posts"</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="n">batch</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="n">parse_batch</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+                <span class="n">df</span><span class="p">[</span><span class="s2">"forum_en"</span><span class="p">]</span> <span class="o">=</span> <span class="n">forum_en</span>
+                <span class="n">df</span><span class="p">[</span><span class="s2">"forum_zh"</span><span class="p">]</span> <span class="o">=</span> <span class="n">forum_zh</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> posts on </span><span class="si">{</span><span class="n">forum_en</span><span class="si">}</span><span class="s2"> have been scraped."</span><span class="p">)</span>
+                <span class="n">df</span><span class="o">.</span><span class="n">to_sql</span><span class="p">(</span><span class="s2">"Posts"</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s2">"append"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+                <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="sa">f</span><span class="s2">"SELECT COUNT(*) from Posts;"</span><span class="p">)</span>
+                <span class="n">rows</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"There are in total </span><span class="si">{</span><span class="n">rows</span><span class="si">}</span><span class="s2"> posts in the DB."</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">argument</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">argument</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"The request on </span><span class="si">{</span><span class="n">forum_en</span><span class="si">}</span><span class="s2"> was unsuccessful."</span><span class="p">)</span>
+
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">sec</span><span class="p">)</span>
+
+<span class="c1"># Setting the scraping interval</span>
+<span class="n">schedule</span><span class="o">.</span><span class="n">every</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span><span class="o">.</span><span class="n">minutes</span><span class="o">.</span><span class="n">do</span><span class="p">(</span><span class="n">main</span><span class="p">)</span>  
+<span class="n">schedule</span><span class="o">.</span><span class="n">run_all</span><span class="p">()</span>
+
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">schedule</span><span class="o">.</span><span class="n">run_pending</span><span class="p">()</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now it's harvest time! Uncomment and run the following command to start <code>Dcard_scraper.py</code>, which will run every 30 minutes unless stopped.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>If you run the scraper successfully, the <code>logging.txt</code> file will look like this:</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tail</span> <span class="n">logging</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[2021-09-12 14:44:21] INFO | 30 posts on pet have been scraped.
+[2021-09-12 14:44:21] INFO | There are in total 420 posts in the DB.
+[2021-09-12 14:44:33] INFO | 30 posts on weight_loss have been scraped.
+[2021-09-12 14:44:33] INFO | There are in total 450 posts in the DB.
+[2021-09-12 14:44:46] INFO | 30 posts on fitness have been scraped.
+[2021-09-12 14:44:46] INFO | There are in total 480 posts in the DB.
+[2021-09-12 14:44:58] INFO | 30 posts on stock have been scraped.
+[2021-09-12 14:44:58] INFO | There are in total 510 posts in the DB.
+[2021-09-12 14:45:10] INFO | 30 posts on job have been scraped.
+[2021-09-12 14:45:10] INFO | There are in total 540 posts in the DB.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>And here's the result of our hard work! In my case, I ran the scraper for around 3 minutes and got 540 posts.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">'Dcard.db'</span><span class="p">)</span>  
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="s2">"SELECT * FROM Posts;"</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
+<span class="n">data</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Output" data-close="Show Output"></summary>
+        <p>
+</p>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>createdAt</th>
+      <th>title</th>
+      <th>excerpt</th>
+      <th>categories</th>
+      <th>topics</th>
+      <th>forum_en</th>
+      <th>forum_zh</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2021-09-12T14:35:07.314Z</td>
+      <td>問air force真假</td>
+      <td>️第一次發文，不知道發在穿搭版可不可以，排版不好請見諒若有違反規定會刪文，前陣子在蝦皮購買一...</td>
+      <td></td>
+      <td>問 | force | 真假 | 穿搭 | 蝦皮</td>
+      <td>dressup</td>
+      <td>穿搭</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2021-09-12T14:18:12.598Z</td>
+      <td>疫情買的衣服分享🙌淘寶居多</td>
+      <td>我是女生！，本人156/45，衣服都蠻平價的～1⃣️，洋裝：淘寶，包：Toae，鞋子：淘寶，...</td>
+      <td></td>
+      <td>疫情 | 衣服 | 分享</td>
+      <td>dressup</td>
+      <td>穿搭</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2021-09-12T13:56:35.559Z</td>
+      <td>我與室友的穿搭分享</td>
+      <td>趁颱風天沒事來分享我跟室友的穿搭～（沒戴口罩的是疫情前拍的呦），先分享室友的，1. 單車褲穿...</td>
+      <td></td>
+      <td>穿搭 | 女生穿搭</td>
+      <td>dressup</td>
+      <td>穿搭</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2021-09-12T13:54:26.217Z</td>
+      <td>#問 求包包的關鍵字</td>
+      <td>想請問俞丁背的這種包叫什麼名字，有點像送子鳥包，可是我在蝦皮都找不到類似的，或是有人在哪些網...</td>
+      <td></td>
+      <td>包包 | 關鍵字</td>
+      <td>dressup</td>
+      <td>穿搭</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2021-09-12T13:36:51.407Z</td>
+      <td>#問 北臉包包代購</td>
+      <td>小妹想買這個包包很久了，但北臉的包包是第一次購買，怕買到仿冒品，想請教各位版友，有推薦的賣家...</td>
+      <td></td>
+      <td>問 | 北臉 | 包包 | 真假</td>
+      <td>dressup</td>
+      <td>穿搭</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>535</th>
+      <td>2021-09-12T12:37:12.067Z</td>
+      <td>轉職 通勤or租屋請益</td>
+      <td>大家好，小妹預計10月初到新公司（林口）報到，家住新北汐止，目前煩惱要開車通勤（40-50分...</td>
+      <td></td>
+      <td>通勤 | 租屋</td>
+      <td>job</td>
+      <td>工作</td>
+    </tr>
+    <tr>
+      <th>536</th>
+      <td>2021-09-12T12:24:17.122Z</td>
+      <td>早八晚五工作</td>
+      <td>請問有什麼工作是早八晚五，（正職），但是放假不是見紅就休？而是排休的？</td>
+      <td></td>
+      <td>工作 | 工作經驗</td>
+      <td>job</td>
+      <td>工作</td>
+    </tr>
+    <tr>
+      <th>537</th>
+      <td>2021-09-12T12:20:05.422Z</td>
+      <td>#問 會問生活體驗是希望得到什麼答案</td>
+      <td>如題，面試時公司給了一張基本資料表，第一個問我對“工作”（沒確切說是應徵職位還是工作本身）的...</td>
+      <td></td>
+      <td>工作 | 求職</td>
+      <td>job</td>
+      <td>工作</td>
+    </tr>
+    <tr>
+      <th>538</th>
+      <td>2021-09-12T12:11:54.507Z</td>
+      <td>工作幾年後還會想回學校讀書嗎？</td>
+      <td>以前老師常說要讀就一口氣讀不要中斷不然很難工作後再回來讀，我自己是工作2年後離職準備一年考上...</td>
+      <td></td>
+      <td>學校 | 讀書 | 工作</td>
+      <td>job</td>
+      <td>工作</td>
+    </tr>
+    <tr>
+      <th>539</th>
+      <td>2021-09-12T12:10:44.789Z</td>
+      <td>#問 大學研究中心徵才</td>
+      <td>本人為私立應屆，最近在求職中，看到很多四大四中的研究中心之類的在徵才，也有投遞履歷約面試，職...</td>
+      <td></td>
+      <td>徵才 | 問 | 應屆畢業生</td>
+      <td>job</td>
+      <td>工作</td>
+    </tr>
+  </tbody>
+</table>
+<p>540 rows × 7 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Recap">
+<a class="anchor" href="#Recap" aria-hidden="true"><span class="octicon octicon-link"></span></a>Recap<a class="anchor-link" href="#Recap"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In this post, we used <code>cloudscraper</code> to scrape data from Dcard and <code>schedule</code> to regularly run the scraper. Both are powerful and elegant libraries that can be applied to any other scraping project.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+
+</body>
+  </div><a class="u-url" href="/blog.ai/cloudscraper/schedule/sqlite3/logging/2021/09/12/Scraping-Dcard-with-cloudscraper.html" hidden></a>
+</article>
+
+<script src="https://utteranc.es/client.js"
+        repo="howard-haowen/blog.ai"
+        issue-term="[ENTER TERM HERE]"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog.ai/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/blog.ai/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/blog.ai/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>AI through a linguist&#39;s looking glass</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/howard-haowen" title="howard-haowen"><svg class="svg-icon grey"><use xlink:href="/blog.ai/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/haowen-jiang-phd-16242074" title="haowen-jiang-phd-16242074"><svg class="svg-icon grey"><use xlink:href="/blog.ai/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
