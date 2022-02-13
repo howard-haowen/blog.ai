@@ -22,8 +22,8 @@ My name is Haowen Jiang. I obtained a PhD of linguistics from <a href="https://w
 
 #### Kaggle
 - Pandas
-![](images/Howard_Jiang_Pandas.png)
+![]({{ site.baseurl }}/images/Kaggle-Pandas.png)
 
 - Intro to Machine Learning 
-![](images/Howard_Jiang_IntroToMachineLearning.png)
+![]({{ site.baseurl }}/images/Kaggle-IntroToMachineLearning.png)
 
