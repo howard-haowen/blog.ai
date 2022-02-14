@@ -20,11 +20,11 @@ My name is Haowen Jiang. I obtained a PhD of linguistics from <a href="https://w
 
 #### Kaggle
 - Python
-<img src="https://github.com/howard-haowen/blog.ai/raw/master/images/Kaggle-Python.png" width="300" height="150">
+<img src="https://github.com/howard-haowen/blog.ai/raw/master/images/Kaggle-Python.png" width="600" height="400" align="left">
 
 - Pandas
-<img src="https://github.com/howard-haowen/blog.ai/raw/master/images/Kaggle-Pandas.png" width="300" height="150">
+<img src="https://github.com/howard-haowen/blog.ai/raw/master/images/Kaggle-Pandas.png" width="600" height="400" align="left">
 
 - Intro to Machine Learning 
-<img src="https://github.com/howard-haowen/blog.ai/raw/master/images/Kaggle-IntroToMachineLearning.png" width="300" height="150">
+<img src="https://github.com/howard-haowen/blog.ai/raw/master/images/Kaggle-IntroToMachineLearning.png" width="600" height="400" align="left">
 
