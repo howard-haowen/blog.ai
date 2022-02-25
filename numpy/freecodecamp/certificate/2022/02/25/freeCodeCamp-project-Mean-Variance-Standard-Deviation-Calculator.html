@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>freeCodeCamp project Mean-Variance-Standard Deviation Calculator | Haowen’s AI blog</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="freeCodeCamp project Mean-Variance-Standard Deviation Calculator" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="To earn the freeCodeCamp certification on Data Analysis with Python, one has to complete five projects. This post goes through the details for the first one named Mean-Variance-Standard Deviation Calculator." />
+<meta property="og:description" content="To earn the freeCodeCamp certification on Data Analysis with Python, one has to complete five projects. This post goes through the details for the first one named Mean-Variance-Standard Deviation Calculator." />
+<link rel="canonical" href="https://howard-haowen.github.io/blog.ai/numpy/freecodecamp/certificate/2022/02/25/freeCodeCamp-project-Mean-Variance-Standard-Deviation-Calculator.html" />
+<meta property="og:url" content="https://howard-haowen.github.io/blog.ai/numpy/freecodecamp/certificate/2022/02/25/freeCodeCamp-project-Mean-Variance-Standard-Deviation-Calculator.html" />
+<meta property="og:site_name" content="Haowen’s AI blog" />
+<meta property="og:image" content="https://howard-haowen.github.io/blog.ai/images/median-mode-mean.jpeg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-02-25T00:00:00-06:00" />
+<script type="application/ld+json">
+{"url":"https://howard-haowen.github.io/blog.ai/numpy/freecodecamp/certificate/2022/02/25/freeCodeCamp-project-Mean-Variance-Standard-Deviation-Calculator.html","@type":"BlogPosting","headline":"freeCodeCamp project Mean-Variance-Standard Deviation Calculator","dateModified":"2022-02-25T00:00:00-06:00","datePublished":"2022-02-25T00:00:00-06:00","image":"https://howard-haowen.github.io/blog.ai/images/median-mode-mean.jpeg","mainEntityOfPage":{"@type":"WebPage","@id":"https://howard-haowen.github.io/blog.ai/numpy/freecodecamp/certificate/2022/02/25/freeCodeCamp-project-Mean-Variance-Standard-Deviation-Calculator.html"},"description":"To earn the freeCodeCamp certification on Data Analysis with Python, one has to complete five projects. This post goes through the details for the first one named Mean-Variance-Standard Deviation Calculator.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/blog.ai/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://howard-haowen.github.io/blog.ai/feed.xml" title="Haowen's AI blog" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','G-46Y745KSM9','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="shortcut icon" type="image/x-icon" href="/blog.ai/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog.ai/">Haowen&#39;s AI blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog.ai/about/">About Me</a><a class="page-link" href="/blog.ai/search/">Search</a><a class="page-link" href="/blog.ai/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">freeCodeCamp project Mean-Variance-Standard Deviation Calculator</h1><p class="page-description">To earn the freeCodeCamp certification on Data Analysis with Python, one has to complete five projects. This post goes through the details for the first one named Mean-Variance-Standard Deviation Calculator.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-02-25T00:00:00-06:00" itemprop="datePublished">
+        Feb 25, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      11 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/blog.ai/categories/#numpy">numpy</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog.ai/categories/#freecodecamp">freecodecamp</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog.ai/categories/#certificate">certificate</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/howard-haowen/blog.ai/tree/master/_notebooks/2022-02-25-freeCodeCamp-project-Mean-Variance-Standard-Deviation-Calculator.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/blog.ai/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/howard-haowen/blog.ai/master?filepath=_notebooks%2F2022-02-25-freeCodeCamp-project-Mean-Variance-Standard-Deviation-Calculator.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/blog.ai/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/howard-haowen/blog.ai/blob/master/_notebooks/2022-02-25-freeCodeCamp-project-Mean-Variance-Standard-Deviation-Calculator.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/blog.ai/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#Intro">Intro </a></li>
+<li class="toc-entry toc-h1"><a href="#Import">Import </a></li>
+<li class="toc-entry toc-h1"><a href="#Task-instructions">Task instructions </a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#Assignment">Assignment </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#Steps">Steps </a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#Create-a-matrix">Create a matrix </a></li>
+<li class="toc-entry toc-h2"><a href="#Calculate-the-sum">Calculate the sum </a></li>
+<li class="toc-entry toc-h2"><a href="#Wrap-calculations-in-a-function">Wrap calculations in a function </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#Put-it-together">Put it together </a></li>
+<li class="toc-entry toc-h1"><a href="#Recap">Recap </a></li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2022-02-25-freeCodeCamp-project-Mean-Variance-Standard-Deviation-Calculator.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="https://colab.research.google.com/github/howard-haowen/blog.ai/blob/master/_notebooks/2022-02-25-freeCodeCamp-project-Mean-Variance-Standard-Deviation-Calculator.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://github.com/howard-haowen/blog.ai/raw/master/images/median-mode-mean.jpeg" alt="" title="Credit: www.andertoons.com"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Intro">
+<a class="anchor" href="#Intro" aria-hidden="true"><span class="octicon octicon-link"></span></a>Intro<a class="anchor-link" href="#Intro"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>freeCodeCamp</code> is a website where one can learn coding for free. Once you log in, you'll have free access to more than 8,000 tutorials 😇. What I like best about it is that you can earn free certifications by completing courses on various topics. These courses are pretty intense, and it'll take you at least 300 hours to finish any of them. For instance, I started <code>Data Analysis with Python</code>, <code>Scientific Computing with Python</code>, and <code>Machine Learning with Python</code> back in 2020, but didn't actually get any of them done until recently.</p>
+<p>The major challenge is that all these courses involve some coding projects, which require much more time and attention than just watch tutorial videos and do multiple-choice quizzes. But I finally nailed <code>Data Analysis with Python</code> and earned this certification 🙌!</p>
+<p><a href="https://www.freecodecamp.org/certification/howardj/data-analysis-with-python-v7"><img src="https://github.com/howard-haowen/blog.ai/raw/master/images/freecodecamp-data-analysis-with-python.png" alt=""></a></p>
+<p>This particular course covers the following five projects:</p>
+<ul>
+<li>Mean-Variance-Standard Deviation Calculator</li>
+<li>Demographic Data Analyzer</li>
+<li>Medical Data Visualizer</li>
+<li>Page View Time Series Visualizer</li>
+<li>Sea Level Predictor</li>
+</ul>
+<p>The tools you'll be using are <code>numpy</code> and <code>pandas</code> for data wrangling and <code>matplotlib</code> and <code>seaborn</code> for visualization. I've learned a lot By working on these projects, which are really worth my time. So I plan to document the learning process and write a post on each of the projects.</p>
+<p>I'm sure there are already some solutions somewhere on the internet, but I'll write down mine anyway and focus more on the thinking process than final codes. The only help I turned to was official documentations of Python libraries and some snippets on <code>stackoverFlow</code>.</p>
+<p>With that, let's start with <code>Mean-Variance-Standard Deviation Calculator</code>, which is the easiest one of the five.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Import">
+<a class="anchor" href="#Import" aria-hidden="true"><span class="octicon octicon-link"></span></a>Import<a class="anchor-link" href="#Import"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For this project, we need nothing but the <code>numpy</code> library, which is preinstalled on Colab. This graph that I found on <code>techvidvan.com</code> nicely summarizes 10 common uses of <code>numpy</code>.</p>
+<p><img src="https://techvidvan.com/tutorials/wp-content/uploads/sites/2/2020/07/Uses-of-NumPy-1.jpg" alt=""></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Task-instructions">
+<a class="anchor" href="#Task-instructions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Task instructions<a class="anchor-link" href="#Task-instructions"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's first clone <a href="https://github.com/freeCodeCamp/boilerplate-mean-variance-standard-deviation-calculator">the project repo</a> and change the current directory to <code>boilerplate-mean-variance-standard-deviation-calculator</code>, where the <code>README.md</code> file contains the task instructions.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">freeCodeCamp</span><span class="o">/</span><span class="n">boilerplate</span><span class="o">-</span><span class="n">mean</span><span class="o">-</span><span class="n">variance</span><span class="o">-</span><span class="n">standard</span><span class="o">-</span><span class="n">deviation</span><span class="o">-</span><span class="n">calculator</span>
+<span class="o">%</span><span class="n">cd</span> <span class="n">boilerplate</span><span class="o">-</span><span class="n">mean</span><span class="o">-</span><span class="n">variance</span><span class="o">-</span><span class="n">standard</span><span class="o">-</span><span class="n">deviation</span><span class="o">-</span><span class="n">calculator</span>
+<span class="n">readme</span> <span class="o">=</span> <span class="err">!</span><span class="n">cat</span> <span class="n">README</span><span class="o">.</span><span class="n">md</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">readme</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Output" data-close="Show Output"></summary>
+        <p>
+</p>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Cloning into 'boilerplate-mean-variance-standard-deviation-calculator'...
+remote: Enumerating objects: 14, done.
+remote: Counting objects: 100% (14/14), done.
+remote: Compressing objects: 100% (12/12), done.
+remote: Total 14 (delta 3), reused 10 (delta 1), pack-reused 0
+Unpacking objects: 100% (14/14), done.
+/content/boilerplate-mean-variance-standard-deviation-calculator
+['### Assignment', '', 'Create a function named `calculate()` in `mean_var_std.py` that uses Numpy to output the mean, variance, standard deviation, max, min, and sum of the rows, columns, and elements in a 3 x 3 matrix. ', '', 'The input of the function should be a list containing 9 digits. The function should convert the list into a 3 x 3 Numpy array, and then return a dictionary containing the mean, variance, standard deviation, max, min, and sum along both axes and for the flattened matrix. ', '', 'The returned dictionary should follow this format:', '```py', '{', "  'mean': [axis1, axis2, flattened],", "  'variance': [axis1, axis2, flattened],", "  'standard deviation': [axis1, axis2, flattened],", "  'max': [axis1, axis2, flattened],", "  'min': [axis1, axis2, flattened],", "  'sum': [axis1, axis2, flattened]", '}', '```', '', 'If a list containing less than 9 elements is passed into the function, it should raise a `ValueError` exception with the message: "List must contain nine numbers." The values in the returned dictionary should be lists and not Numpy arrays.', '', 'For example, `calculate([0,1,2,3,4,5,6,7,8])` should return:', '```py', '{', "  'mean': [[3.0, 4.0, 5.0], [1.0, 4.0, 7.0], 4.0], ", "  'variance': [[6.0, 6.0, 6.0], [0.6666666666666666, 0.6666666666666666, 0.6666666666666666], 6.666666666666667], ", "  'standard deviation': [[2.449489742783178, 2.449489742783178, 2.449489742783178], [0.816496580927726, 0.816496580927726, 0.816496580927726], 2.581988897471611],", "  'max': [[6, 7, 8], [2, 5, 8], 8],", "  'min': [[0, 1, 2], [0, 3, 6], 0],", "  'sum': [[9, 12, 15], [3, 12, 21], 36]", '}', '```', '', 'The unit tests for this project are in `test_module.py`.', '', '### Development', '', 'For development, you can use `main.py` to test your `calculate()` function. Click the "run" button and `main.py` will run.', '', '### Testing ', '', 'We imported the tests from `test_module.py` to `main.py` for your convenience. The tests will run automatically whenever you hit the "run" button.', '', '### Submitting', '', "Copy your project's URL and submit it to freeCodeCamp."]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>But the plain text isn't pretty and hard to read. So I'll use the <code>rich</code> library to make it look <strong>rich</strong> 💰.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">rich</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Output" data-close="Show Output"></summary>
+        <p>
+</p>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Collecting rich
+  Downloading rich-11.2.0-py3-none-any.whl (217 kB)
+     |████████████████████████████████| 217 kB 22.8 MB/s 
+Collecting commonmark&lt;0.10.0,&gt;=0.9.0
+  Downloading commonmark-0.9.1-py2.py3-none-any.whl (51 kB)
+     |████████████████████████████████| 51 kB 4.6 MB/s 
+Collecting colorama&lt;0.5.0,&gt;=0.4.0
+  Downloading colorama-0.4.4-py2.py3-none-any.whl (16 kB)
+Requirement already satisfied: pygments&lt;3.0.0,&gt;=2.6.0 in /usr/local/lib/python3.7/dist-packages (from rich) (2.6.1)
+Requirement already satisfied: typing-extensions&lt;5.0,&gt;=3.7.4 in /usr/local/lib/python3.7/dist-packages (from rich) (3.10.0.2)
+Installing collected packages: commonmark, colorama, rich
+Successfully installed colorama-0.4.4 commonmark-0.9.1 rich-11.2.0
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now with the helper function <code>show_readme</code>, we can render the instructions in a <strong>beautiful</strong> format.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="kn">from</span> <span class="nn">rich.console</span> <span class="kn">import</span> <span class="n">Console</span>
+<span class="kn">from</span> <span class="nn">rich.markdown</span> <span class="kn">import</span> <span class="n">Markdown</span>
+
+<span class="k">def</span> <span class="nf">show_readme</span><span class="p">():</span>
+    <span class="n">console</span> <span class="o">=</span> <span class="n">Console</span><span class="p">()</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"README.md"</span><span class="p">)</span> <span class="k">as</span> <span class="n">readme</span><span class="p">:</span>
+        <span class="n">markdown</span> <span class="o">=</span> <span class="n">Markdown</span><span class="p">(</span><span class="n">readme</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">markdown</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Assignment">
+<a class="anchor" href="#Assignment" aria-hidden="true"><span class="octicon octicon-link"></span></a>Assignment<a class="anchor-link" href="#Assignment"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here's original text for the assignment.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="n">show_readme</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">                                         <span style="font-weight: bold">Assignment</span>                                          
+
+Create a function named <span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #000000">calculate()</span> in <span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #000000">mean_var_std.py</span> that uses Numpy to output the mean,   
+variance, standard deviation, max, min, and sum of the rows, columns, and elements in a 3 x 3
+matrix.                                                                                      
+
+The input of the function should be a list containing 9 digits. The function should convert  
+the list into a 3 x 3 Numpy array, and then return a dictionary containing the mean,         
+variance, standard deviation, max, min, and sum along both axes and for the flattened matrix.
+
+The returned dictionary should follow this format:                                           
+
+<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">┌───────────────────────────────────────────────────────────────────────────────────────────┐</span>
+<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">{</span><span style="background-color: #272822">                                                                                        </span> <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">│</span>
+<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">  </span><span style="color: #e6db74; text-decoration-color: #e6db74; background-color: #272822">'mean'</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">: [axis1, axis2, flattened],</span><span style="background-color: #272822">                                                     </span> <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">│</span>
+<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">  </span><span style="color: #e6db74; text-decoration-color: #e6db74; background-color: #272822">'variance'</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">: [axis1, axis2, flattened],</span><span style="background-color: #272822">                                                 </span> <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">│</span>
+<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">  </span><span style="color: #e6db74; text-decoration-color: #e6db74; background-color: #272822">'standard deviation'</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">: [axis1, axis2, flattened],</span><span style="background-color: #272822">                                       </span> <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">│</span>
+<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">  </span><span style="color: #e6db74; text-decoration-color: #e6db74; background-color: #272822">'max'</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">: [axis1, axis2, flattened],</span><span style="background-color: #272822">                                                      </span> <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">│</span>
+<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">  </span><span style="color: #e6db74; text-decoration-color: #e6db74; background-color: #272822">'min'</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">: [axis1, axis2, flattened],</span><span style="background-color: #272822">                                                      </span> <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">│</span>
+<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">  </span><span style="color: #e6db74; text-decoration-color: #e6db74; background-color: #272822">'sum'</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">: [axis1, axis2, flattened]</span><span style="background-color: #272822">                                                       </span> <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">│</span>
+<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">}</span><span style="background-color: #272822">                                                                                        </span> <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">│</span>
+<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">└───────────────────────────────────────────────────────────────────────────────────────────┘</span>
+
+If a list containing less than 9 elements is passed into the function, it should raise a     
+<span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #000000">ValueError</span> exception with the message: "List must contain nine numbers." The values in the   
+returned dictionary should be lists and not Numpy arrays.                                    
+
+For example, <span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #000000">calculate([0,1,2,3,4,5,6,7,8])</span> should return:                                   
+
+<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">┌───────────────────────────────────────────────────────────────────────────────────────────┐</span>
+<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">{</span><span style="background-color: #272822">                                                                                        </span> <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">│</span>
+<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">  </span><span style="color: #e6db74; text-decoration-color: #e6db74; background-color: #272822">'mean'</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">: [[</span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">3.0</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">, </span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">4.0</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">, </span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">5.0</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">], [</span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">1.0</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">, </span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">4.0</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">, </span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">7.0</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">], </span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">4.0</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">], </span><span style="background-color: #272822">                                      </span> <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">│</span>
+<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">  </span><span style="color: #e6db74; text-decoration-color: #e6db74; background-color: #272822">'variance'</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">: [[</span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">6.0</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">, </span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">6.0</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">, </span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">6.0</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">], [</span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">0.6666666666666666</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">, </span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">0.6666666666666666</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">, </span><span style="background-color: #272822">                </span> <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">│</span>
+<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">│</span> <span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">0.6666666666666666</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">], </span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">6.666666666666667</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">], </span><span style="background-color: #272822">                                                </span> <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">│</span>
+<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">  </span><span style="color: #e6db74; text-decoration-color: #e6db74; background-color: #272822">'standard deviation'</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">: [[</span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">2.449489742783178</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">, </span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">2.449489742783178</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">, </span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">2.449489742783178</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">], </span><span style="background-color: #272822">     </span> <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">│</span>
+<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">[</span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">0.816496580927726</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">, </span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">0.816496580927726</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">, </span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">0.816496580927726</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">], </span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">2.581988897471611</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">],</span><span style="background-color: #272822">           </span> <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">│</span>
+<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">  </span><span style="color: #e6db74; text-decoration-color: #e6db74; background-color: #272822">'max'</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">: [[</span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">6</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">, </span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">7</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">, </span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">8</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">], [</span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">2</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">, </span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">5</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">, </span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">8</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">], </span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">8</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">],</span><span style="background-color: #272822">                                                      </span> <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">│</span>
+<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">  </span><span style="color: #e6db74; text-decoration-color: #e6db74; background-color: #272822">'min'</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">: [[</span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">0</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">, </span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">1</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">, </span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">2</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">], [</span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">0</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">, </span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">3</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">, </span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">6</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">], </span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">0</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">],</span><span style="background-color: #272822">                                                      </span> <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">│</span>
+<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">  </span><span style="color: #e6db74; text-decoration-color: #e6db74; background-color: #272822">'sum'</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">: [[</span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">9</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">, </span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">12</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">, </span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">15</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">], [</span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">3</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">, </span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">12</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">, </span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">21</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">], </span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">36</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">]</span><span style="background-color: #272822">                                                  </span> <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">│</span>
+<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">│</span> <span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">}</span><span style="background-color: #272822">                                                                                        </span> <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">│</span>
+<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">└───────────────────────────────────────────────────────────────────────────────────────────┘</span>
+
+The unit tests for this project are in <span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #000000">test_module.py</span>.                                       
+
+                                         <span style="font-weight: bold">Development</span>                                         
+
+For development, you can use <span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #000000">main.py</span> to test your <span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #000000">calculate()</span> function. Click the "run"      
+button and <span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #000000">main.py</span> will run.                                                                 
+
+                                           <span style="font-weight: bold">Testing</span>                                           
+
+We imported the tests from <span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #000000">test_module.py</span> to <span style="color: #ffffff; text-decoration-color: #ffffff; background-color: #000000">main.py</span> for your convenience. The tests will run
+automatically whenever you hit the "run" button.                                             
+
+                                         <span style="font-weight: bold">Submitting</span>                                          
+
+Copy your project's URL and submit it to freeCodeCamp.                                       
+</pre>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Steps">
+<a class="anchor" href="#Steps" aria-hidden="true"><span class="octicon octicon-link"></span></a>Steps<a class="anchor-link" href="#Steps"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here're the steps that I'm gonna go through:</p>
+<ol>
+<li>I'll create a variable named <code>matrix</code>, which holds 9 numbers in a 3x3 matrix. </li>
+<li>I'll calculate the values for summation on the matrix to see if everything works as expected. </li>
+<li>I'll wrap the calculating process in a general function named <code>get_results</code>.</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Create-a-matrix">
+<a class="anchor" href="#Create-a-matrix" aria-hidden="true"><span class="octicon octicon-link"></span></a>Create a matrix<a class="anchor-link" href="#Create-a-matrix"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>One of the easiest ways to create a matrix is to call the <code>np.array</code> function with a list of numbers, which is turned into a NumPy one-dimentional array. Then you just call the <code>reshape</code> method on it to make it two-dimentional.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="nb">input</span> <span class="o">=</span> <span class="p">[</span><span class="n">num</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">)]</span>
+<span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+<span class="n">matrix</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"arr:</span><span class="se">\n</span><span class="si">{</span><span class="n">arr</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"matrix:</span><span class="se">\n</span><span class="si">{</span><span class="n">matrix</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>arr:
+[0 1 2 3 4 5 6 7 8]
+matrix:
+[[0 1 2]
+ [3 4 5]
+ [6 7 8]]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Calculate-the-sum">
+<a class="anchor" href="#Calculate-the-sum" aria-hidden="true"><span class="octicon octicon-link"></span></a>Calculate the sum<a class="anchor-link" href="#Calculate-the-sum"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To get the sum of all the numbers in <code>matrix</code>, just call the <code>sum</code> method on it.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="n">flattened_sum</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">flattened_sum</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>36</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>That was easy, but what comes next can be confusing. We're supposed to do summation along two axes, so let's first figure out whether <code>axis1</code> contains results calcuated along columns or rows. It turns out that we'll get the sum of all the numbers along a column when we call the <code>sum</code> method on <code>matrix</code> with the <code>axis</code> argument specified as <code>0</code> and along a row when the <code>axis</code> value is <code>1</code>.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="n">axis1_sum</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">axis2_sum</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"axis1_sum: </span><span class="se">\n</span><span class="si">{</span><span class="n">axis1_sum</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"axis2_sum: </span><span class="se">\n</span><span class="si">{</span><span class="n">axis2_sum</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>axis1_sum: 
+[ 9 12 15]
+axis2_sum: 
+[ 3 12 21]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The following graph illustrates the idea better than what I just said.</p>
+<p><img src="https://i.stack.imgur.com/4pFuZ.png" alt=""></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Notice that <code>axis1_sum</code> is a NumPy array, but we're supposed to return it as a list. So we call the <code>tolist</code> method on <code>axis1_sum</code> to do the conversion.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="n">old_type</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">axis1_sum</span><span class="p">)</span>
+<span class="n">axis1_sum</span> <span class="o">=</span> <span class="n">axis1_sum</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">new_type</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">axis1_sum</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Old type: </span><span class="si">{</span><span class="n">old_type</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"New type: </span><span class="si">{</span><span class="n">new_type</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Old type: &lt;class 'numpy.ndarray'&gt;
+New type: &lt;class 'list'&gt;
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Wrap-calculations-in-a-function">
+<a class="anchor" href="#Wrap-calculations-in-a-function" aria-hidden="true"><span class="octicon octicon-link"></span></a>Wrap calculations in a function<a class="anchor-link" href="#Wrap-calculations-in-a-function"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now that we've figured out how to get the values of <code>axis1</code>, <code>axis2</code>, and <code>flattened</code> for summation, we can just repeat the same process for the other 5 mathematical operations. So let's wrap the calculating process in a general function called  <code>get_results</code>. It takes two arguments, one being <code>op</code> for the name of the mathematical operation to be done, and the other <code>matrix</code>. Luckily 😀, the <code>numpy</code> API is quite consistent across the 6 operations, so for each mathematical operation we just need to change the method name accordingly.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="k">def</span> <span class="nf">get_results</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="n">matrix</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">op</span> <span class="o">==</span> <span class="s2">"sum"</span><span class="p">:</span>
+        <span class="n">axis1</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">axis2</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">flattened</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">op</span> <span class="o">==</span> <span class="s2">"min"</span><span class="p">:</span>
+        <span class="n">axis1</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">axis2</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">flattened</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">op</span> <span class="o">==</span> <span class="s2">"max"</span><span class="p">:</span>
+        <span class="n">axis1</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">axis2</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">flattened</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">op</span> <span class="o">==</span> <span class="s2">"std"</span><span class="p">:</span>
+        <span class="n">axis1</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">axis2</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">flattened</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">op</span> <span class="o">==</span> <span class="s2">"var"</span><span class="p">:</span>
+        <span class="n">axis1</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">axis2</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">flattened</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">var</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">op</span> <span class="o">==</span> <span class="s2">"mean"</span><span class="p">:</span>
+        <span class="n">axis1</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">axis2</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">flattened</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">axis1</span><span class="p">,</span> <span class="n">axis2</span><span class="p">,</span> <span class="n">flattened</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now let's test the function with <code>sum</code> and <code>var</code>, for the sum and variance respectively.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="n">get_results</span><span class="p">(</span><span class="s2">"sum"</span><span class="p">,</span> <span class="n">matrix</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[[9, 12, 15], [3, 12, 21], 36]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="n">get_results</span><span class="p">(</span><span class="s2">"var"</span><span class="p">,</span> <span class="n">matrix</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[[6.0, 6.0, 6.0],
+ [0.6666666666666666, 0.6666666666666666, 0.6666666666666666],
+ 6.666666666666667]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The last thing that needs to be taken care of is error handling. We just need to raise <code>ValueError</code> with a specific message when the length of the input list is not 9.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="k">def</span> <span class="nf">calculate</span><span class="p">(</span><span class="n">mylist</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">mylist</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">9</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"List must contain nine numbers."</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">pass</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="n">mylist</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">calculate</span><span class="p">(</span><span class="n">mylist</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-3-6ee8fb3f03c3&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-intense-fg ansi-bold">      6</span> 
+<span class="ansi-green-intense-fg ansi-bold">      7</span> mylist <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">2</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">3</span><span class="ansi-blue-fg">]</span>
+<span class="ansi-green-fg">----&gt; 8</span><span class="ansi-red-fg"> </span>calculate<span class="ansi-blue-fg">(</span>mylist<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">&lt;ipython-input-3-6ee8fb3f03c3&gt;</span> in <span class="ansi-cyan-fg">calculate</span><span class="ansi-blue-fg">(mylist)</span>
+<span class="ansi-green-intense-fg ansi-bold">      1</span> <span class="ansi-green-fg">def</span> calculate<span class="ansi-blue-fg">(</span>mylist<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">      2</span>     <span class="ansi-green-fg">if</span> len<span class="ansi-blue-fg">(</span>mylist<span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">!=</span> <span class="ansi-cyan-fg">9</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">----&gt; 3</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">raise</span> ValueError<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">"List must contain nine numbers."</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      4</span>     <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">      5</span>         <span class="ansi-green-fg">pass</span>
+
+<span class="ansi-red-fg">ValueError</span>: List must contain nine numbers.</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Put-it-together">
+<a class="anchor" href="#Put-it-together" aria-hidden="true"><span class="octicon octicon-link"></span></a>Put it together<a class="anchor-link" href="#Put-it-together"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Finally, our final codes should be saved as <code>mean_var_std.py</code> and look like this:</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description" open="">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">def</span> <span class="nf">get_results</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="n">matrix</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">op</span> <span class="o">==</span> <span class="s2">"sum"</span><span class="p">:</span>
+        <span class="n">axis1</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">axis2</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">flattened</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">op</span> <span class="o">==</span> <span class="s2">"min"</span><span class="p">:</span>
+        <span class="n">axis1</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">axis2</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">flattened</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">op</span> <span class="o">==</span> <span class="s2">"max"</span><span class="p">:</span>
+        <span class="n">axis1</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">axis2</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">flattened</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">op</span> <span class="o">==</span> <span class="s2">"std"</span><span class="p">:</span>
+        <span class="n">axis1</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">axis2</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">flattened</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">op</span> <span class="o">==</span> <span class="s2">"var"</span><span class="p">:</span>
+        <span class="n">axis1</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">axis2</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">flattened</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">var</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">op</span> <span class="o">==</span> <span class="s2">"mean"</span><span class="p">:</span>
+        <span class="n">axis1</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">axis2</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">flattened</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">axis1</span><span class="p">,</span> <span class="n">axis2</span><span class="p">,</span> <span class="n">flattened</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">calculate</span><span class="p">(</span><span class="n">mylist</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">mylist</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">9</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"List must contain nine numbers."</span><span class="p">)</span>
+  
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">mylist</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">calculations</span> <span class="o">=</span> <span class="p">{</span>
+                        <span class="s1">'mean'</span><span class="p">:</span> <span class="n">get_results</span><span class="p">(</span><span class="s1">'mean'</span><span class="p">,</span> <span class="n">matrix</span><span class="p">),</span>
+                        <span class="s1">'variance'</span><span class="p">:</span> <span class="n">get_results</span><span class="p">(</span><span class="s1">'var'</span><span class="p">,</span> <span class="n">matrix</span><span class="p">),</span>
+                        <span class="s1">'standard deviation'</span><span class="p">:</span> <span class="n">get_results</span><span class="p">(</span><span class="s1">'std'</span><span class="p">,</span> <span class="n">matrix</span><span class="p">),</span>
+                        <span class="s1">'max'</span><span class="p">:</span> <span class="n">get_results</span><span class="p">(</span><span class="s1">'max'</span><span class="p">,</span> <span class="n">matrix</span><span class="p">),</span>
+                        <span class="s1">'min'</span><span class="p">:</span> <span class="n">get_results</span><span class="p">(</span><span class="s1">'min'</span><span class="p">,</span> <span class="n">matrix</span><span class="p">),</span>
+                        <span class="s1">'sum'</span><span class="p">:</span> <span class="n">get_results</span><span class="p">(</span><span class="s1">'sum'</span><span class="p">,</span> <span class="n">matrix</span><span class="p">),</span>
+                        <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">calculations</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's test the <code>calculate</code> function to ensure it works just as expected. And it did 🙌!</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="nb">input</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+<span class="n">calculate</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{'max': [[6, 7, 8], [2, 5, 8], 8],
+ 'mean': [[3.0, 4.0, 5.0], [1.0, 4.0, 7.0], 4.0],
+ 'min': [[0, 1, 2], [0, 3, 6], 0],
+ 'standard deviation': [[2.449489742783178,
+   2.449489742783178,
+   2.449489742783178],
+  [0.816496580927726, 0.816496580927726, 0.816496580927726],
+  2.581988897471611],
+ 'sum': [[9, 12, 15], [3, 12, 21], 36],
+ 'variance': [[6.0, 6.0, 6.0],
+  [0.6666666666666666, 0.6666666666666666, 0.6666666666666666],
+  6.666666666666667]}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Recap">
+<a class="anchor" href="#Recap" aria-hidden="true"><span class="octicon octicon-link"></span></a>Recap<a class="anchor-link" href="#Recap"> </a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>After you finish the freeCodeCamp project <code>Mean-Variance-Standard Deviation Calculator</code>, you'll be able to do some basic math using the <code>numpy</code> library. This first project is really just a warm-up, and it gets more challenging as we move on to the other four, which I'll blog (definitely not <em>brag</em>) about soon 👼.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><a class="u-url" href="/blog.ai/numpy/freecodecamp/certificate/2022/02/25/freeCodeCamp-project-Mean-Variance-Standard-Deviation-Calculator.html" hidden></a>
+</article>
+
+<script src="https://utteranc.es/client.js"
+        repo="howard-haowen/blog.ai"
+        issue-term="[ENTER TERM HERE]"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog.ai/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/blog.ai/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/blog.ai/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>AI through a linguist&#39;s looking glass</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/howard-haowen" target="_blank" title="howard-haowen"><svg class="svg-icon grey"><use xlink:href="/blog.ai/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/haowen-jiang-phd-16242074" target="_blank" title="haowen-jiang-phd-16242074"><svg class="svg-icon grey"><use xlink:href="/blog.ai/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
