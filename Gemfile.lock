@@ -65,7 +65,7 @@ GEM
       jekyll (>= 3.7, < 5.0)
     jekyll-toc (0.14.0)
       jekyll (>= 3.8)
-      nokogiri (~> 1.10)
+      nokogiri (>= 1.13.4)
     jekyll-twitter-plugin (2.1.0)
     jekyll-watch (2.2.1)
       listen (~> 3.0)
