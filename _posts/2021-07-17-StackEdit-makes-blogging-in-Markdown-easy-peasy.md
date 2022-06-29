@@ -37,7 +37,7 @@ By the way, I found a trick of quickly embedding an image on **StackEdit**. Supp
 
 `[StackEdit-snapshot.png](https://github.com/howard-haowen/blog.ai/blob/master/images/StackEdit-snapshot.png "StackEdit-snapshot.png")`
 
-Then to display the image, you just need to add an exclamation mark at the beginning and replace `master` with `raw`, like this:
+Then to display the image, you just need to add an exclamation mark at the beginning and replace `blob` with `raw`, like this:
 
 `![StackEdit-snapshot.png](https://github.com/howard-haowen/blog.ai/raw/master/images/StackEdit-snapshot.png "StackEdit-snapshot.png")`
 
